@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Vitabae's science-based approach to supplement formulation. Evidence-bounded methodology and rigorous standards.">
+  <meta name="theme-color" content="#2d6b52">
+
+  <title>Science & Standards | Vitabae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body x-data="{ mobileMenuOpen: false }" class="lenis">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header" x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 20" :class="{ 'scrolled': scrolled }">
+    <div class="container container-2xl">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Vitabae</a>
+        <nav class="main-nav">
+          <a href="collection.html" class="nav-link">Shop</a>
+          <a href="process.html" class="nav-link">Our Process</a>
+          <a href="science.html" class="nav-link active">Science</a>
+          <a href="story.html" class="nav-link">Our Story</a>
+          <a href="research.html" class="nav-link">Research</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="collection.html" class="btn btn-primary btn-sm hidden lg:inline-flex">Shop Now</a>
+          <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Video Hero -->
+    <section class="hero-modern hero-modern-sm">
+      <div class="hero-video-bg">
+        <video autoplay muted loop playsinline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-scientist-working-with-samples-in-a-lab-4633-large.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+      </div>
+      <div class="hero-content text-center">
+        <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">Our Methodology</span>
+        <h1 class="display-lg" style="margin-bottom: 1rem;">Science-Based Supplements</h1>
+        <p style="color: rgba(255,255,255,0.85); font-size: 1.125rem; max-width: 600px; margin: 0 auto;">Evidence-bounded formulation. Published human research. Independent verification.</p>
+      </div>
+    </section>
+
+    <!-- Core Principles -->
+    <section class="section-modern">
+      <div class="container">
+        <div class="evidence-grid">
+          <div class="evidence-card">
+            <div class="evidence-icon evidence-icon-green">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <h3 class="evidence-title">Evidence First</h3>
+            <p class="evidence-desc">Every formula begins with published human research, not broad claims or trends.</p>
+          </div>
+          <div class="evidence-card">
+            <div class="evidence-icon evidence-icon-blue">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.54"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.54"/></svg>
+            </div>
+            <h3 class="evidence-title">Human Trials</h3>
+            <p class="evidence-desc">We prioritize randomized, double-blind, placebo-controlled human clinical trials.</p>
+          </div>
+          <div class="evidence-card">
+            <div class="evidence-icon evidence-icon-gold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="evidence-title">Independent Testing</h3>
+            <p class="evidence-desc">Third-party laboratory verification for every batch we produce.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Mean by Science-Based -->
+    <section class="section-modern bg-cream">
+      <div class="container container-lg">
+        <div class="section-split">
+          <div class="section-split-content">
+            <span class="eyebrow-text">Our Approach</span>
+            <h2 class="display-sm mb-6">What we mean by science-based</h2>
+            <p class="text-lg text-muted mb-6">Every formula begins with published human research, not broad claims. We look closely at who was studied, how many participants were involved, what dose was used, and for how long.</p>
+            <p class="text-muted mb-6">We rigorously evaluate study design, dosage range, duration, and measured endpoints before an ingredient is ever considered.</p>
+            <p class="font-medium mb-4">When science is still developing, we say so. If human research isn't there, neither is the ingredient.</p>
+            <p class="text-sm text-muted italic">That is not a limitation. It is how science-based supplementation is meant to work.</p>
+          </div>
+          <div class="section-split-media">
+            <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&h=750&fit=crop" alt="Scientific research">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dosing Approach -->
+    <section class="section-modern">
+      <div class="container container-lg">
+        <div class="section-split">
+          <div class="section-split-media">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover">
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-pouring-pills-into-hand-4620-large.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="section-split-content">
+            <span class="eyebrow-text">Dosing Philosophy</span>
+            <h2 class="display-sm mb-6">Conservative by design</h2>
+            <p class="text-lg text-muted mb-6">A woman's body changes throughout adulthood - from metabolism and digestion to hormonal balance, stress response, and nutrient needs.</p>
+            <p class="text-muted mb-6">Just because an ingredient is natural does not mean it is safe at any amount. We build conservative safety margins into every formula.</p>
+            <div class="card-modern p-6 mb-6">
+              <h3 class="font-semibold mb-3">How are supplement doses determined?</h3>
+              <p class="text-muted text-sm">Doses are established for long-term daily use and remain well within recognized safety thresholds. We prioritize amounts supported by published research over doses designed to appear impressive on a label.</p>
+            </div>
+            <p class="font-medium">More is not inherently better. What matters is appropriate dosing, supported by research and delivered consistently.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How We Formulate -->
+    <section class="section-modern bg-cream">
+      <div class="container container-md">
+        <div class="text-center mb-12">
+          <span class="eyebrow-text">Formulation Process</span>
+          <h2 class="display-sm mb-6">How we formulate</h2>
+        </div>
+
+        <div class="formulation-steps">
+          <div class="formulation-step">
+            <div class="formulation-step-num">01</div>
+            <div class="formulation-step-content">
+              <h3 class="font-semibold mb-2">Literature Review</h3>
+              <p class="text-muted">Peer-reviewed studies, meta-analyses, established safety references, and documented traditional use.</p>
+            </div>
+          </div>
+          <div class="formulation-step">
+            <div class="formulation-step-num">02</div>
+            <div class="formulation-step-content">
+              <h3 class="font-semibold mb-2">Production Trials</h3>
+              <p class="text-muted">Evaluating particle size, blend uniformity, capsule fill accuracy, and disintegration.</p>
+            </div>
+          </div>
+          <div class="formulation-step">
+            <div class="formulation-step-num">03</div>
+            <div class="formulation-step-content">
+              <h3 class="font-semibold mb-2">HPLC Analysis</h3>
+              <p class="text-muted">High-Performance Liquid Chromatography precisely measures key bioactive ingredients.</p>
+            </div>
+          </div>
+          <div class="formulation-step">
+            <div class="formulation-step-num">04</div>
+            <div class="formulation-step-content">
+              <h3 class="font-semibold mb-2">Stability Testing</h3>
+              <p class="text-muted">Testing under defined temperature and humidity to confirm potency throughout shelf life.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-center text-muted mt-8">Each stage is documented. Every result is reviewed. A formula advances only when testing confirms it performs exactly as intended.</p>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="section-modern">
+      <div class="container">
+        <div class="text-center mb-12">
+          <span class="eyebrow-text">Verified Standards</span>
+          <h2 class="display-sm mb-6">What our certifications mean</h2>
+          <p class="text-lg text-muted">Every certification on our label has a process behind it.</p>
+        </div>
+
+        <div class="cert-grid">
+          <div class="cert-card">
+            <div class="cert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44"/></svg>
+            </div>
+            <h3 class="cert-title">In-House Formulation</h3>
+            <p class="cert-desc">Developed and tested by our own R&D team. Not white-labeled.</p>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+            </div>
+            <h3 class="cert-title">cGMP Manufacturing</h3>
+            <p class="cert-desc">Strict guidelines with written procedures for every production stage.</p>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/></svg>
+            </div>
+            <h3 class="cert-title">100% Organic</h3>
+            <p class="cert-desc">Every ingredient certified. We follow the stricter 100% standard.</p>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="cert-title">Certified Vegan</h3>
+            <p class="cert-desc">No animal-derived ingredients. Origins verified during qualification.</p>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </div>
+            <h3 class="cert-title">Clean Label</h3>
+            <p class="cert-desc">Concise, transparent ingredient lists. No artificial additives.</p>
+          </div>
+
+          <div class="cert-card">
+            <div class="cert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <h3 class="cert-title">Full Documentation</h3>
+            <p class="cert-desc">Every claim backed by records we can provide.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transparency -->
+    <section class="section-modern bg-white">
+      <div class="container container-md text-center">
+        <span class="eyebrow-text">Our Commitment</span>
+        <h2 class="display-sm mb-6">Transparency as practice</h2>
+        <p class="text-lg text-muted mb-6">We document every formulation decision. We distinguish between strong evidence and emerging research. We state clearly what the data show and what they do not.</p>
+        <p class="text-muted mb-8">Trust is not built through dramatic claims. It is built through consistency - alignment between the label, the website, and the lab records.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="research.html" class="btn-modern btn-modern-dark">
+            Visit Our Research Library
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href="process.html" class="btn-modern btn-modern-outline" style="color: var(--color-primary); border-color: var(--color-primary);">
+            Discover Our Process
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section-modern">
+      <div class="cta-bg-pattern"></div>
+      <div class="container container-md text-center relative z-10">
+        <h2 class="display-sm text-white mb-6">Review it for yourself.</h2>
+        <p class="text-lg text-white/80 mb-8">The research is open. The process is documented. The products reflect the work behind them.</p>
+        <a href="collection.html" class="btn-modern btn-modern-light btn-modern-lg">
+          Shop Our Collection
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container container-2xl">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Vitabae</div>
+          <p class="footer-tagline">Premium supplements for every stage of life.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <nav class="footer-links">
+            <a href="collection.html" class="footer-link">All Products</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <nav class="footer-links">
+            <a href="process.html" class="footer-link">Our Process</a>
+            <a href="science.html" class="footer-link">Science</a>
+            <a href="story.html" class="footer-link">Our Story</a>
+            <a href="research.html" class="footer-link">Research</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <nav class="footer-links">
+            <a href="#contact" class="footer-link">Contact Us</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Vitabae. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fda-disclaimer">
+    <div class="container">
+      <p><strong>Important:</strong> These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

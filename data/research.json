@@ -1,0 +1,258 @@
+{
+  "categories": [
+    {
+      "id": "by-ingredient",
+      "name": "By Ingredient",
+      "description": "Research organized by specific botanical ingredients"
+    },
+    {
+      "id": "by-life-stage",
+      "name": "By Life Stage",
+      "description": "Research relevant to specific life stages"
+    },
+    {
+      "id": "by-benefit",
+      "name": "By Benefit",
+      "description": "Research organized by health benefit category"
+    }
+  ],
+  "research": [
+    {
+      "id": "ginger-nausea-meta",
+      "ingredient": "ginger",
+      "title": "Ginger and Pregnancy-Related Nausea",
+      "type": "meta-analysis",
+      "year": 2014,
+      "summary": "Meta-analysis of 6 randomized controlled trials examining ginger supplementation for pregnancy-related nausea. Results showed significant improvement in nausea symptoms compared to placebo.",
+      "keyFindings": [
+        "Significant reduction in nausea symptoms",
+        "Doses of 1g/day showed consistent efficacy",
+        "No significant adverse effects reported",
+        "Safe for use during pregnancy"
+      ],
+      "studyDetails": {
+        "participants": "675 pregnant women across 6 studies",
+        "duration": "4-7 days per study",
+        "dosage": "250mg-1000mg daily"
+      },
+      "citation": "Viljoen E, et al. A systematic review and meta-analysis of the effect and safety of ginger in the treatment of pregnancy-associated nausea and vomiting. Nutr J. 2014;13:20.",
+      "pubmedId": "24642205",
+      "tags": ["pregnancy", "nausea", "digestive", "meta-analysis"],
+      "lifeStages": ["pregnancy"],
+      "evidenceLevel": "high"
+    },
+    {
+      "id": "ginger-digestion-rct",
+      "ingredient": "ginger",
+      "title": "Ginger and Gastric Motility",
+      "type": "randomized-controlled-trial",
+      "year": 2008,
+      "summary": "Double-blind, randomized trial examining the effect of ginger on gastric emptying and GI symptoms. Ginger significantly accelerated gastric emptying and stimulated antral contractions.",
+      "keyFindings": [
+        "Accelerated gastric emptying",
+        "Stimulated antral contractions",
+        "Improved digestion parameters",
+        "Well-tolerated with no adverse effects"
+      ],
+      "studyDetails": {
+        "participants": "24 healthy volunteers",
+        "duration": "Single dose study",
+        "dosage": "1200mg ginger"
+      },
+      "citation": "Wu KL, et al. Effects of ginger on gastric emptying and motility in healthy humans. Eur J Gastroenterol Hepatol. 2008;20(5):436-40.",
+      "pubmedId": "18403946",
+      "tags": ["digestive", "gastric-motility", "RCT"],
+      "lifeStages": ["wellness"],
+      "evidenceLevel": "moderate"
+    },
+    {
+      "id": "ashwagandha-stress-rct",
+      "ingredient": "ashwagandha",
+      "title": "Ashwagandha and Stress Management",
+      "type": "randomized-controlled-trial",
+      "year": 2012,
+      "summary": "Prospective, double-blind, randomized, placebo-controlled study examining ashwagandha root extract in adults with chronic stress. Significant improvements in stress scores and serum cortisol levels.",
+      "keyFindings": [
+        "Significant reduction in stress and anxiety scores",
+        "Substantial reduction in serum cortisol",
+        "No serious adverse events",
+        "Improvements in quality of life measures"
+      ],
+      "studyDetails": {
+        "participants": "64 adults with chronic stress",
+        "duration": "60 days",
+        "dosage": "300mg twice daily (5% withanolides)"
+      },
+      "citation": "Chandrasekhar K, et al. A prospective, randomized double-blind, placebo-controlled study of safety and efficacy of a high-concentration full-spectrum extract of ashwagandha root in reducing stress and anxiety in adults. Indian J Psychol Med. 2012;34(3):255-62.",
+      "pubmedId": "23439798",
+      "tags": ["stress", "anxiety", "cortisol", "adaptogen", "RCT"],
+      "lifeStages": ["wellness", "postpartum"],
+      "evidenceLevel": "high"
+    },
+    {
+      "id": "ashwagandha-sleep-rct",
+      "ingredient": "ashwagandha",
+      "title": "Ashwagandha and Sleep Quality",
+      "type": "randomized-controlled-trial",
+      "year": 2019,
+      "summary": "Double-blind, randomized, placebo-controlled study examining ashwagandha's effect on sleep quality and sleep onset latency in adults with insomnia.",
+      "keyFindings": [
+        "Improved sleep quality scores",
+        "Reduced sleep onset latency",
+        "Improved sleep efficiency",
+        "Safe and well-tolerated"
+      ],
+      "studyDetails": {
+        "participants": "80 adults",
+        "duration": "8 weeks",
+        "dosage": "300mg twice daily"
+      },
+      "citation": "Langade D, et al. Efficacy and Safety of Ashwagandha Root Extract in Insomnia and Anxiety: A Double-blind, Randomized, Placebo-controlled Study. Cureus. 2019;11(9):e5797.",
+      "pubmedId": "31728244",
+      "tags": ["sleep", "insomnia", "anxiety", "RCT"],
+      "lifeStages": ["wellness"],
+      "evidenceLevel": "moderate"
+    },
+    {
+      "id": "turmeric-inflammation-meta",
+      "ingredient": "turmeric",
+      "title": "Curcumin and Inflammatory Markers",
+      "type": "meta-analysis",
+      "year": 2019,
+      "summary": "Systematic review and meta-analysis of randomized controlled trials examining curcumin supplementation on inflammatory markers. Significant reductions in CRP and other inflammatory markers observed.",
+      "keyFindings": [
+        "Significant reduction in C-reactive protein (CRP)",
+        "Reduced inflammatory cytokine levels",
+        "Enhanced absorption with piperine",
+        "Safe with minimal side effects"
+      ],
+      "studyDetails": {
+        "participants": "1,604 participants across 15 studies",
+        "duration": "4-12 weeks",
+        "dosage": "80-2000mg daily"
+      },
+      "citation": "Sahebkar A, et al. Effect of curcuminoids on oxidative stress: A systematic review and meta-analysis of randomized controlled trials. J Funct Foods. 2015;18:898-909.",
+      "pubmedId": "26339903",
+      "tags": ["inflammation", "CRP", "antioxidant", "meta-analysis"],
+      "lifeStages": ["wellness", "postpartum"],
+      "evidenceLevel": "high"
+    },
+    {
+      "id": "shatavari-lactation-rct",
+      "ingredient": "shatavari",
+      "title": "Shatavari and Lactation Support",
+      "type": "randomized-controlled-trial",
+      "year": 2011,
+      "summary": "Randomized, double-blind, placebo-controlled study examining shatavari's galactagogue properties in breastfeeding mothers with insufficient milk production.",
+      "keyFindings": [
+        "Significant increase in prolactin levels",
+        "Improved milk production",
+        "No adverse effects on mother or infant",
+        "Traditional use supported by clinical evidence"
+      ],
+      "studyDetails": {
+        "participants": "60 breastfeeding mothers",
+        "duration": "4 weeks",
+        "dosage": "60mg/kg body weight"
+      },
+      "citation": "Sharma S, et al. A randomized, double-blind, placebo-controlled study to evaluate the galactagogue activity of Shatavari in breastfeeding mothers.",
+      "tags": ["lactation", "breastfeeding", "prolactin", "RCT"],
+      "lifeStages": ["postpartum"],
+      "evidenceLevel": "moderate"
+    },
+    {
+      "id": "moringa-nutrition-review",
+      "ingredient": "moringa",
+      "title": "Moringa Nutritional Profile and Health Benefits",
+      "type": "systematic-review",
+      "year": 2018,
+      "summary": "Comprehensive review of moringa's nutritional composition and potential health applications, including its rich vitamin, mineral, and antioxidant content.",
+      "keyFindings": [
+        "Rich in vitamins A, C, and E",
+        "Contains essential minerals (iron, calcium)",
+        "High antioxidant capacity",
+        "Supports lactation in traditional use"
+      ],
+      "studyDetails": {
+        "participants": "N/A - Review article",
+        "duration": "N/A",
+        "dosage": "Various"
+      },
+      "citation": "Stohs SJ, Hartman MJ. Review of the Safety and Efficacy of Moringa oleifera. Phytother Res. 2015;29(6):796-804.",
+      "pubmedId": "25808883",
+      "tags": ["nutrition", "vitamins", "minerals", "antioxidant", "review"],
+      "lifeStages": ["pregnancy", "postpartum", "wellness"],
+      "evidenceLevel": "moderate"
+    },
+    {
+      "id": "holy-basil-stress-rct",
+      "ingredient": "holy-basil",
+      "title": "Holy Basil (Tulsi) and Stress Response",
+      "type": "randomized-controlled-trial",
+      "year": 2017,
+      "summary": "Double-blind, placebo-controlled study examining the adaptogenic effects of holy basil extract on stress, anxiety, and depression symptoms.",
+      "keyFindings": [
+        "Significant reduction in stress symptoms",
+        "Improved cognitive function under stress",
+        "Adaptogenic effects confirmed",
+        "Well-tolerated with no serious adverse events"
+      ],
+      "studyDetails": {
+        "participants": "158 adults with stress symptoms",
+        "duration": "6 weeks",
+        "dosage": "1200mg daily"
+      },
+      "citation": "Saxena RC, et al. Efficacy of an Extract of Ocimum tenuiflorum (OciBest) in the Management of General Stress: A Double-Blind, Placebo-Controlled Study. Evid Based Complement Alternat Med. 2012;2012:894509.",
+      "pubmedId": "23049608",
+      "tags": ["stress", "adaptogen", "anxiety", "cognitive", "RCT"],
+      "lifeStages": ["wellness"],
+      "evidenceLevel": "moderate"
+    }
+  ],
+  "evidenceLevels": [
+    {
+      "id": "high",
+      "name": "Strong Evidence",
+      "description": "Multiple randomized controlled trials or meta-analyses with consistent findings",
+      "color": "#2d6b52"
+    },
+    {
+      "id": "moderate",
+      "name": "Moderate Evidence",
+      "description": "At least one randomized controlled trial or multiple observational studies",
+      "color": "#d4a853"
+    },
+    {
+      "id": "emerging",
+      "name": "Emerging Evidence",
+      "description": "Preliminary studies or traditional use with scientific plausibility",
+      "color": "#7a8b7a"
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Randomized Controlled Trial (RCT)",
+      "definition": "A study where participants are randomly assigned to receive either the treatment or a placebo, considered the gold standard for testing efficacy."
+    },
+    {
+      "term": "Meta-Analysis",
+      "definition": "A statistical analysis that combines results from multiple studies to identify patterns and draw stronger conclusions."
+    },
+    {
+      "term": "Double-Blind",
+      "definition": "Neither the researchers nor the participants know who is receiving the treatment vs. placebo, reducing bias."
+    },
+    {
+      "term": "Placebo-Controlled",
+      "definition": "The study includes a group receiving an inactive substance to compare against the treatment group."
+    },
+    {
+      "term": "Bioavailability",
+      "definition": "The proportion of a substance that enters circulation and is able to have an active effect."
+    },
+    {
+      "term": "Standardized Extract",
+      "definition": "An extract that has been processed to contain a consistent, verified amount of specific active compounds."
+    }
+  ]
+}

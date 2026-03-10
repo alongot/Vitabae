@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore the published science behind Vitabae ingredients. Peer-reviewed human clinical trials and research summaries.">
+  <meta name="theme-color" content="#2d6b52">
+
+  <title>Research Library | Vitabae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body x-data="{
+  mobileMenuOpen: false,
+  searchQuery: '',
+  activeCategory: 'all',
+  activeIngredient: 'all'
+}" class="lenis">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header" x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 20" :class="{ 'scrolled': scrolled }">
+    <div class="container container-2xl">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Vitabae</a>
+        <nav class="main-nav">
+          <a href="collection.html" class="nav-link">Shop</a>
+          <a href="process.html" class="nav-link">Our Process</a>
+          <a href="science.html" class="nav-link">Science</a>
+          <a href="story.html" class="nav-link">Our Story</a>
+          <a href="research.html" class="nav-link active">Research</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="collection.html" class="btn btn-primary btn-sm hidden lg:inline-flex">Shop Now</a>
+          <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Video Hero -->
+    <section class="hero-modern hero-modern-sm">
+      <div class="hero-video-bg">
+        <video autoplay muted loop playsinline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-scientists-in-a-laboratory-4631-large.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+      </div>
+      <div class="hero-content text-center">
+        <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">Evidence-Based Wellness</span>
+        <h1 class="display-lg" style="margin-bottom: 1rem;">Research Library</h1>
+        <p style="color: rgba(255,255,255,0.85); font-size: 1.125rem; max-width: 600px; margin: 0 auto;">Peer-reviewed human clinical trials. Independent research institutions. Transparent science you can trust.</p>
+      </div>
+    </section>
+
+    <!-- Understanding Evidence -->
+    <section class="section-modern bg-cream">
+      <div class="container container-md text-center">
+        <span class="eyebrow-text">How We Select Research</span>
+        <h2 class="display-sm mb-6">Human Clinical Trials Only</h2>
+        <p class="text-lg text-muted mb-8">
+          We exclusively feature peer-reviewed human clinical trials conducted by independent researchers.
+          No animal studies. No in-vitro research. No Vitabae-funded studies. Just real science on real people.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="stat-card">
+            <div class="stat-number">42+</div>
+            <div class="stat-label">Clinical Studies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">11</div>
+            <div class="stat-label">Key Ingredients</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Independent Research</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="section-modern-sm border-b">
+      <div class="container">
+        <!-- Search -->
+        <div class="form-search max-w-xl mx-auto mb-8">
+          <span class="form-search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <input
+            type="search"
+            class="form-input"
+            placeholder="Search studies by ingredient, condition, or benefit..."
+            x-model="searchQuery"
+          >
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex flex-wrap justify-center gap-3 mb-6">
+          <button
+            class="filter-pill"
+            :class="{ 'active': activeCategory === 'all' }"
+            @click="activeCategory = 'all'"
+          >All Studies</button>
+          <button
+            class="filter-pill"
+            :class="{ 'active': activeCategory === 'meta-analysis' }"
+            @click="activeCategory = 'meta-analysis'"
+          >Meta-Analysis</button>
+          <button
+            class="filter-pill"
+            :class="{ 'active': activeCategory === 'rct' }"
+            @click="activeCategory = 'rct'"
+          >Randomized Controlled</button>
+          <button
+            class="filter-pill"
+            :class="{ 'active': activeCategory === 'pregnancy' }"
+            @click="activeCategory = 'pregnancy'"
+          >Pregnancy</button>
+          <button
+            class="filter-pill"
+            :class="{ 'active': activeCategory === 'menopause' }"
+            @click="activeCategory = 'menopause'"
+          >Menopause</button>
+        </div>
+
+        <!-- Ingredient Filter -->
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="text-sm text-muted mr-2 self-center">Ingredient:</span>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'all' }"
+            @click="activeIngredient = 'all'"
+          >All</button>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'ashwagandha' }"
+            @click="activeIngredient = 'ashwagandha'"
+          >Ashwagandha</button>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'ginger' }"
+            @click="activeIngredient = 'ginger'"
+          >Ginger</button>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'shatavari' }"
+            @click="activeIngredient = 'shatavari'"
+          >Shatavari</button>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'moringa' }"
+            @click="activeIngredient = 'moringa'"
+          >Moringa</button>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'fenugreek' }"
+            @click="activeIngredient = 'fenugreek'"
+          >Fenugreek</button>
+          <button
+            class="filter-chip"
+            :class="{ 'active': activeIngredient === 'amla' }"
+            @click="activeIngredient = 'amla'"
+          >Amla</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Cards -->
+    <section class="section-modern">
+      <div class="container container-lg">
+
+        <!-- Ginger Studies -->
+        <div class="research-section mb-16" x-show="activeIngredient === 'all' || activeIngredient === 'ginger'" x-cloak>
+          <div class="flex items-center gap-4 mb-8">
+            <div class="ingredient-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+            </div>
+            <h2 class="display-xs">Ginger (Zingiber officinale)</h2>
+          </div>
+
+          <div class="research-grid">
+            <!-- Study 1 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/24642205/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'meta-analysis') && (activeIngredient === 'all' || activeIngredient === 'ginger')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-gold">Meta-Analysis</span>
+                <span class="research-year">2014</span>
+              </div>
+              <h3 class="research-card-title">Effectiveness of Ginger for Nausea and Vomiting of Pregnancy</h3>
+              <p class="research-card-excerpt">
+                A systematic review and meta-analysis of 12 randomized controlled trials (n=1,278) found ginger significantly improved nausea symptoms compared to placebo.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Nutr J</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 2 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/10793599/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct' || activeCategory === 'pregnancy') && (activeIngredient === 'all' || activeIngredient === 'ginger')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-badge research-badge-pink">Pregnancy</span>
+                <span class="research-year">2001</span>
+              </div>
+              <h3 class="research-card-title">Ginger for Hyperemesis Gravidarum</h3>
+              <p class="research-card-excerpt">
+                Double-blind RCT showed ginger (1g/day) reduced severity of nausea and vomiting episodes in pregnant women with hyperemesis gravidarum.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Obstet Gynecol</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 3 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/26228533/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'ginger')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2015</span>
+              </div>
+              <h3 class="research-card-title">Ginger on Pain and Inflammation in Osteoarthritis</h3>
+              <p class="research-card-excerpt">
+                Randomized controlled trial demonstrated that ginger extract significantly reduced inflammatory markers and improved symptoms in knee osteoarthritis patients.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Arthritis</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Ashwagandha Studies -->
+        <div class="research-section mb-16" x-show="activeIngredient === 'all' || activeIngredient === 'ashwagandha'" x-cloak>
+          <div class="flex items-center gap-4 mb-8">
+            <div class="ingredient-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9z"/><path d="M12 22c-2.76 0-5-4.03-5-9s2.24-9 5-9 5 4.03 5 9-2.24 9-5 9z"/><path d="M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+            </div>
+            <h2 class="display-xs">Ashwagandha (Withania somnifera)</h2>
+          </div>
+
+          <div class="research-grid">
+            <!-- Study 1 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/23439798/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'ashwagandha')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2012</span>
+              </div>
+              <h3 class="research-card-title">Ashwagandha Root Extract in Reducing Stress and Anxiety</h3>
+              <p class="research-card-excerpt">
+                A 60-day double-blind RCT (n=64) showed ashwagandha root extract (300mg twice daily) significantly reduced serum cortisol levels and perceived stress scores.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Indian J Psychol Med</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 2 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/26609282/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'ashwagandha')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2015</span>
+              </div>
+              <h3 class="research-card-title">Ashwagandha Root for Female Sexual Function</h3>
+              <p class="research-card-excerpt">
+                Double-blind RCT demonstrated ashwagandha significantly improved sexual function, arousal, lubrication, and satisfaction in healthy women.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">BioMed Res Int</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 3 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/34553463/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'menopause') && (activeIngredient === 'all' || activeIngredient === 'ashwagandha')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-badge research-badge-purple">Menopause</span>
+                <span class="research-year">2021</span>
+              </div>
+              <h3 class="research-card-title">Ashwagandha for Perimenopausal Symptoms</h3>
+              <p class="research-card-excerpt">
+                8-week RCT showed ashwagandha root extract improved quality of life scores and reduced hot flashes, mood swings, and sleep disturbances in perimenopausal women.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">J Obstet Gynaecol Res</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Shatavari Studies -->
+        <div class="research-section mb-16" x-show="activeIngredient === 'all' || activeIngredient === 'shatavari'" x-cloak>
+          <div class="flex items-center gap-4 mb-8">
+            <div class="ingredient-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <h2 class="display-xs">Shatavari (Asparagus racemosus)</h2>
+          </div>
+
+          <div class="research-grid">
+            <!-- Study 1 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/29636647/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'shatavari')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2018</span>
+              </div>
+              <h3 class="research-card-title">Shatavari for Lactation Support</h3>
+              <p class="research-card-excerpt">
+                Double-blind RCT demonstrated Shatavari supplementation increased prolactin levels and supported healthy breast milk production in lactating mothers.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">J Ethnopharmacol</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 2 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/28653613/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'shatavari')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2017</span>
+              </div>
+              <h3 class="research-card-title">Shatavari for Hormonal Balance</h3>
+              <p class="research-card-excerpt">
+                Clinical trial showed Shatavari root extract modulated estrogen levels and improved symptoms related to hormonal imbalance in reproductive-age women.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">J Ayurveda Integr Med</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Moringa Studies -->
+        <div class="research-section mb-16" x-show="activeIngredient === 'all' || activeIngredient === 'moringa'" x-cloak>
+          <div class="flex items-center gap-4 mb-8">
+            <div class="ingredient-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </div>
+            <h2 class="display-xs">Moringa (Moringa oleifera)</h2>
+          </div>
+
+          <div class="research-grid">
+            <!-- Study 1 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/27765824/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'moringa')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2016</span>
+              </div>
+              <h3 class="research-card-title">Moringa for Breast Milk Production</h3>
+              <p class="research-card-excerpt">
+                Double-blind RCT (n=68) showed moringa leaf significantly increased breast milk volume by Day 5 postpartum compared to placebo in lactating mothers.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Breastfeed Med</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 2 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/28459483/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'moringa')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2017</span>
+              </div>
+              <h3 class="research-card-title">Moringa for Blood Sugar Regulation</h3>
+              <p class="research-card-excerpt">
+                Clinical trial demonstrated moringa leaf powder reduced fasting blood glucose and improved insulin sensitivity in subjects with mild hyperglycemia.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Front Pharmacol</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Fenugreek Studies -->
+        <div class="research-section mb-16" x-show="activeIngredient === 'all' || activeIngredient === 'fenugreek'" x-cloak>
+          <div class="flex items-center gap-4 mb-8">
+            <div class="ingredient-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a9 9 0 0 0 9-9c0-4.97-4-9-9-9s-9 4-9 9a9 9 0 0 0 9 9z"/><path d="M12 22V8"/><path d="m8 12 4-4 4 4"/></svg>
+            </div>
+            <h2 class="display-xs">Fenugreek (Trigonella foenum-graecum)</h2>
+          </div>
+
+          <div class="research-grid">
+            <!-- Study 1 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/21261516/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'fenugreek')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2011</span>
+              </div>
+              <h3 class="research-card-title">Fenugreek for Breast Milk Production</h3>
+              <p class="research-card-excerpt">
+                Double-blind RCT showed fenugreek galactagogue tea significantly increased breast milk volume and infant weight gain compared to placebo tea.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">J Altern Complement Med</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 2 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/26170552/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'fenugreek')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2015</span>
+              </div>
+              <h3 class="research-card-title">Fenugreek for Female Libido</h3>
+              <p class="research-card-excerpt">
+                8-week RCT (n=80) demonstrated fenugreek seed extract significantly improved sexual desire and arousal in healthy menstruating women.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Phytother Res</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Amla Studies -->
+        <div class="research-section mb-16" x-show="activeIngredient === 'all' || activeIngredient === 'amla'" x-cloak>
+          <div class="flex items-center gap-4 mb-8">
+            <div class="ingredient-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h2 class="display-xs">Amla (Phyllanthus emblica)</h2>
+          </div>
+
+          <div class="research-grid">
+            <!-- Study 1 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/25857501/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'amla')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2015</span>
+              </div>
+              <h3 class="research-card-title">Amla for Cardiovascular Health</h3>
+              <p class="research-card-excerpt">
+                12-week RCT showed amla extract significantly reduced total cholesterol, LDL, and triglycerides while improving HDL cholesterol in dyslipidemic adults.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">BMC Complement Altern Med</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+
+            <!-- Study 2 -->
+            <a href="https://pubmed.ncbi.nlm.nih.gov/23855426/" target="_blank" rel="noopener" class="research-modern-card" x-show="(activeCategory === 'all' || activeCategory === 'rct') && (activeIngredient === 'all' || activeIngredient === 'amla')">
+              <div class="research-card-meta">
+                <span class="research-badge research-badge-blue">RCT</span>
+                <span class="research-year">2013</span>
+              </div>
+              <h3 class="research-card-title">Amla for Antioxidant Support</h3>
+              <p class="research-card-excerpt">
+                Clinical trial demonstrated amla supplementation significantly increased antioxidant capacity and reduced oxidative stress markers in healthy adults.
+              </p>
+              <div class="research-card-footer">
+                <span class="research-journal">Evid Based Complement Alternat Med</span>
+                <span class="research-link">
+                  Read on PubMed
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Understanding Evidence Levels -->
+    <section class="section-modern bg-white">
+      <div class="container container-md">
+        <h2 class="display-sm text-center mb-12">Understanding Evidence Levels</h2>
+        <div class="evidence-grid">
+          <div class="evidence-card">
+            <div class="evidence-icon evidence-icon-gold">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <h3 class="evidence-title">Meta-Analysis</h3>
+            <p class="evidence-desc">Combines results from multiple studies to identify patterns and draw stronger conclusions. Highest level of evidence.</p>
+          </div>
+          <div class="evidence-card">
+            <div class="evidence-icon evidence-icon-blue">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            </div>
+            <h3 class="evidence-title">Randomized Controlled Trial</h3>
+            <p class="evidence-desc">Participants randomly assigned to treatment or control groups. Gold standard for establishing cause and effect.</p>
+          </div>
+          <div class="evidence-card">
+            <div class="evidence-icon evidence-icon-green">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="evidence-title">Human Clinical Trial</h3>
+            <p class="evidence-desc">Research conducted on human participants. We only include human studies—never animal or in-vitro research.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section-modern">
+      <div class="cta-bg-pattern"></div>
+      <div class="container container-md text-center relative z-10">
+        <h2 class="display-sm text-white mb-6">Science-Backed Supplements</h2>
+        <p class="text-lg text-white/80 mb-8">Every Vitabae formula is built on the evidence you've just explored.</p>
+        <a href="collection.html" class="btn-modern btn-modern-light btn-modern-lg">
+          Explore Our Collection
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section-modern-sm">
+      <div class="container container-lg">
+        <div class="disclaimer">
+          <h3 class="font-semibold text-sm mb-3">Research Library Disclaimer</h3>
+          <p class="mb-2">The research summaries presented in this library are provided for educational and informational purposes only.</p>
+          <p class="mb-2">This collection includes human clinical trials only. Animal studies, in-vitro studies, review articles, and meta-analyses have been intentionally excluded to ensure that all summaries are based on original human clinical research conducted on individual ingredients.</p>
+          <p class="mb-2">Vitabae products are dietary supplements, not pharmaceutical drugs. Clinical studies may use different doses, standardized extracts, isolated compounds, or controlled conditions that differ from typical dietary supplement use.</p>
+          <p><strong>The purpose of including these studies is to demonstrate that all ingredients used in Vitabae products are selected based on clinical research.</strong></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container container-2xl">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Vitabae</div>
+          <p class="footer-tagline">Premium supplements for every stage of life.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <nav class="footer-links">
+            <a href="collection.html" class="footer-link">All Products</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <nav class="footer-links">
+            <a href="process.html" class="footer-link">Our Process</a>
+            <a href="science.html" class="footer-link">Science</a>
+            <a href="story.html" class="footer-link">Our Story</a>
+            <a href="research.html" class="footer-link">Research</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <nav class="footer-links">
+            <a href="#contact" class="footer-link">Contact Us</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Vitabae. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fda-disclaimer">
+    <div class="container">
+      <p><strong>Important:</strong> These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+{
+  "products": [
+    {
+      "id": "ginger-capsules",
+      "name": "Organic Ginger Root",
+      "slug": "ginger",
+      "tagline": "Digestive comfort, naturally.",
+      "shortDescription": "Traditionally used for digestive ease and gentle relief from nausea.",
+      "price": 34.00,
+      "comparePrice": null,
+      "category": "digestive",
+      "lifeStages": ["pregnancy", "postpartum", "wellness"],
+      "ingredients": ["ginger"],
+      "region": "kerala",
+      "badges": ["organic", "vegan", "cgmp"],
+      "servingSize": "1 capsule",
+      "servingsPerContainer": 60,
+      "dosage": "500mg",
+      "activeCompound": "Gingerols (5%)",
+      "image": "/images/ilona-isha.jpg",
+      "images": [
+        "/images/ilona-isha.jpg",
+        "/images/ilona-isha.jpg"
+      ],
+      "benefits": [
+        "Supports digestive comfort",
+        "Traditionally used to ease nausea",
+        "Gentle enough for daily use",
+        "Supports overall digestive wellness"
+      ],
+      "ingredients_full": [
+        {
+          "name": "Organic Ginger Root Extract",
+          "amount": "500mg",
+          "standardization": "5% gingerols"
+        }
+      ],
+      "capsule": "Plant-based (HPMC)",
+      "allergens": "None",
+      "storage": "Store in a cool, dry place away from direct sunlight",
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "ashwagandha-capsules",
+      "name": "Organic Ashwagandha",
+      "slug": "ashwagandha",
+      "tagline": "Calm strength, rooted in tradition.",
+      "shortDescription": "Adaptogenic support for stress resilience and balanced energy.",
+      "price": 38.00,
+      "comparePrice": null,
+      "category": "stress-support",
+      "lifeStages": ["wellness", "postpartum"],
+      "ingredients": ["ashwagandha"],
+      "region": "rajasthan",
+      "badges": ["organic", "vegan", "cgmp"],
+      "servingSize": "1 capsule",
+      "servingsPerContainer": 60,
+      "dosage": "600mg",
+      "activeCompound": "Withanolides (5%)",
+      "image": "/images/ilona-isha.jpg",
+      "images": [
+        "/images/ilona-isha.jpg"
+      ],
+      "benefits": [
+        "Supports healthy stress response",
+        "Promotes calm and balanced energy",
+        "Adaptogenic support for daily life",
+        "Traditional Ayurvedic herb"
+      ],
+      "ingredients_full": [
+        {
+          "name": "Organic Ashwagandha Root Extract",
+          "amount": "600mg",
+          "standardization": "5% withanolides"
+        }
+      ],
+      "capsule": "Plant-based (HPMC)",
+      "allergens": "None",
+      "storage": "Store in a cool, dry place away from direct sunlight",
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "turmeric-capsules",
+      "name": "Organic Turmeric Complex",
+      "slug": "turmeric",
+      "tagline": "Golden wellness, enhanced absorption.",
+      "shortDescription": "Curcumin-rich turmeric with black pepper for optimal bioavailability.",
+      "price": 36.00,
+      "comparePrice": null,
+      "category": "anti-inflammatory",
+      "lifeStages": ["wellness", "postpartum"],
+      "ingredients": ["turmeric", "black-pepper"],
+      "region": "tamil-nadu",
+      "badges": ["organic", "vegan", "cgmp"],
+      "servingSize": "1 capsule",
+      "servingsPerContainer": 60,
+      "dosage": "500mg",
+      "activeCompound": "Curcuminoids (95%)",
+      "image": "/images/ilona-isha.jpg",
+      "images": [
+        "/images/ilona-isha.jpg"
+      ],
+      "benefits": [
+        "Supports healthy inflammatory response",
+        "Enhanced absorption with black pepper",
+        "Antioxidant support",
+        "Supports joint comfort"
+      ],
+      "ingredients_full": [
+        {
+          "name": "Organic Turmeric Root Extract",
+          "amount": "500mg",
+          "standardization": "95% curcuminoids"
+        },
+        {
+          "name": "Organic Black Pepper Extract",
+          "amount": "5mg",
+          "standardization": "95% piperine"
+        }
+      ],
+      "capsule": "Plant-based (HPMC)",
+      "allergens": "None",
+      "storage": "Store in a cool, dry place away from direct sunlight",
+      "featured": true,
+      "inStock": true
+    },
+    {
+      "id": "moringa-capsules",
+      "name": "Organic Moringa Leaf",
+      "slug": "moringa",
+      "tagline": "Nature's multivitamin.",
+      "shortDescription": "Nutrient-dense superfood supporting overall vitality and energy.",
+      "price": 32.00,
+      "comparePrice": null,
+      "category": "vitality",
+      "lifeStages": ["pregnancy", "postpartum", "wellness"],
+      "ingredients": ["moringa"],
+      "region": "andhra-pradesh",
+      "badges": ["organic", "vegan", "cgmp"],
+      "servingSize": "2 capsules",
+      "servingsPerContainer": 30,
+      "dosage": "1000mg",
+      "activeCompound": "Whole leaf powder",
+      "image": "/images/ilona-isha.jpg",
+      "images": [
+        "/images/ilona-isha.jpg"
+      ],
+      "benefits": [
+        "Rich in vitamins and minerals",
+        "Supports natural energy levels",
+        "Antioxidant-rich superfood",
+        "Supports lactation"
+      ],
+      "ingredients_full": [
+        {
+          "name": "Organic Moringa Leaf Powder",
+          "amount": "1000mg",
+          "standardization": "Whole leaf"
+        }
+      ],
+      "capsule": "Plant-based (HPMC)",
+      "allergens": "None",
+      "storage": "Store in a cool, dry place away from direct sunlight",
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "shatavari-capsules",
+      "name": "Organic Shatavari",
+      "slug": "shatavari",
+      "tagline": "Women's wellness, traditionally honored.",
+      "shortDescription": "Ayurvedic herb traditionally used to support women's reproductive health.",
+      "price": 36.00,
+      "comparePrice": null,
+      "category": "womens-health",
+      "lifeStages": ["trying-to-conceive", "pregnancy", "postpartum"],
+      "ingredients": ["shatavari"],
+      "region": "himalayas",
+      "badges": ["organic", "vegan", "cgmp"],
+      "servingSize": "1 capsule",
+      "servingsPerContainer": 60,
+      "dosage": "500mg",
+      "activeCompound": "Saponins (40%)",
+      "image": "/images/ilona-isha.jpg",
+      "images": [
+        "/images/ilona-isha.jpg"
+      ],
+      "benefits": [
+        "Supports reproductive wellness",
+        "Traditional women's tonic",
+        "Supports hormonal balance",
+        "Nourishing adaptogen"
+      ],
+      "ingredients_full": [
+        {
+          "name": "Organic Shatavari Root Extract",
+          "amount": "500mg",
+          "standardization": "40% saponins"
+        }
+      ],
+      "capsule": "Plant-based (HPMC)",
+      "allergens": "None",
+      "storage": "Store in a cool, dry place away from direct sunlight",
+      "featured": false,
+      "inStock": true
+    },
+    {
+      "id": "holy-basil-capsules",
+      "name": "Organic Holy Basil (Tulsi)",
+      "slug": "holy-basil",
+      "tagline": "Sacred calm for modern life.",
+      "shortDescription": "Adaptogenic herb supporting stress resilience and mental clarity.",
+      "price": 34.00,
+      "comparePrice": null,
+      "category": "stress-support",
+      "lifeStages": ["wellness"],
+      "ingredients": ["holy-basil"],
+      "region": "uttar-pradesh",
+      "badges": ["organic", "vegan", "cgmp"],
+      "servingSize": "1 capsule",
+      "servingsPerContainer": 60,
+      "dosage": "500mg",
+      "activeCompound": "Ursolic acid (2.5%)",
+      "image": "/images/ilona-isha.jpg",
+      "images": [
+        "/images/ilona-isha.jpg"
+      ],
+      "benefits": [
+        "Supports healthy stress response",
+        "Promotes mental clarity",
+        "Adaptogenic support",
+        "Sacred Ayurvedic herb"
+      ],
+      "ingredients_full": [
+        {
+          "name": "Organic Holy Basil Leaf Extract",
+          "amount": "500mg",
+          "standardization": "2.5% ursolic acid"
+        }
+      ],
+      "capsule": "Plant-based (HPMC)",
+      "allergens": "None",
+      "storage": "Store in a cool, dry place away from direct sunlight",
+      "featured": false,
+      "inStock": true
+    }
+  ],
+  "categories": [
+    { "id": "digestive", "name": "Digestive Support", "slug": "digestive" },
+    { "id": "stress-support", "name": "Stress Support", "slug": "stress-support" },
+    { "id": "anti-inflammatory", "name": "Anti-Inflammatory", "slug": "anti-inflammatory" },
+    { "id": "vitality", "name": "Vitality & Energy", "slug": "vitality" },
+    { "id": "womens-health", "name": "Women's Health", "slug": "womens-health" }
+  ],
+  "badges": [
+    { "id": "organic", "name": "100% Organic", "icon": "leaf" },
+    { "id": "vegan", "name": "Certified Vegan", "icon": "check-circle" },
+    { "id": "cgmp", "name": "cGMP Certified", "icon": "shield-check" },
+    { "id": "third-party", "name": "Third-Party Tested", "icon": "clipboard-check" }
+  ]
+}

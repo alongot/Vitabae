@@ -1,0 +1,215 @@
+{
+  "ingredients": [
+    {
+      "id": "ginger",
+      "name": "Ginger",
+      "scientificName": "Zingiber officinale",
+      "region": "kerala",
+      "coordinates": [10.8505, 76.2711],
+      "description": "Organic ginger root sourced from family farms in Kerala, India. Known for its digestive support properties and traditional use for nausea relief.",
+      "traditionalUse": "Used for thousands of years in Ayurvedic medicine for digestive complaints, nausea, and inflammation.",
+      "activeCompounds": ["Gingerols", "Shogaols", "Zingerone"],
+      "benefits": [
+        "Supports digestive comfort",
+        "Traditional nausea relief",
+        "Anti-inflammatory properties",
+        "Supports circulation"
+      ],
+      "cultivation": "Grown in the rich, volcanic soil of Kerala's Western Ghats region using traditional organic farming methods passed down through generations.",
+      "harvesting": "Hand-harvested at peak maturity to ensure maximum gingerol content.",
+      "testing": "Each batch tested for gingerol content, heavy metals, pesticides, and microbial contamination.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "India Organic"],
+      "lifeStages": ["pregnancy", "postpartum", "wellness"]
+    },
+    {
+      "id": "ashwagandha",
+      "name": "Ashwagandha",
+      "scientificName": "Withania somnifera",
+      "region": "rajasthan",
+      "coordinates": [27.0238, 74.2179],
+      "description": "Premium ashwagandha root from the arid regions of Rajasthan, where the harsh climate produces plants with higher withanolide concentrations.",
+      "traditionalUse": "One of the most important herbs in Ayurveda, used for over 3,000 years as a rasayana (rejuvenative) for vitality and longevity.",
+      "activeCompounds": ["Withanolides", "Withaferin A", "Withanone"],
+      "benefits": [
+        "Adaptogenic stress support",
+        "Supports healthy cortisol levels",
+        "Promotes calm energy",
+        "Supports cognitive function"
+      ],
+      "cultivation": "Grown in Rajasthan's sandy, well-drained soils using sustainable dry-farming techniques that stress the plants naturally, increasing potency.",
+      "harvesting": "Roots harvested after 150-180 days when withanolide content peaks.",
+      "testing": "Standardized to 5% withanolides. Tested for heavy metals and authenticity.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "India Organic"],
+      "lifeStages": ["wellness", "postpartum"]
+    },
+    {
+      "id": "turmeric",
+      "name": "Turmeric",
+      "scientificName": "Curcuma longa",
+      "region": "tamil-nadu",
+      "coordinates": [11.1271, 78.6569],
+      "description": "High-curcumin turmeric from the Erode district of Tamil Nadu, known as the 'Turmeric City' of India.",
+      "traditionalUse": "Central to Ayurvedic medicine for thousands of years, used for inflammation, digestion, and as a sacred spice in ceremonies.",
+      "activeCompounds": ["Curcumin", "Demethoxycurcumin", "Bisdemethoxycurcumin"],
+      "benefits": [
+        "Supports healthy inflammatory response",
+        "Powerful antioxidant",
+        "Supports joint health",
+        "Supports cognitive function"
+      ],
+      "cultivation": "Grown in Tamil Nadu's red soil using traditional crop rotation with rice paddies, enriching the soil naturally.",
+      "harvesting": "Rhizomes harvested 7-9 months after planting when curcumin content is highest.",
+      "testing": "Standardized to 95% curcuminoids. Enhanced with black pepper extract for bioavailability.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "India Organic"],
+      "lifeStages": ["wellness", "postpartum"]
+    },
+    {
+      "id": "moringa",
+      "name": "Moringa",
+      "scientificName": "Moringa oleifera",
+      "region": "andhra-pradesh",
+      "coordinates": [15.9129, 79.7400],
+      "description": "Nutrient-dense moringa leaves from Andhra Pradesh, where the warm climate produces leaves with exceptional nutritional profiles.",
+      "traditionalUse": "Called the 'Miracle Tree' in Ayurveda, used for nutrition, energy, and supporting lactation for centuries.",
+      "activeCompounds": ["Isothiocyanates", "Quercetin", "Chlorogenic acid"],
+      "benefits": [
+        "Rich in vitamins A, C, E",
+        "Contains essential minerals",
+        "Supports energy levels",
+        "Supports lactation"
+      ],
+      "cultivation": "Grown on small family farms using organic practices. Trees are pruned regularly to encourage tender, nutrient-rich leaf growth.",
+      "harvesting": "Young leaves harvested by hand in the early morning when nutrient content is highest.",
+      "testing": "Tested for nutrient content, heavy metals, and microbial contamination.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "India Organic"],
+      "lifeStages": ["pregnancy", "postpartum", "wellness"]
+    },
+    {
+      "id": "shatavari",
+      "name": "Shatavari",
+      "scientificName": "Asparagus racemosus",
+      "region": "himalayas",
+      "coordinates": [30.0668, 79.0193],
+      "description": "Wild-crafted shatavari from the foothills of the Himalayas, where pristine conditions produce roots with exceptional saponin content.",
+      "traditionalUse": "Known as the 'Queen of Herbs' in Ayurveda, traditionally used to support women's reproductive health across all life stages.",
+      "activeCompounds": ["Shatavarin", "Steroidal saponins", "Isoflavones"],
+      "benefits": [
+        "Supports reproductive wellness",
+        "Supports hormonal balance",
+        "Nourishing adaptogen",
+        "Supports lactation"
+      ],
+      "cultivation": "Sustainably wild-crafted from the Himalayan foothills, ensuring minimal environmental impact and maximum potency.",
+      "harvesting": "Roots harvested from mature plants (3+ years) during the dry season.",
+      "testing": "Standardized to 40% saponins. Tested for identity, potency, and purity.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "Wild-Crafted"],
+      "lifeStages": ["trying-to-conceive", "pregnancy", "postpartum"]
+    },
+    {
+      "id": "holy-basil",
+      "name": "Holy Basil (Tulsi)",
+      "scientificName": "Ocimum tenuiflorum",
+      "region": "uttar-pradesh",
+      "coordinates": [26.8467, 80.9462],
+      "description": "Sacred tulsi from the plains of Uttar Pradesh, grown in temple gardens and family farms using generations-old organic methods.",
+      "traditionalUse": "Revered as 'The Incomparable One' in Ayurveda, used for stress, respiratory health, and spiritual practices.",
+      "activeCompounds": ["Ursolic acid", "Eugenol", "Rosmarinic acid"],
+      "benefits": [
+        "Adaptogenic stress support",
+        "Supports mental clarity",
+        "Supports respiratory health",
+        "Balancing and calming"
+      ],
+      "cultivation": "Grown in sacred groves and organic farms using traditional polyculture methods that honor the plant's spiritual significance.",
+      "harvesting": "Leaves and flowering tops harvested by hand, dried in shade to preserve volatile compounds.",
+      "testing": "Standardized to 2.5% ursolic acid. Tested for identity and purity.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "India Organic"],
+      "lifeStages": ["wellness"]
+    },
+    {
+      "id": "black-pepper",
+      "name": "Black Pepper",
+      "scientificName": "Piper nigrum",
+      "region": "kerala",
+      "coordinates": [9.9312, 76.2673],
+      "description": "Premium Malabar black pepper from Kerala, the original home of the 'King of Spices'.",
+      "traditionalUse": "Used in Ayurveda to enhance bioavailability of other herbs and support digestion.",
+      "activeCompounds": ["Piperine", "Volatile oils"],
+      "benefits": [
+        "Enhances nutrient absorption",
+        "Supports digestion",
+        "Thermogenic properties",
+        "Antioxidant support"
+      ],
+      "cultivation": "Grown on traditional pepper vines in Kerala's spice gardens, using shade trees and organic mulching.",
+      "harvesting": "Berries harvested when they begin to turn red, then sun-dried to develop characteristic flavor.",
+      "testing": "Standardized to 95% piperine for maximum bioavailability enhancement.",
+      "image": "/images/ilona-isha.jpg",
+      "video": null,
+      "certifications": ["USDA Organic", "India Organic"],
+      "lifeStages": ["wellness"]
+    }
+  ],
+  "regions": [
+    {
+      "id": "kerala",
+      "name": "Kerala",
+      "coordinates": [10.8505, 76.2711],
+      "description": "Known as the 'Spice Garden of India', Kerala's Western Ghats provide ideal conditions for ginger and pepper cultivation.",
+      "climate": "Tropical monsoon climate with high rainfall",
+      "specialties": ["Ginger", "Black Pepper", "Cardamom"]
+    },
+    {
+      "id": "rajasthan",
+      "name": "Rajasthan",
+      "coordinates": [27.0238, 74.2179],
+      "description": "The arid climate of Rajasthan naturally stresses plants, producing ashwagandha with higher concentrations of active compounds.",
+      "climate": "Semi-arid with hot summers",
+      "specialties": ["Ashwagandha"]
+    },
+    {
+      "id": "tamil-nadu",
+      "name": "Tamil Nadu",
+      "coordinates": [11.1271, 78.6569],
+      "description": "The Erode district is known as the 'Turmeric City', producing some of India's finest turmeric.",
+      "climate": "Tropical with distinct wet and dry seasons",
+      "specialties": ["Turmeric"]
+    },
+    {
+      "id": "andhra-pradesh",
+      "name": "Andhra Pradesh",
+      "coordinates": [15.9129, 79.7400],
+      "description": "Warm climate and fertile soil create ideal conditions for moringa cultivation.",
+      "climate": "Tropical with hot, dry summers",
+      "specialties": ["Moringa"]
+    },
+    {
+      "id": "himalayas",
+      "name": "Himalayan Foothills",
+      "coordinates": [30.0668, 79.0193],
+      "description": "Pristine mountain environment produces wild-crafted herbs of exceptional quality.",
+      "climate": "Alpine and temperate zones",
+      "specialties": ["Shatavari", "Wild herbs"]
+    },
+    {
+      "id": "uttar-pradesh",
+      "name": "Uttar Pradesh",
+      "coordinates": [26.8467, 80.9462],
+      "description": "Traditional growing region for holy basil, with deep cultural and spiritual significance.",
+      "climate": "Subtropical with monsoon rains",
+      "specialties": ["Holy Basil (Tulsi)"]
+    }
+  ]
+}

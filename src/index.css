@@ -1,0 +1,361 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+
+
+
+@layer base {
+  :root {
+    /* Vitabae Brand Colors - Clean Canva Design */
+    --background: 40 100% 99%;          /* Off-white #FFFBF5 */
+    --foreground: 210 31% 17%;          /* Navy dark #1E2A3A */
+    --card: 0 0% 100%;
+    --card-foreground: 210 31% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 31% 17%;
+    --primary: 210 31% 17%;             /* Navy #1E2A3A */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 13 50% 75%;            /* Coral #E8A598 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 15% 93%;                /* Light gray #F8F6F3 */
+    --muted-foreground: 0 0% 45%;       /* Gray */
+    --accent: 45 65% 57%;               /* Golden #D9B44A */
+    --accent-foreground: 210 31% 17%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;                 /* Light border */
+    --input: 0 0% 90%;
+    --ring: 210 31% 17%;                /* Navy for focus */
+    --chart-1: 13 50% 75%;              /* Coral */
+    --chart-2: 45 65% 57%;              /* Golden */
+    --chart-3: 100 20% 80%;             /* Mint */
+    --chart-4: 210 31% 17%;             /* Navy */
+    --chart-5: 0 0% 60%;                /* Gray */
+    --radius: 0.25rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 210 31% 17%;
+    --sidebar-primary: 210 31% 17%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 15% 93%;
+    --sidebar-accent-foreground: 210 31% 17%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 210 31% 17%;
+  }
+  .dark {
+    /* Dark mode - Navy based */
+    --background: 210 38% 15%;          /* Navy dark #1E2A3A */
+    --foreground: 0 0% 98%;             /* White text */
+    --card: 210 35% 18%;
+    --card-foreground: 0 0% 98%;
+    --popover: 210 35% 18%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 210 38% 15%;
+    --secondary: 13 50% 70%;            /* Coral */
+    --secondary-foreground: 210 38% 15%;
+    --muted: 210 30% 22%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 45 65% 57%;               /* Golden */
+    --accent-foreground: 210 38% 15%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 25% 25%;
+    --input: 210 25% 25%;
+    --ring: 0 0% 98%;
+    --chart-1: 13 50% 70%;
+    --chart-2: 45 65% 57%;
+    --chart-3: 100 20% 75%;
+    --chart-4: 0 0% 98%;
+    --chart-5: 0 0% 65%;
+    --sidebar-background: 210 38% 15%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 210 38% 15%;
+    --sidebar-accent: 210 30% 22%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 210 25% 25%;
+    --sidebar-ring: 0 0% 98%;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Spinning bottle animation - 360 degree continuous rotation */
+@keyframes spin360 {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes spinY {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+  transform-style: preserve-3d;
+}
+
+.animate-spin-360 {
+  animation: spin360 6s linear infinite;
+  transform-style: preserve-3d;
+}
+
+/* ========== SHOPIFY EDITIONS-STYLE ANIMATIONS ========== */
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Floating particle animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(5deg); }
+  66% { transform: translateY(8px) rotate(-3deg); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Shimmer effect for CTAs */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-hover:hover {
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Smooth reveal for scroll-triggered content */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Product card 360 spin on hover */
+.product-card-spin {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.product-card-spin:hover {
+  transform: rotateY(180deg);
+}
+
+/* Magnetic button effect */
+.btn-magnetic {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Section transition gradients */
+.section-gradient-top {
+  position: relative;
+}
+
+.section-gradient-top::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, currentColor);
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* Horizontal scroll snap */
+.horizontal-snap {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-snap > * {
+  scroll-snap-align: start;
+}
+
+/* Text clip reveal */
+.text-clip-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.text-clip-reveal.active {
+  clip-path: inset(0% 0 0 0);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8D6B9;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CB496;
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

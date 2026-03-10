@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="See Vitabae's 22-step process from farm to capsule. Full transparency and traceability for every supplement.">
+  <meta name="theme-color" content="#2d6b52">
+
+  <title>Our Process | Vitabae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body x-data="{
+  mobileMenuOpen: false,
+  activePhase: 'sourcing'
+}" class="lenis">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header" x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 20" :class="{ 'scrolled': scrolled }">
+    <div class="container container-2xl">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Vitabae</a>
+        <nav class="main-nav">
+          <a href="collection.html" class="nav-link">Shop</a>
+          <a href="process.html" class="nav-link active">Our Process</a>
+          <a href="science.html" class="nav-link">Science</a>
+          <a href="story.html" class="nav-link">Our Story</a>
+          <a href="research.html" class="nav-link">Research</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="collection.html" class="btn btn-primary btn-sm hidden lg:inline-flex">Shop Now</a>
+          <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Video Hero -->
+    <section class="hero-modern">
+      <div class="hero-video-bg">
+        <video autoplay muted loop playsinline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-farm-fields-4702-large.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+      </div>
+      <div class="hero-content text-center">
+        <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">22 Documented Steps</span>
+        <h1 class="display-xl" style="margin-bottom: 1.5rem;">From Farm to Capsule</h1>
+        <p style="color: rgba(255,255,255,0.85); font-size: 1.125rem; max-width: 650px; margin: 0 auto 2rem;">Behind every capsule is a documented journey. Not simplified. Not glossed over. Everything that happens between the soil and your bottle.</p>
+        <div class="hero-scroll-indicator">
+          <span>Scroll to explore</span>
+          <div class="hero-scroll-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Stats -->
+    <section class="section-modern bg-cream">
+      <div class="container">
+        <div class="stats-modern">
+          <div class="stat-modern">
+            <div class="stat-modern-number">22</div>
+            <div class="stat-modern-label">Total Steps</div>
+          </div>
+          <div class="stat-modern">
+            <div class="stat-modern-number">4</div>
+            <div class="stat-modern-label">Key Phases</div>
+          </div>
+          <div class="stat-modern">
+            <div class="stat-modern-number">100%</div>
+            <div class="stat-modern-label">Documented</div>
+          </div>
+          <div class="stat-modern">
+            <div class="stat-modern-number">0</div>
+            <div class="stat-modern-label">Shortcuts</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phase Navigation -->
+    <section class="section-modern-sm border-b">
+      <div class="container">
+        <div class="flex flex-wrap justify-center gap-4">
+          <button class="process-phase-btn" :class="{ 'active': activePhase === 'sourcing' }" @click="activePhase = 'sourcing'">
+            <span class="process-phase-num">01-02</span>
+            <span class="process-phase-name">Sourcing</span>
+          </button>
+          <button class="process-phase-btn" :class="{ 'active': activePhase === 'testing' }" @click="activePhase = 'testing'">
+            <span class="process-phase-num">03-09</span>
+            <span class="process-phase-name">Testing</span>
+          </button>
+          <button class="process-phase-btn" :class="{ 'active': activePhase === 'processing' }" @click="activePhase = 'processing'">
+            <span class="process-phase-num">10-19</span>
+            <span class="process-phase-name">Processing</span>
+          </button>
+          <button class="process-phase-btn" :class="{ 'active': activePhase === 'packaging' }" @click="activePhase = 'packaging'">
+            <span class="process-phase-num">20-22</span>
+            <span class="process-phase-name">Packaging</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sourcing Phase -->
+    <section class="section-modern" x-show="activePhase === 'sourcing'">
+      <div class="container container-lg">
+        <div class="text-center mb-16">
+          <span class="eyebrow-text">Phase 1</span>
+          <h2 class="display-md mb-4">Sourcing</h2>
+          <p class="text-lg text-muted max-w-prose mx-auto">We study each plant individually and build direct relationships with certified organic farmers in India.</p>
+        </div>
+
+        <div class="process-steps-modern">
+          <div class="process-step-modern">
+            <div class="process-step-num">01</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Understanding the Ingredient</h3>
+              <p class="text-muted mb-4">We study each plant individually - its ideal soil, climate, and growing conditions - before sourcing begins.</p>
+              <ul class="process-checklist">
+                <li>Scientific and nutritional data analysis</li>
+                <li>Agronomic research and botanical studies</li>
+                <li>Soil composition, climate, and seasonal cycle assessment</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600&h=400&fit=crop" alt="Research phase">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">02</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Finding Farms That Share Our Standards</h3>
+              <p class="text-muted mb-4">We work directly with certified organic farmers in India, building long-term relationships based on trust.</p>
+              <ul class="process-checklist">
+                <li>On-site visits by our team members</li>
+                <li>Direct farmer relationships</li>
+                <li>Years of collaboration development</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop" alt="Farm sourcing">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testing Phase -->
+    <section class="section-modern bg-cream" x-show="activePhase === 'testing'" x-cloak>
+      <div class="container container-lg">
+        <div class="text-center mb-16">
+          <span class="eyebrow-text">Phase 2</span>
+          <h2 class="display-md mb-4">Testing & Verification</h2>
+          <p class="text-lg text-muted max-w-prose mx-auto">Every batch is held in quarantine until all testing is complete. No material enters production without verification.</p>
+        </div>
+
+        <div class="process-steps-modern">
+          <div class="process-step-modern">
+            <div class="process-step-num">03</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Receipt & Inspection</h3>
+              <p class="text-muted mb-4">Every delivery is checked on arrival - documents, certifications, and transport conditions - before anything is unloaded.</p>
+              <ul class="process-checklist">
+                <li>Document verification and certification check</li>
+                <li>Transport condition assessment</li>
+                <li>Visual inspection of packaging integrity</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop" alt="Quality inspection process">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">04</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Storing What We've Sourced</h3>
+              <p class="text-muted mb-4">Organic materials are stored in a dedicated warehouse with strict separation, clean pallets, and FIFO rotation.</p>
+              <ul class="process-checklist">
+                <li>Dedicated organic storage area</li>
+                <li>Temperature and humidity monitoring</li>
+                <li>FIFO inventory rotation</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&h=400&fit=crop" alt="Clean warehouse storage">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">05</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Mandatory Quarantine</h3>
+              <p class="text-muted">Every batch is held under a blue "QC HOLD" label. No material enters production until all testing is complete.</p>
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">06</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Raw Material Sampling</h3>
+              <p class="text-muted">Our QA/QC team takes samples from multiple bags using dedicated tools. Every detail is logged.</p>
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">07</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Internal Quality Testing</h3>
+              <p class="text-muted mb-4">Visual inspection, botanical identity, moisture content, and particle size are checked in-house first.</p>
+              <ul class="process-checklist">
+                <li>Visual and organoleptic inspection</li>
+                <li>Botanical identity verification</li>
+                <li>Moisture and particle size analysis</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=600&h=400&fit=crop" alt="Laboratory testing">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">08</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">External Laboratory Testing</h3>
+              <p class="text-muted mb-4">Independent labs test for heavy metals, microbiologicals, pesticide residues, and regulatory compliance.</p>
+              <ul class="process-checklist">
+                <li>Heavy metals panel (Pb, Cd, As, Hg)</li>
+                <li>Microbiological screening</li>
+                <li>Pesticide residue analysis</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&h=400&fit=crop" alt="Independent lab testing">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">09</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Released or Rejected</h3>
+              <p class="text-muted">One final decision per batch. Compliant batches are released. Non-compliant batches are returned or destroyed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Processing Phase -->
+    <section class="section-modern" x-show="activePhase === 'processing'" x-cloak>
+      <div class="container container-lg">
+        <div class="text-center mb-16">
+          <span class="eyebrow-text">Phase 3</span>
+          <h2 class="display-md mb-4">Processing & Production</h2>
+          <p class="text-lg text-muted max-w-prose mx-auto">From cleaning to encapsulation, every step preserves ingredient integrity.</p>
+        </div>
+
+        <!-- Processing Hero Image -->
+        <div class="process-hero-image mb-12">
+          <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&h=400&fit=crop" alt="Modern pharmaceutical processing facility" class="rounded-xl w-full">
+        </div>
+
+        <div class="process-grid">
+          <div class="process-grid-item">
+            <span class="process-grid-num">10</span>
+            <h3>Cleaning & Material Prep</h3>
+            <p>Fresh materials washed, dry materials inspected</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">11</span>
+            <h3>Primary Drying</h3>
+            <p>Vacuum tray drying at low temperatures</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">12</span>
+            <h3>Size Reduction</h3>
+            <p>Cut into uniform 1-3 cm pieces</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">13</span>
+            <h3>Pre-Grinding</h3>
+            <p>Initial size reduction for processing</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">14</span>
+            <h3>Extraction</h3>
+            <p>Where applicable for concentrated formulas</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">15</span>
+            <h3>Final Drying</h3>
+            <p>Precise moisture control</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">16</span>
+            <h3>Fine Milling</h3>
+            <p>Consistent particle size</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">17</span>
+            <h3>Sieving</h3>
+            <p>80-mesh screen filtration</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">18</span>
+            <h3>Blending</h3>
+            <p>Precise formula composition</p>
+          </div>
+          <div class="process-grid-item">
+            <span class="process-grid-num">19</span>
+            <h3>Encapsulation</h3>
+            <p>Continuous weight monitoring</p>
+          </div>
+        </div>
+
+        <!-- Processing Detail Image -->
+        <div class="process-hero-image mt-12">
+          <img src="https://images.unsplash.com/photo-1563213126-a4273aed2016?w=1200&h=400&fit=crop" alt="Precision encapsulation equipment" class="rounded-xl w-full">
+        </div>
+      </div>
+    </section>
+
+    <!-- Packaging Phase -->
+    <section class="section-modern bg-cream" x-show="activePhase === 'packaging'" x-cloak>
+      <div class="container container-lg">
+        <div class="text-center mb-16">
+          <span class="eyebrow-text">Phase 4</span>
+          <h2 class="display-md mb-4">Packaging & Release</h2>
+          <p class="text-lg text-muted max-w-prose mx-auto">Every capsule is counted, sealed, and made fully traceable.</p>
+        </div>
+
+        <div class="process-steps-modern">
+          <div class="process-step-modern">
+            <div class="process-step-num">20</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Counting & Filling</h3>
+              <p class="text-muted mb-4">High-accuracy sensors count capsules into bottles. Every count verified.</p>
+              <ul class="process-checklist">
+                <li>Automated capsule counting</li>
+                <li>Weight verification per bottle</li>
+                <li>Visual quality inspection</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&h=400&fit=crop" alt="Automated bottle filling">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">21</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Sealing & Labeling</h3>
+              <p class="text-muted mb-4">Tamper-evident seals applied. Labels include batch number and expiration.</p>
+              <ul class="process-checklist">
+                <li>Tamper-evident seal application</li>
+                <li>Batch number and expiration printing</li>
+                <li>Label accuracy verification</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=400&fit=crop" alt="Product labeling and sealing">
+            </div>
+          </div>
+
+          <div class="process-step-modern">
+            <div class="process-step-num">22</div>
+            <div class="process-step-content">
+              <h3 class="display-xs mb-4">Traceability & Batch Release</h3>
+              <p class="text-muted mb-4">Every capsule is fully traceable from farm to finished bottle with complete documentation.</p>
+              <ul class="process-checklist">
+                <li>Complete batch documentation</li>
+                <li>Farm-to-bottle traceability</li>
+                <li>Quality release authorization</li>
+              </ul>
+            </div>
+            <div class="process-step-image">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" alt="Documentation and traceability">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+      <video autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-woman-holding-supplement-capsules-5001-large.mp4" type="video/mp4">
+      </video>
+      <div class="video-section-overlay">
+        <div class="text-center text-white" style="max-width: 600px;">
+          <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">Quality You Can Trust</span>
+          <h2 class="display-md" style="margin-bottom: 1.5rem;">Every capsule tells a story.</h2>
+          <p style="color: rgba(255,255,255,0.8); font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">From ingredient sourcing to final packaging, our process ensures the highest quality in every bottle.</p>
+          <a href="collection.html" class="btn-modern btn-modern-light">
+            Shop Our Products
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="section-modern">
+      <div class="container">
+        <div class="text-center mb-12">
+          <h2 class="display-sm mb-4">The Standards Behind Our Standards</h2>
+          <p class="text-lg text-muted">Our facility operates under current Good Manufacturing Practices (cGMP) in accordance with 21 CFR Part 111.</p>
+        </div>
+
+        <div class="trust-modern">
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+            </div>
+            <h3 class="trust-modern-title">cGMP Compliant</h3>
+            <p class="trust-modern-text">21 CFR Part 111</p>
+          </div>
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </div>
+            <h3 class="trust-modern-title">FSSC 22000</h3>
+            <p class="trust-modern-text">Food Safety Certified</p>
+          </div>
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="trust-modern-title">ISO 22000:2018</h3>
+            <p class="trust-modern-text">Quality Management</p>
+          </div>
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/></svg>
+            </div>
+            <h3 class="trust-modern-title">USDA Organic</h3>
+            <p class="trust-modern-text">Certified Facility</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section-modern">
+      <div class="cta-bg-pattern"></div>
+      <div class="container container-md text-center relative z-10">
+        <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">22 Steps Complete</span>
+        <h2 class="display-sm text-white" style="margin-bottom: 1rem;">You've seen the process.</h2>
+        <p class="text-lg" style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Now meet the products it creates.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="collection.html" class="btn-modern btn-modern-light btn-modern-lg">
+            Shop by Life Stage
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          <a href="science.html" class="btn-modern btn-modern-lg" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); color: #fff;">
+            Science & Standards
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container container-2xl">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Vitabae</div>
+          <p class="footer-tagline">Premium supplements for every stage of life.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <nav class="footer-links">
+            <a href="collection.html" class="footer-link">All Products</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <nav class="footer-links">
+            <a href="process.html" class="footer-link">Our Process</a>
+            <a href="science.html" class="footer-link">Science</a>
+            <a href="story.html" class="footer-link">Our Story</a>
+            <a href="research.html" class="footer-link">Research</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <nav class="footer-links">
+            <a href="#contact" class="footer-link">Contact Us</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Vitabae. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fda-disclaimer">
+    <div class="container">
+      <p><strong>Important:</strong> These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

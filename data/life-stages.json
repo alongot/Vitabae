@@ -1,0 +1,154 @@
+{
+  "lifeStages": [
+    {
+      "id": "trying-to-conceive",
+      "name": "Trying to Conceive",
+      "shortName": "TTC",
+      "slug": "trying-to-conceive",
+      "icon": "heart",
+      "color": "#e8b4bc",
+      "description": "Preparing your body for pregnancy with foundational nutritional support.",
+      "longDescription": "The preconception period is a crucial time for establishing optimal nutritional status. Supporting your body with key nutrients before conception can help create the best possible foundation for pregnancy.",
+      "focus": [
+        "Folate and B-vitamins for cellular health",
+        "Antioxidant support",
+        "Hormonal balance",
+        "Overall vitality"
+      ],
+      "recommendedIngredients": ["shatavari", "ashwagandha", "moringa"],
+      "keyNutrients": ["Folate", "Iron", "Zinc", "Vitamin D"],
+      "lifestyle": [
+        "Maintain a balanced diet rich in whole foods",
+        "Manage stress through mindfulness practices",
+        "Ensure adequate sleep",
+        "Stay physically active with moderate exercise"
+      ],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "id": "pregnancy",
+      "name": "Pregnancy",
+      "shortName": "Pregnancy",
+      "slug": "pregnancy",
+      "icon": "baby",
+      "color": "#b8d4c8",
+      "description": "Nourishing mother and baby with safe, research-backed support.",
+      "longDescription": "Pregnancy is a time of extraordinary nutritional demands. Every ingredient we recommend for this stage has been carefully evaluated for both safety and efficacy during pregnancy.",
+      "focus": [
+        "Safe, pregnancy-appropriate support",
+        "Digestive comfort",
+        "Energy and vitality",
+        "Nutritional foundation"
+      ],
+      "recommendedIngredients": ["ginger", "moringa", "shatavari"],
+      "keyNutrients": ["Folate", "Iron", "Calcium", "DHA", "Choline"],
+      "lifestyle": [
+        "Eat frequent, small meals to manage nausea",
+        "Stay hydrated throughout the day",
+        "Continue gentle exercise as approved by your provider",
+        "Prioritize rest and sleep"
+      ],
+      "safetyNote": "Always consult your healthcare provider before starting any supplement during pregnancy.",
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "id": "postpartum",
+      "name": "Postpartum",
+      "shortName": "Postpartum",
+      "slug": "postpartum",
+      "icon": "sun",
+      "color": "#f5d5a8",
+      "description": "Recovery, replenishment, and support for the fourth trimester.",
+      "longDescription": "The postpartum period requires intensive nutritional support for recovery, healing, and (if breastfeeding) milk production. This stage focuses on replenishment and resilience.",
+      "focus": [
+        "Recovery and healing",
+        "Energy restoration",
+        "Lactation support (if applicable)",
+        "Mood and stress support"
+      ],
+      "recommendedIngredients": ["shatavari", "moringa", "ashwagandha", "turmeric"],
+      "keyNutrients": ["Iron", "B-vitamins", "Vitamin D", "Omega-3s"],
+      "lifestyle": [
+        "Accept help and prioritize rest",
+        "Nourish yourself with nutrient-dense foods",
+        "Stay connected with your support network",
+        "Be gentle with yourself during recovery"
+      ],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "id": "wellness",
+      "name": "General Wellness",
+      "shortName": "Wellness",
+      "slug": "wellness",
+      "icon": "sparkles",
+      "color": "#d4c4a8",
+      "description": "Daily support for vitality, balance, and long-term health.",
+      "longDescription": "Whether you're between life stages or simply focused on maintaining optimal health, our wellness formulas provide foundational support for energy, stress resilience, and overall vitality.",
+      "focus": [
+        "Daily nutritional support",
+        "Stress resilience",
+        "Energy and vitality",
+        "Long-term health"
+      ],
+      "recommendedIngredients": ["ashwagandha", "turmeric", "holy-basil", "ginger"],
+      "keyNutrients": ["Adaptogens", "Antioxidants", "B-vitamins", "Minerals"],
+      "lifestyle": [
+        "Maintain consistent sleep and wake times",
+        "Incorporate stress-management practices",
+        "Stay active with regular movement",
+        "Eat a diverse, whole-foods diet"
+      ],
+      "image": "/images/ilona-isha.jpg"
+    }
+  ],
+  "quizQuestions": [
+    {
+      "id": 1,
+      "question": "Which best describes your current life stage?",
+      "options": [
+        { "text": "Preparing for pregnancy", "value": "trying-to-conceive", "weight": 10 },
+        { "text": "Currently pregnant", "value": "pregnancy", "weight": 10 },
+        { "text": "Recently had a baby (within 1 year)", "value": "postpartum", "weight": 10 },
+        { "text": "None of the above", "value": "wellness", "weight": 10 }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "What is your primary wellness goal?",
+      "options": [
+        { "text": "Digestive comfort", "value": "digestive", "ingredients": ["ginger"] },
+        { "text": "Stress management", "value": "stress", "ingredients": ["ashwagandha", "holy-basil"] },
+        { "text": "Energy and vitality", "value": "energy", "ingredients": ["moringa", "ashwagandha"] },
+        { "text": "Hormonal balance", "value": "hormonal", "ingredients": ["shatavari"] }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "Do you experience occasional nausea or digestive discomfort?",
+      "options": [
+        { "text": "Yes, frequently", "value": "frequent", "ingredients": ["ginger"], "weight": 3 },
+        { "text": "Sometimes", "value": "sometimes", "ingredients": ["ginger"], "weight": 1 },
+        { "text": "Rarely or never", "value": "rarely", "ingredients": [], "weight": 0 }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "How would you describe your stress levels?",
+      "options": [
+        { "text": "High - I feel stressed most days", "value": "high", "ingredients": ["ashwagandha", "holy-basil"], "weight": 3 },
+        { "text": "Moderate - occasional stress", "value": "moderate", "ingredients": ["ashwagandha"], "weight": 2 },
+        { "text": "Low - I manage stress well", "value": "low", "ingredients": [], "weight": 0 }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Are you currently breastfeeding or planning to?",
+      "options": [
+        { "text": "Yes, currently breastfeeding", "value": "breastfeeding", "ingredients": ["shatavari", "moringa"], "weight": 3 },
+        { "text": "Planning to breastfeed", "value": "planning", "ingredients": ["shatavari", "moringa"], "weight": 2 },
+        { "text": "No", "value": "no", "ingredients": [], "weight": 0 }
+      ]
+    }
+  ]
+}

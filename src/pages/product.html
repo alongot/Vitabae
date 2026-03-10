@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Organic Ginger for Digestive Comfort - Vitabae premium supplement with full traceability.">
+  <meta name="theme-color" content="#2d6b52">
+
+  <title>Organic Ginger | Vitabae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body x-data="{
+  mobileMenuOpen: false,
+  selectedVariant: 'medium',
+  activeTab: 'benefits',
+  quantity: 1,
+  currentImage: 0
+}" class="lenis">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header" x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 20" :class="{ 'scrolled': scrolled }">
+    <div class="container container-2xl">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Vitabae</a>
+        <nav class="main-nav">
+          <a href="collection.html" class="nav-link">Shop</a>
+          <a href="process.html" class="nav-link">Our Process</a>
+          <a href="science.html" class="nav-link">Science</a>
+          <a href="story.html" class="nav-link">Our Story</a>
+          <a href="research.html" class="nav-link">Research</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="collection.html" class="btn btn-primary btn-sm hidden lg:inline-flex">Shop Now</a>
+          <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Product Hero -->
+    <section class="product-hero-modern">
+      <div class="container container-2xl">
+        <nav class="breadcrumb-modern mb-8">
+          <a href="index.html">Home</a>
+          <span>/</span>
+          <a href="collection.html">Shop</a>
+          <span>/</span>
+          <span>Organic Ginger</span>
+        </nav>
+
+        <div class="product-layout">
+          <!-- Product Images -->
+          <div class="product-gallery">
+            <div class="product-main-image">
+              <img x-show="currentImage === 0" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=800&fit=crop" alt="Fresh Organic Ginger Root">
+              <img x-show="currentImage === 1" x-cloak src="https://images.unsplash.com/photo-1597714026720-8f74c62310ba?w=800&h=800&fit=crop" alt="Ginger root close-up">
+              <img x-show="currentImage === 2" x-cloak src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&h=800&fit=crop" alt="Organic ginger and turmeric">
+              <img x-show="currentImage === 3" x-cloak src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&h=800&fit=crop" alt="Organic farm source">
+            </div>
+            <div class="product-thumbnails">
+              <button class="product-thumb" :class="{ 'active': currentImage === 0 }" @click="currentImage = 0">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop" alt="Ginger root">
+              </button>
+              <button class="product-thumb" :class="{ 'active': currentImage === 1 }" @click="currentImage = 1">
+                <img src="https://images.unsplash.com/photo-1597714026720-8f74c62310ba?w=200&h=200&fit=crop" alt="Close-up">
+              </button>
+              <button class="product-thumb" :class="{ 'active': currentImage === 2 }" @click="currentImage = 2">
+                <img src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=200&h=200&fit=crop" alt="Ingredients">
+              </button>
+              <button class="product-thumb" :class="{ 'active': currentImage === 3 }" @click="currentImage = 3">
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=200&h=200&fit=crop" alt="Farm">
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="product-info">
+            <div class="product-badges">
+              <span class="product-badge-organic">100% Organic</span>
+              <span class="product-badge-category">Digestive Support</span>
+            </div>
+
+            <h1 class="product-title">Organic Ginger for Digestive Comfort</h1>
+            <p class="product-botanical">Ginger Rhizome (<em>Zingiber officinale</em>)</p>
+
+            <!-- Benefits Quick View -->
+            <div class="product-benefits-quick">
+              <div class="benefit-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+                <span>Digestive Comfort & Support</span>
+              </div>
+              <div class="benefit-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+                <span>Menstrual & Pregnancy Wellness</span>
+              </div>
+              <div class="benefit-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+                <span>Antioxidant & Comfort Support</span>
+              </div>
+            </div>
+
+            <p class="product-description">
+              Organic Ginger rhizome powder, rich in naturally occurring gingerols and shogaols. Each capsule delivers the time-honored benefits of whole Ginger root.
+            </p>
+
+            <!-- Variant Selector -->
+            <div class="product-variants">
+              <h3 class="variant-label">Capsule Size</h3>
+              <div class="variant-options">
+                <button
+                  class="variant-btn"
+                  :class="{ 'active': selectedVariant === 'medium' }"
+                  @click="selectedVariant = 'medium'"
+                >
+                  <span class="variant-name">Medium (#0)</span>
+                  <span class="variant-detail">2 per day</span>
+                </button>
+                <button
+                  class="variant-btn"
+                  :class="{ 'active': selectedVariant === 'small' }"
+                  @click="selectedVariant = 'small'"
+                >
+                  <span class="variant-name">Small (#1)</span>
+                  <span class="variant-detail">3 per day</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Price & Add to Cart -->
+            <div class="product-purchase">
+              <div class="product-price-row">
+                <span class="product-price">$28.00</span>
+                <div class="quantity-selector">
+                  <button @click="quantity = Math.max(1, quantity - 1)" aria-label="Decrease quantity">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+                  </button>
+                  <span x-text="quantity"></span>
+                  <button @click="quantity++" aria-label="Increase quantity">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="product-actions">
+                <button class="btn-add-cart">Add to Cart</button>
+                <button class="btn-subscribe">Subscribe & Save 15%</button>
+              </div>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="product-trust">
+              <div class="trust-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                cGMP Certified
+              </div>
+              <div class="trust-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                Batch Tested
+              </div>
+              <div class="trust-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Free Shipping
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Tabs -->
+    <section class="product-tabs-section">
+      <div class="container container-2xl">
+        <nav class="product-tabs-nav">
+          <button :class="{ 'active': activeTab === 'benefits' }" @click="activeTab = 'benefits'">Benefits</button>
+          <button :class="{ 'active': activeTab === 'formula' }" @click="activeTab = 'formula'">Formula</button>
+          <button :class="{ 'active': activeTab === 'science' }" @click="activeTab = 'science'">Scientific Support</button>
+          <button :class="{ 'active': activeTab === 'howto' }" @click="activeTab = 'howto'">How to Use</button>
+          <button :class="{ 'active': activeTab === 'safety' }" @click="activeTab = 'safety'">Safety</button>
+        </nav>
+
+        <div class="product-tab-content">
+          <!-- Benefits Tab -->
+          <div x-show="activeTab === 'benefits'" class="tab-panel">
+            <h2 class="display-xs mb-6">How Ginger Can Support Your Life Stage</h2>
+
+            <div class="life-stage-benefits">
+              <div class="benefit-card">
+                <h3>Reproductive Age</h3>
+                <p>Aids in maintaining general comfort during menstrual cycles. Taking three times daily promotes comfort.</p>
+              </div>
+              <div class="benefit-card">
+                <h3>Pregnancy</h3>
+                <p>Aids in easing occasional pregnancy-related nausea. Use only under medical supervision. Intended for short-term use only.</p>
+              </div>
+              <div class="benefit-card">
+                <h3>Post-Pregnancy</h3>
+                <p>Supports lactation and postpartum recovery.</p>
+              </div>
+              <div class="benefit-card">
+                <h3>Menopause</h3>
+                <p>Contributes to overall comfort and wellbeing. Provides nutritional foundation for digestive wellness.</p>
+              </div>
+            </div>
+
+            <div class="why-matters">
+              <h3>Why It Matters</h3>
+              <p>Ginger's naturally occurring gingerols and shogaols play a role in digestive function, comfort, and antioxidant protection. Valued across cultures for centuries, this whole-food rhizome powder aids in maintaining digestive health, menstrual comfort, and gentle nausea relief throughout women's life stages.</p>
+            </div>
+          </div>
+
+          <!-- Formula Tab -->
+          <div x-show="activeTab === 'formula'" x-cloak class="tab-panel">
+            <h2 class="display-xs mb-6">Complete Formula Breakdown</h2>
+
+            <div class="formula-table">
+              <div class="formula-row header">
+                <span>Ingredient</span>
+                <span>Form</span>
+                <span>Purpose</span>
+              </div>
+              <div class="formula-row">
+                <span>Organic Ginger Rhizome Powder</span>
+                <span>Whole rhizome powder</span>
+                <span>Provides naturally occurring gingerols, shogaols, and polyphenols</span>
+              </div>
+              <div class="formula-row">
+                <span>Vegan Capsule</span>
+                <span>USDA Certified</span>
+                <span>Clean, plant-based delivery</span>
+              </div>
+            </div>
+
+            <p class="formula-note">No fillers, binders, preservatives, or artificial additives</p>
+
+            <div class="sourcing-info">
+              <h3>Ingredient Sourcing & Quality</h3>
+              <ul>
+                <li><strong>100% Organic:</strong> USDA Certified Organic Ginger from sustainably cultivated plants in India</li>
+                <li><strong>Whole Rhizome Powder:</strong> Complete nutritional profile with naturally occurring bioactive compounds</li>
+                <li><strong>Gentle Processing:</strong> Vacuum tray drying at low temperature to preserve heat-sensitive gingerols</li>
+                <li><strong>Peak Harvest:</strong> Rhizomes harvested at peak maturity for maximum potency</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Science Tab -->
+          <div x-show="activeTab === 'science'" x-cloak class="tab-panel">
+            <h2 class="display-xs mb-6">Scientific Support</h2>
+            <p class="text-muted mb-8">The compounds below reflect what is naturally present in whole Ginger and what traditional use and emerging research suggest about their role in overall wellness.</p>
+
+            <div class="formula-table">
+              <div class="formula-row header">
+                <span>Compound</span>
+                <span>Traditional Role</span>
+              </div>
+              <div class="formula-row">
+                <span>Gingerols & Shogaols</span>
+                <span>Support digestive comfort, help ease occasional nausea</span>
+              </div>
+              <div class="formula-row">
+                <span>Polyphenols</span>
+                <span>Provide antioxidant support for cellular health</span>
+              </div>
+            </div>
+
+            <div class="standards-list">
+              <h3>Our Standards</h3>
+              <ul>
+                <li>Manufactured under cGMP in accordance with 21 CFR Part 111</li>
+                <li>FSSC 22000 Version 6 food safety certification</li>
+                <li>ISO 22000:2018 certified</li>
+                <li>Each batch tested for purity, heavy metals, and contaminants</li>
+                <li>Certificates of Analysis available upon request</li>
+              </ul>
+            </div>
+
+            <a href="research.html" class="btn-modern btn-modern-dark mt-8">View Research Library</a>
+          </div>
+
+          <!-- How to Use Tab -->
+          <div x-show="activeTab === 'howto'" x-cloak class="tab-panel">
+            <h2 class="display-xs mb-6">Daily Use</h2>
+
+            <div class="usage-cards">
+              <div class="usage-card">
+                <div class="usage-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <h3>Medium Capsule (#0)</h3>
+                <p>Take 2 capsules daily with meals</p>
+              </div>
+              <div class="usage-card">
+                <div class="usage-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <h3>Small Capsule (#1)</h3>
+                <p>Take 3 capsules daily with meals</p>
+              </div>
+            </div>
+
+            <div class="tips-section">
+              <h3>Tips for Best Results</h3>
+              <ul>
+                <li>Take Ginger with meals to support digestion</li>
+                <li>Use consistently for the recommended duration</li>
+                <li>Pair with a balanced diet and active lifestyle</li>
+                <li>Stay well-hydrated throughout the day</li>
+                <li>For menstrual comfort, begin taking during early cycle days</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Safety Tab -->
+          <div x-show="activeTab === 'safety'" x-cloak class="tab-panel">
+            <h2 class="display-xs mb-6">Safety Information</h2>
+
+            <div class="safety-section">
+              <h3>Generally Well Tolerated</h3>
+              <p>Most people experience no side effects when used as directed.</p>
+            </div>
+
+            <div class="safety-section">
+              <h3>Mild Effects (Uncommon)</h3>
+              <ul>
+                <li>Mild digestive discomfort</li>
+                <li>Heartburn</li>
+                <li>Mild nausea (rare)</li>
+              </ul>
+            </div>
+
+            <div class="safety-warning">
+              <h3>Critical Warning</h3>
+              <p>Ginger may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications. Consult your healthcare provider before use if you take blood thinners or have a bleeding disorder.</p>
+            </div>
+
+            <div class="safety-section">
+              <h3>Not Suitable For</h3>
+              <ul>
+                <li>Individuals under 18 years of age</li>
+                <li>Those with bleeding disorders</li>
+                <li>Those with gallstones</li>
+                <li>Pregnant women without medical supervision</li>
+                <li>Those taking anticoagulant medications without medical guidance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section-modern bg-cream">
+      <div class="container container-lg">
+        <h2 class="display-sm text-center mb-12">Frequently Asked Questions</h2>
+
+        <div class="faq-modern" x-data="{ openItem: null }">
+          <div class="faq-item">
+            <button class="faq-trigger" @click="openItem = openItem === 1 ? null : 1">
+              <span>Is this product safe during pregnancy?</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" x-show="openItem === 1" x-collapse x-cloak>
+              <p>Ginger may be used during pregnancy for occasional digestive support, but only under medical supervision and for short-term use. Always consult your healthcare provider before taking any supplement during pregnancy.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" @click="openItem = openItem === 2 ? null : 2">
+              <span>How long before I see results?</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" x-show="openItem === 2" x-collapse x-cloak>
+              <p>For digestive support, many people notice benefits within 1-2 weeks of consistent use. For menstrual comfort, 4-6 weeks of regular use may be needed. Individual results vary.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" @click="openItem = openItem === 3 ? null : 3">
+              <span>Can I take this with other supplements?</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="faq-content" x-show="openItem === 3" x-collapse x-cloak>
+              <p>Ginger is generally compatible with most supplements. However, use caution when combining with supplements that may affect bleeding (fish oil, vitamin E). Always inform your healthcare provider about all supplements you take.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="section-modern">
+      <div class="container">
+        <h2 class="display-sm text-center mb-12">You May Also Like</h2>
+        <div class="products-grid" style="max-width: 900px; margin: 0 auto;">
+          <a href="product.html?product=ashwagandha" class="product-modern">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1509420316987-d27b02f81864?w=600&h=600&fit=crop" alt="Organic Ashwagandha Root">
+            </div>
+            <div class="product-modern-category">Stress Support</div>
+            <h3 class="product-modern-title">Organic Ashwagandha</h3>
+            <p class="product-modern-price">$38.00</p>
+          </a>
+          <a href="product.html?product=moringa" class="product-modern">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=600&h=600&fit=crop" alt="Fresh Organic Moringa Leaves">
+            </div>
+            <div class="product-modern-category">Vitality</div>
+            <h3 class="product-modern-title">Organic Moringa</h3>
+            <p class="product-modern-price">$32.00</p>
+          </a>
+          <a href="product.html?product=shatavari" class="product-modern">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1515586000433-45406d8e6662?w=600&h=600&fit=crop" alt="Organic Shatavari Root">
+            </div>
+            <div class="product-modern-category">Hormonal Balance</div>
+            <h3 class="product-modern-title">Organic Shatavari</h3>
+            <p class="product-modern-price">$36.00</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container container-2xl">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Vitabae</div>
+          <p class="footer-tagline">Premium supplements for every stage of life.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <nav class="footer-links">
+            <a href="collection.html" class="footer-link">All Products</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <nav class="footer-links">
+            <a href="process.html" class="footer-link">Our Process</a>
+            <a href="science.html" class="footer-link">Science</a>
+            <a href="story.html" class="footer-link">Our Story</a>
+            <a href="research.html" class="footer-link">Research</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <nav class="footer-links">
+            <a href="#contact" class="footer-link">Contact Us</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Vitabae. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fda-disclaimer">
+    <div class="container">
+      <p><strong>Important:</strong> These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

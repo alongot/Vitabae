@@ -1,0 +1,396 @@
+{
+  "phases": [
+    {
+      "id": "sourcing",
+      "name": "Sourcing",
+      "description": "Where quality begins",
+      "steps": [1, 2, 3, 4, 5, 6]
+    },
+    {
+      "id": "verification",
+      "name": "Verification",
+      "description": "Confirming authenticity and safety",
+      "steps": [7, 8, 9, 10, 11]
+    },
+    {
+      "id": "processing",
+      "name": "Processing",
+      "description": "From raw material to extract",
+      "steps": [12, 13, 14, 15]
+    },
+    {
+      "id": "formulation",
+      "name": "Formulation",
+      "description": "Creating the final product",
+      "steps": [16, 17, 18, 19]
+    },
+    {
+      "id": "quality",
+      "name": "Quality Assurance",
+      "description": "Final verification and release",
+      "steps": [20, 21, 22]
+    }
+  ],
+  "steps": [
+    {
+      "number": 1,
+      "title": "Partner Farm Selection",
+      "phase": "sourcing",
+      "shortDescription": "We work directly with certified organic farms in specific growing regions of India.",
+      "fullDescription": "Every ingredient begins with a relationship. We partner directly with certified organic farms in India's traditional growing regions—Kerala for ginger, Rajasthan for ashwagandha, Tamil Nadu for turmeric. These aren't anonymous suppliers; they're partners we've visited, vetted, and work with year after year.",
+      "details": [
+        "Direct relationships with family farms",
+        "On-site visits to verify practices",
+        "Multi-year partnerships for consistency",
+        "Fair pricing and sustainable practices"
+      ],
+      "standards": ["USDA Organic", "India Organic Certification"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 2,
+      "title": "Soil & Climate Assessment",
+      "phase": "sourcing",
+      "shortDescription": "Understanding the growing environment that shapes each ingredient.",
+      "fullDescription": "The potency of a plant depends on its environment. We assess soil composition, climate patterns, and seasonal cycles to ensure optimal growing conditions. Ashwagandha from Rajasthan's arid soil naturally produces higher withanolide concentrations—this isn't by chance, it's by design.",
+      "details": [
+        "Soil composition analysis",
+        "Climate and rainfall patterns",
+        "Seasonal growing cycles",
+        "Environmental stress factors"
+      ],
+      "standards": ["Soil Testing Protocols", "Agricultural Best Practices"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 3,
+      "title": "Cultivation Monitoring",
+      "phase": "sourcing",
+      "shortDescription": "Observing growth practices throughout the cultivation period.",
+      "fullDescription": "Organic certification is the baseline, not the ceiling. We monitor cultivation practices throughout the growing season—irrigation methods, pest management (only organic-approved methods), and timing of interventions. Quality at harvest depends on quality throughout growth.",
+      "details": [
+        "Regular farm visits and communication",
+        "Organic pest management verification",
+        "Irrigation and water quality",
+        "Growth stage documentation"
+      ],
+      "standards": ["Organic Certification Requirements", "GAP Standards"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 4,
+      "title": "Harvest Timing",
+      "phase": "sourcing",
+      "shortDescription": "Harvesting at peak potency for maximum active compound content.",
+      "fullDescription": "Timing matters. Ginger is harvested when gingerol content peaks. Ashwagandha roots are collected after 150-180 days. Turmeric rhizomes at 7-9 months. Each plant has an optimal harvest window, and we work with farmers to ensure precise timing.",
+      "details": [
+        "Species-specific harvest windows",
+        "Active compound concentration testing",
+        "Weather condition monitoring",
+        "Hand-harvesting for quality control"
+      ],
+      "standards": ["Harvest Timing Protocols", "Potency Standards"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 5,
+      "title": "Post-Harvest Handling",
+      "phase": "sourcing",
+      "shortDescription": "Immediate processing to preserve integrity and prevent degradation.",
+      "fullDescription": "The window between harvest and processing is critical. Raw materials are cleaned, sorted, and prepared for drying within hours of harvest. Improper handling at this stage can compromise months of careful cultivation.",
+      "details": [
+        "Immediate cleaning and sorting",
+        "Removal of damaged material",
+        "Proper drying conditions",
+        "Temperature and humidity control"
+      ],
+      "standards": ["Post-Harvest Handling SOPs", "Quality Preservation"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 6,
+      "title": "Transportation & Chain of Custody",
+      "phase": "sourcing",
+      "shortDescription": "Documented transfer from farm to facility with full traceability.",
+      "fullDescription": "From farm to our facility, every transfer is documented. We maintain chain of custody records that trace each batch back to its origin farm, harvest date, and handling conditions. This isn't bureaucracy—it's accountability.",
+      "details": [
+        "Documented chain of custody",
+        "Temperature-controlled transport",
+        "Batch coding and tracking",
+        "Arrival inspection protocols"
+      ],
+      "standards": ["Traceability Requirements", "Transport SOPs"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 7,
+      "title": "Identity Testing",
+      "phase": "verification",
+      "shortDescription": "Confirming each ingredient is exactly what it claims to be.",
+      "fullDescription": "Before anything enters production, we verify identity. Using HPTLC (High-Performance Thin-Layer Chromatography) and other analytical methods, we confirm that the material is exactly what it claims to be. Adulteration is common in the supplement industry—we test to ensure it never enters our supply chain.",
+      "details": [
+        "HPTLC fingerprint analysis",
+        "Botanical identification",
+        "Comparison to reference standards",
+        "Certificate of Identity documentation"
+      ],
+      "standards": ["USP Identity Testing", "AHPA Guidelines"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 8,
+      "title": "Potency Analysis",
+      "phase": "verification",
+      "shortDescription": "Measuring active compound concentrations to ensure effectiveness.",
+      "fullDescription": "Identity isn't enough—we need to know potency. Using HPLC (High-Performance Liquid Chromatography), we quantify active compounds: gingerols in ginger, withanolides in ashwagandha, curcuminoids in turmeric. Materials that don't meet our potency specifications are rejected.",
+      "details": [
+        "HPLC analysis of active compounds",
+        "Comparison to specification limits",
+        "Batch-to-batch consistency verification",
+        "Reject protocols for sub-spec material"
+      ],
+      "standards": ["USP Monographs", "Internal Potency Specifications"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 9,
+      "title": "Contaminant Screening",
+      "phase": "verification",
+      "shortDescription": "Testing for heavy metals, pesticides, and environmental toxins.",
+      "fullDescription": "Clean ingredients require clean testing. Every incoming material is screened for heavy metals (lead, mercury, arsenic, cadmium), pesticide residues, and other environmental contaminants. Our limits are often stricter than regulatory requirements.",
+      "details": [
+        "Heavy metal analysis (ICP-MS)",
+        "Pesticide residue screening",
+        "Aflatoxin and mycotoxin testing",
+        "Solvent residue analysis"
+      ],
+      "standards": ["USP <561> Heavy Metals", "FDA Guidelines", "California Prop 65"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 10,
+      "title": "Microbial Testing",
+      "phase": "verification",
+      "shortDescription": "Ensuring freedom from harmful microorganisms.",
+      "fullDescription": "Botanical materials can harbor microorganisms. We test for total aerobic count, yeast and mold, and specific pathogens including E. coli and Salmonella. Clean raw materials lead to clean finished products.",
+      "details": [
+        "Total aerobic microbial count",
+        "Yeast and mold enumeration",
+        "E. coli and Salmonella screening",
+        "Bile-tolerant gram-negative bacteria"
+      ],
+      "standards": ["USP <2021> Microbial Limits", "cGMP Requirements"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 11,
+      "title": "Certificate of Analysis Review",
+      "phase": "verification",
+      "shortDescription": "Documentation review and approval before production release.",
+      "fullDescription": "Before any material enters production, our quality team reviews all test results and documentation. This isn't a formality—it's a checkpoint. Materials are either approved for use or rejected. There is no 'conditional' acceptance.",
+      "details": [
+        "Test result compilation",
+        "Specification comparison",
+        "Quality team review",
+        "Formal approval or rejection decision"
+      ],
+      "standards": ["cGMP Documentation Requirements", "Quality SOPs"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 12,
+      "title": "Extraction & Standardization",
+      "phase": "processing",
+      "shortDescription": "Creating concentrated extracts with consistent active compound levels.",
+      "fullDescription": "Raw herbs become standardized extracts through careful extraction. We use appropriate solvents (water, ethanol, or other food-grade options depending on the compound) to concentrate active ingredients to consistent, specified levels.",
+      "details": [
+        "Solvent selection based on target compounds",
+        "Extraction temperature and time control",
+        "Concentration and drying",
+        "Standardization to target potency"
+      ],
+      "standards": ["Extraction SOPs", "Standardization Protocols"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 13,
+      "title": "Particle Size Optimization",
+      "phase": "processing",
+      "shortDescription": "Milling to precise particle sizes for optimal absorption.",
+      "fullDescription": "Particle size affects everything from blend uniformity to absorption. Extracts are milled to specified particle size ranges, ensuring consistent behavior during blending and optimal performance in the finished product.",
+      "details": [
+        "Milling to target particle size",
+        "Particle size distribution analysis",
+        "Surface area optimization",
+        "Flow characteristics testing"
+      ],
+      "standards": ["Particle Size Specifications", "USP <786>"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 14,
+      "title": "Blending & Homogenization",
+      "phase": "processing",
+      "shortDescription": "Combining ingredients for uniform distribution in every capsule.",
+      "fullDescription": "Multiple ingredients must be perfectly blended. Using V-blenders and other equipment, we achieve homogeneous mixtures where every portion contains the same ratio of ingredients. We verify blend uniformity through sampling and testing.",
+      "details": [
+        "V-blender mixing protocols",
+        "Blend time optimization",
+        "Uniformity sampling",
+        "RSD verification (≤6%)"
+      ],
+      "standards": ["USP <905> Uniformity", "Blend Validation Protocols"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 15,
+      "title": "In-Process Quality Checks",
+      "phase": "processing",
+      "shortDescription": "Continuous monitoring throughout the processing stage.",
+      "fullDescription": "Quality isn't just tested at the end—it's monitored throughout. In-process checks verify weight, appearance, and other parameters at multiple points during processing. Problems are caught and corrected in real-time.",
+      "details": [
+        "Weight checks during processing",
+        "Appearance monitoring",
+        "Environmental condition logging",
+        "Real-time parameter adjustment"
+      ],
+      "standards": ["In-Process Control SOPs", "cGMP Requirements"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 16,
+      "title": "Capsule Formulation",
+      "phase": "formulation",
+      "shortDescription": "Filling plant-based capsules with precise dosages.",
+      "fullDescription": "The blended extract is filled into plant-based HPMC capsules (no animal gelatin). Automatic filling machines ensure precise, consistent fill weights. Each capsule contains exactly what the label states.",
+      "details": [
+        "HPMC capsule selection",
+        "Fill weight calibration",
+        "Continuous weight monitoring",
+        "Capsule integrity checks"
+      ],
+      "standards": ["Fill Weight Specifications", "Capsule Quality Standards"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 17,
+      "title": "Weight Verification",
+      "phase": "formulation",
+      "shortDescription": "Statistical sampling to verify fill weight accuracy.",
+      "fullDescription": "After filling, we verify weights through statistical sampling. Capsules are weighed individually and compared to specifications. Batches that don't meet weight uniformity standards don't move forward.",
+      "details": [
+        "Individual capsule weighing",
+        "Statistical analysis",
+        "Uniformity of dosage units testing",
+        "Acceptance/rejection criteria"
+      ],
+      "standards": ["USP <905>", "Weight Uniformity Specifications"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 18,
+      "title": "Disintegration Testing",
+      "phase": "formulation",
+      "shortDescription": "Ensuring capsules break down properly for absorption.",
+      "fullDescription": "A capsule is only effective if it disintegrates properly in the body. We test disintegration time using USP apparatus, ensuring capsules break down within specified timeframes under simulated digestive conditions.",
+      "details": [
+        "USP disintegration apparatus testing",
+        "Time-to-disintegration measurement",
+        "Temperature-controlled conditions",
+        "Batch release criteria"
+      ],
+      "standards": ["USP <701> Disintegration", "Internal Time Limits"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 19,
+      "title": "Stability Testing",
+      "phase": "formulation",
+      "shortDescription": "Confirming potency is maintained throughout shelf life.",
+      "fullDescription": "We don't guess at shelf life—we test it. Samples are stored under accelerated and real-time conditions, then tested at intervals to verify that potency, appearance, and other quality attributes remain within specification throughout the labeled shelf life.",
+      "details": [
+        "Accelerated stability (40°C/75% RH)",
+        "Real-time stability studies",
+        "Potency testing at intervals",
+        "Shelf life determination"
+      ],
+      "standards": ["ICH Q1A Stability Guidelines", "USP <1150>"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 20,
+      "title": "Final Product Testing",
+      "phase": "quality",
+      "shortDescription": "Comprehensive testing of the finished product.",
+      "fullDescription": "Before release, finished products undergo comprehensive testing: identity, potency, contaminants, and microbial limits. This is the final verification that everything upstream worked correctly.",
+      "details": [
+        "Identity confirmation",
+        "Potency verification",
+        "Contaminant screening",
+        "Microbial testing"
+      ],
+      "standards": ["21 CFR Part 111", "USP Monographs"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 21,
+      "title": "Third-Party Verification",
+      "phase": "quality",
+      "shortDescription": "Independent laboratory testing for additional assurance.",
+      "fullDescription": "We don't just trust our own testing—we verify with independent third-party laboratories. External testing provides additional assurance that our internal results are accurate and that the product meets all specifications.",
+      "details": [
+        "Independent laboratory selection",
+        "Blind sample submission",
+        "Result comparison and reconciliation",
+        "Third-party COA documentation"
+      ],
+      "standards": ["Third-Party Lab Accreditation", "ISO 17025"],
+      "image": "/images/ilona-isha.jpg"
+    },
+    {
+      "number": 22,
+      "title": "Batch Release & Documentation",
+      "phase": "quality",
+      "shortDescription": "Final approval and complete traceability records.",
+      "fullDescription": "Only after all testing is complete and reviewed does a batch receive release approval. Every batch is fully documented—from farm origin to finished product testing. This documentation is retained and available for review. Quality is not just claimed; it is recorded.",
+      "details": [
+        "Quality team final review",
+        "Batch record compilation",
+        "Release authorization signature",
+        "Documentation retention (3+ years)"
+      ],
+      "standards": ["cGMP Documentation", "21 CFR Part 111.475"],
+      "image": "/images/ilona-isha.jpg"
+    }
+  ],
+  "standards": [
+    {
+      "id": "cgmp",
+      "name": "cGMP (21 CFR Part 111)",
+      "fullName": "Current Good Manufacturing Practices",
+      "description": "FDA regulations for dietary supplement manufacturing, ensuring identity, purity, strength, and composition.",
+      "scope": "All manufacturing operations"
+    },
+    {
+      "id": "fssc22000",
+      "name": "FSSC 22000",
+      "fullName": "Food Safety System Certification 22000",
+      "description": "Global food safety management certification built on ISO 22000, with additional requirements for manufacturing.",
+      "scope": "Food safety management systems"
+    },
+    {
+      "id": "iso22000",
+      "name": "ISO 22000:2018",
+      "fullName": "Food Safety Management Systems",
+      "description": "International standard for food safety management, covering all aspects of the supply chain.",
+      "scope": "End-to-end food safety"
+    },
+    {
+      "id": "usp",
+      "name": "USP Standards",
+      "fullName": "United States Pharmacopeia",
+      "description": "Recognized standards for identity, strength, quality, and purity of medicines and supplements.",
+      "scope": "Testing methods and specifications"
+    }
+  ]
+}

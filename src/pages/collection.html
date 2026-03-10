@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop Vitabae's collection of organic supplements organized by life stage. Find the right formula for your needs.">
+  <meta name="theme-color" content="#2d6b52">
+
+  <title>Shop Collection | Vitabae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body x-data="{
+  mobileMenuOpen: false,
+  filterOpen: false,
+  activeStage: 'all',
+  activeCategory: 'all'
+}" class="lenis" data-page="collection">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="site-header" x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 20" :class="{ 'scrolled': scrolled }">
+    <div class="container container-2xl">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Vitabae</a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="collection.html" class="nav-link active">Shop</a>
+          <a href="process.html" class="nav-link">Our Process</a>
+          <a href="science.html" class="nav-link">Science</a>
+          <a href="story.html" class="nav-link">Our Story</a>
+          <a href="research.html" class="nav-link">Research</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="collection.html" class="btn btn-primary btn-sm hidden lg:inline-flex">Shop Now</a>
+          <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Modern Hero -->
+    <section class="hero-modern hero-modern-sm">
+      <div class="hero-video-bg">
+        <video autoplay muted loop playsinline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-taking-a-pill-4810-large.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+      </div>
+      <div class="hero-content text-center">
+        <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">The Collection</span>
+        <h1 class="display-lg" style="margin-bottom: 1rem;">Supplements for Every Stage</h1>
+        <p style="color: rgba(255,255,255,0.85); font-size: 1.125rem; max-width: 500px; margin: 0 auto;">Science-backed formulations with full traceability from farm to capsule.</p>
+      </div>
+    </section>
+
+    <!-- Life Stage Visual Navigation -->
+    <section class="section-modern-sm bg-cream">
+      <div class="container container-2xl">
+        <div class="text-center mb-10 reveal">
+          <span class="eyebrow-text" style="display: block; margin-bottom: 0.75rem; color: var(--color-primary);">Browse by Stage</span>
+          <h2 class="display-xs" style="margin-bottom: 0.75rem;">Shop by Life Stage</h2>
+          <p class="text-muted">Select your current stage to find the right supplements for you.</p>
+        </div>
+
+        <!-- Visual Life Stage Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          <button class="life-stage-card-btn" :class="{ 'active': activeStage === 'all' }" @click="activeStage = 'all'">
+            <div class="life-stage-card-image">
+              <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=300&h=300&fit=crop" alt="All Products">
+            </div>
+            <span>All Products</span>
+          </button>
+
+          <button class="life-stage-card-btn" :class="{ 'active': activeStage === 'reproductive' }" @click="activeStage = 'reproductive'">
+            <div class="life-stage-card-image">
+              <img src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=300&h=300&fit=crop" alt="Trying to Conceive">
+            </div>
+            <span>Trying to Conceive</span>
+          </button>
+
+          <button class="life-stage-card-btn" :class="{ 'active': activeStage === 'pregnancy' }" @click="activeStage = 'pregnancy'">
+            <div class="life-stage-card-image">
+              <img src="https://images.unsplash.com/photo-1493894473891-10fc1e5dbd22?w=300&h=300&fit=crop" alt="Pregnancy">
+            </div>
+            <span>Pregnancy</span>
+          </button>
+
+          <button class="life-stage-card-btn" :class="{ 'active': activeStage === 'postpartum' }" @click="activeStage = 'postpartum'">
+            <div class="life-stage-card-image">
+              <img src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=300&h=300&fit=crop" alt="Postpartum">
+            </div>
+            <span>Postpartum</span>
+          </button>
+
+          <button class="life-stage-card-btn" :class="{ 'active': activeStage === 'perimenopause' }" @click="activeStage = 'perimenopause'">
+            <div class="life-stage-card-image">
+              <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=300&h=300&fit=crop" alt="Perimenopause">
+            </div>
+            <span>Perimenopause</span>
+          </button>
+
+          <button class="life-stage-card-btn" :class="{ 'active': activeStage === 'menopause' }" @click="activeStage = 'menopause'">
+            <div class="life-stage-card-image">
+              <img src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=300&h=300&fit=crop" alt="Menopause">
+            </div>
+            <span>Menopause</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="section-modern">
+      <div class="container container-2xl">
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+          <button class="filter-chip" :class="{ 'active': activeCategory === 'all' }" @click="activeCategory = 'all'">All</button>
+          <button class="filter-chip" :class="{ 'active': activeCategory === 'digestive' }" @click="activeCategory = 'digestive'">Digestive</button>
+          <button class="filter-chip" :class="{ 'active': activeCategory === 'stress' }" @click="activeCategory = 'stress'">Stress Support</button>
+          <button class="filter-chip" :class="{ 'active': activeCategory === 'vitality' }" @click="activeCategory = 'vitality'">Vitality</button>
+          <button class="filter-chip" :class="{ 'active': activeCategory === 'hormonal' }" @click="activeCategory = 'hormonal'">Hormonal Balance</button>
+          <button class="filter-chip" :class="{ 'active': activeCategory === 'lactation' }" @click="activeCategory = 'lactation'">Lactation</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+
+          <!-- Product: Ginger -->
+          <a href="product.html?product=ginger" class="product-modern"
+             x-show="(activeStage === 'all' || activeStage === 'pregnancy' || activeStage === 'postpartum') && (activeCategory === 'all' || activeCategory === 'digestive')">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=600&h=600&fit=crop" alt="Fresh Organic Ginger Root">
+              <span class="product-modern-badge">Best Seller</span>
+            </div>
+            <div class="product-modern-category">Digestive Support</div>
+            <h3 class="product-modern-title">Organic Ginger</h3>
+            <p class="product-modern-price">$34.00</p>
+          </a>
+
+          <!-- Product: Ashwagandha -->
+          <a href="product.html?product=ashwagandha" class="product-modern"
+             x-show="(activeStage === 'all' || activeStage === 'reproductive' || activeStage === 'perimenopause' || activeStage === 'menopause') && (activeCategory === 'all' || activeCategory === 'stress')">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?w=600&h=600&fit=crop" alt="Organic Ashwagandha Root">
+              <span class="product-modern-badge">Popular</span>
+            </div>
+            <div class="product-modern-category">Stress Support</div>
+            <h3 class="product-modern-title">Organic Ashwagandha</h3>
+            <p class="product-modern-price">$38.00</p>
+          </a>
+
+          <!-- Product: Moringa -->
+          <a href="product.html?product=moringa" class="product-modern"
+             x-show="(activeStage === 'all' || activeStage === 'postpartum' || activeStage === 'pregnancy') && (activeCategory === 'all' || activeCategory === 'vitality' || activeCategory === 'lactation')">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1622467827417-bbe2237067a9?w=600&h=600&fit=crop" alt="Fresh Organic Moringa Leaves">
+            </div>
+            <div class="product-modern-category">Vitality & Lactation</div>
+            <h3 class="product-modern-title">Organic Moringa</h3>
+            <p class="product-modern-price">$32.00</p>
+          </a>
+
+          <!-- Product: Shatavari -->
+          <a href="product.html?product=shatavari" class="product-modern"
+             x-show="(activeStage === 'all' || activeStage === 'reproductive' || activeStage === 'postpartum' || activeStage === 'perimenopause') && (activeCategory === 'all' || activeCategory === 'hormonal')">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=600&fit=crop" alt="Organic Shatavari Root">
+            </div>
+            <div class="product-modern-category">Hormonal Balance</div>
+            <h3 class="product-modern-title">Organic Shatavari</h3>
+            <p class="product-modern-price">$36.00</p>
+          </a>
+
+          <!-- Product: Fenugreek -->
+          <a href="product.html?product=fenugreek" class="product-modern"
+             x-show="(activeStage === 'all' || activeStage === 'postpartum' || activeStage === 'reproductive') && (activeCategory === 'all' || activeCategory === 'lactation' || activeCategory === 'hormonal')">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=600&h=600&fit=crop" alt="Organic Fenugreek Seeds">
+            </div>
+            <div class="product-modern-category">Lactation Support</div>
+            <h3 class="product-modern-title">Organic Fenugreek</h3>
+            <p class="product-modern-price">$30.00</p>
+          </a>
+
+          <!-- Product: Amla -->
+          <a href="product.html?product=amla" class="product-modern"
+             x-show="(activeStage === 'all' || activeStage === 'menopause' || activeStage === 'perimenopause') && (activeCategory === 'all' || activeCategory === 'vitality')">
+            <div class="product-modern-image">
+              <img src="https://images.unsplash.com/photo-1577003833619-76bbd7f82948?w=600&h=600&fit=crop" alt="Organic Indian Gooseberry Amla">
+            </div>
+            <div class="product-modern-category">Antioxidant Support</div>
+            <h3 class="product-modern-title">Organic Amla</h3>
+            <p class="product-modern-price">$28.00</p>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="section-modern bg-cream">
+      <div class="container">
+        <div class="trust-modern">
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </div>
+            <h3 class="trust-modern-title">100% Organic</h3>
+            <p class="trust-modern-text">Every ingredient certified</p>
+          </div>
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+            </div>
+            <h3 class="trust-modern-title">cGMP Certified</h3>
+            <p class="trust-modern-text">FDA-compliant facility</p>
+          </div>
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+            </div>
+            <h3 class="trust-modern-title">Batch Tested</h3>
+            <p class="trust-modern-text">Third-party verified</p>
+          </div>
+          <div class="trust-modern-item">
+            <div class="trust-modern-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3 class="trust-modern-title">Fully Traceable</h3>
+            <p class="trust-modern-text">Farm to capsule</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section-modern">
+      <div class="cta-bg-pattern"></div>
+      <div class="container container-md text-center relative z-10">
+        <span class="eyebrow-text" style="color: rgba(255,255,255,0.85); display: block; margin-bottom: 1rem;">Find Your Formula</span>
+        <h2 class="display-sm text-white" style="margin-bottom: 1rem;">Not sure where to start?</h2>
+        <p style="color: rgba(255,255,255,0.8); font-size: 1.125rem; margin-bottom: 2rem;">Take our life-stage quiz and get personalized recommendations.</p>
+        <a href="index.html#quiz" class="btn-modern btn-modern-light btn-modern-lg">
+          Take the Quiz
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container container-2xl">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Vitabae</div>
+          <p class="footer-tagline">Premium supplements for every stage of life.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <nav class="footer-links">
+            <a href="collection.html" class="footer-link">All Products</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <nav class="footer-links">
+            <a href="process.html" class="footer-link">Our Process</a>
+            <a href="science.html" class="footer-link">Science</a>
+            <a href="story.html" class="footer-link">Our Story</a>
+            <a href="research.html" class="footer-link">Research</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <nav class="footer-links">
+            <a href="#contact" class="footer-link">Contact Us</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Vitabae. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fda-disclaimer">
+    <div class="container">
+      <p><strong>Important:</strong> These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>
