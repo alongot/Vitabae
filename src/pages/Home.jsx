@@ -730,7 +730,7 @@ export default function Home() {
                 </div>
 
                 {/* Map */}
-                <div className="relative" style={{ height: 'clamp(400px, 75vh, 900px)' }}>
+                <div className="relative w-full" style={{ height: 'clamp(400px, 75vh, 900px)', minHeight: '400px' }}>
                   <IndiaMap
                     ingredients={ingredients}
                     activeIngredient={hoveredPin}
@@ -796,41 +796,48 @@ export default function Home() {
             {/* Ingredient selected — full-width detail panel */}
             {selected && (
               <div ref={ingredientDetailRef} className="bg-[#FAFAF8] overflow-hidden w-full">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  {/* Left — Image & map context */}
-                  <div className="relative bg-[#F0F4ED] min-h-[350px] sm:min-h-[450px] lg:min-h-[80vh]">
-                    <IndiaMap
-                      ingredients={ingredients}
-                      activeIngredient={activeIngredient}
-                      onPinClick={(i) => {
-                        setActiveIngredient(i);
-                        setShowVideo(false);
-                      }}
-                      onPinHover={(i) => setHoveredPin(i)}
-                    />
-                    {/* Ingredient label overlay */}
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className="flex flex-wrap gap-1.5">
-                        {ingredients.map((ing, i) => (
-                          <button
-                            key={ing.name}
-                            onClick={() => { setActiveIngredient(i); setShowVideo(false); }}
-                            className={`text-[9px] py-0.5 px-2 rounded-full transition-all duration-200 ${
-                              activeIngredient === i
-                                ? 'bg-[#1E2A3A]/15 text-[#1E2A3A] font-semibold'
-                                : 'text-gray-400 hover:text-[#1E2A3A] hover:bg-gray-200/50'
-                            }`}
-                          >
-                            {ing.name}
-                          </button>
-                        ))}
-                      </div>
+                <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+                  {/* Left — Map */}
+                  <div className="relative bg-[#F0F4ED] h-[280px] sm:h-[320px] lg:h-auto overflow-hidden">
+                    {/* Map view */}
+                    <div className={`absolute inset-0 p-8 lg:p-16 flex items-center justify-center transition-opacity duration-500 ${showVideo ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                      <IndiaMap
+                        ingredients={ingredients}
+                        activeIngredient={activeIngredient}
+                        onPinClick={(i) => {
+                          setActiveIngredient(i);
+                          setShowVideo(false);
+                        }}
+                        onPinHover={(i) => setHoveredPin(i)}
+                      />
                     </div>
+
+
+                    {/* Ingredient label overlay — only on map */}
+                    {!showVideo && (
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <div className="flex flex-wrap gap-1.5">
+                          {ingredients.map((ing, i) => (
+                            <button
+                              key={ing.name}
+                              onClick={() => { setActiveIngredient(i); setShowVideo(false); }}
+                              className={`text-[9px] py-0.5 px-2 rounded-full transition-all duration-200 ${
+                                activeIngredient === i
+                                  ? 'bg-[#1E2A3A]/15 text-[#1E2A3A] font-semibold'
+                                  : 'text-gray-400 hover:text-[#1E2A3A] hover:bg-gray-200/50'
+                              }`}
+                            >
+                              {ing.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Right — Detail */}
-                  <div className="p-6 sm:p-8 md:p-10 lg:p-12">
-                    <div className="flex items-start justify-between mb-6">
+                  <div className="p-5 sm:p-6 lg:p-8 flex flex-col justify-center">
+                    <div className="flex items-start justify-between mb-3">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#E8A598]">
                         Every ingredient has a source. This is ours.
                       </p>
@@ -842,8 +849,24 @@ export default function Home() {
                       </button>
                     </div>
 
-                    <h3 className="text-3xl text-[#1E2A3A] font-light mb-1">{selected.name}</h3>
-                    <p className="text-sm text-gray-400 font-serif italic mb-8">{selected.scientific}</p>
+                    <h3 className="text-2xl text-[#1E2A3A] font-light mb-0.5">{selected.name}</h3>
+                    <p className="text-xs text-gray-400 font-serif italic mb-4">{selected.scientific}</p>
+
+                    {/* Farm process video */}
+                    <div className="relative rounded-lg overflow-hidden mb-4">
+                      <video
+                        src="/videos/farm-documentary.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full aspect-[3/1] object-cover"
+                      />
+                      <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm rounded-md px-2 py-1">
+                        <p className="text-[8px] uppercase tracking-widest text-[#E8A598] font-semibold">Farm to Formula</p>
+                        <p className="text-[10px] text-[#1E2A3A] font-medium">{selected.region}</p>
+                      </div>
+                    </div>
 
                     <div className="space-y-0">
                       {[
@@ -852,17 +875,17 @@ export default function Home() {
                         { label: 'Plant Part Used', value: selected.plantPart },
                         { label: 'Traceability', value: selected.traceability },
                       ].map((item, i) => (
-                        <div key={i} className="py-4 border-b border-gray-200 last:border-0">
-                          <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400 block mb-1">
+                        <div key={i} className="py-2.5 border-b border-gray-200 last:border-0">
+                          <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-gray-400 block mb-0.5">
                             {item.label}
                           </span>
-                          <span className="text-sm text-[#1E2A3A] leading-relaxed">{item.value}</span>
+                          <span className="text-xs text-[#1E2A3A] leading-relaxed">{item.value}</span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="mt-8">
-                      <Button asChild className="w-full bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none py-5 text-[10px] uppercase tracking-[0.2em] font-medium group transition-colors justify-center">
+                    <div className="mt-5">
+                      <Button asChild className="w-full bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none py-4 text-[10px] uppercase tracking-[0.2em] font-medium group transition-colors justify-center">
                         <Link to="/Collection">
                           View products with {selected.name}
                           <ArrowRight size={12} className="ml-2 transition-transform group-hover:translate-x-1" />

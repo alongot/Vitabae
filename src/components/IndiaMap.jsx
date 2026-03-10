@@ -48,7 +48,9 @@ function IndiaMap({ ingredients, activeIngredient, onPinClick, onPinHover }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={indiaMap.viewBox}
+      preserveAspectRatio="xMidYMid meet"
       className="w-full h-full"
+      style={{ maxWidth: '100%', maxHeight: '100%', display: 'block' }}
       aria-label={indiaMap.label}
     >
       {/* All Indian states */}
