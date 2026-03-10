@@ -149,6 +149,9 @@ export default function Home() {
   const [showVideo, setShowVideo] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({});
+  const [hoveredStage, setHoveredStage] = useState(null);
+  const [showAllStages, setShowAllStages] = useState(false);
+  const stageVideoRefs = useRef([]);
 
   /* ── Quiz questions ── */
   const quizQuestions = [
@@ -196,6 +199,19 @@ export default function Home() {
       ],
     },
   ];
+
+  /* ── Video hover for life stage cards ── */
+  useEffect(() => {
+    stageVideoRefs.current.forEach((video, i) => {
+      if (!video) return;
+      if (hoveredStage === i) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, [hoveredStage]);
 
   /* ── GSAP Animations ── */
   useEffect(() => {
@@ -363,32 +379,29 @@ export default function Home() {
             </TiltBottle>
           </div>
 
-          {/* Scroll hint */}
-          <div className="hero-scroll-hint absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-medium">Scroll to explore</span>
-            <ChevronDown size={16} className="text-gray-400 animate-bounce" />
-          </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-          SECTION 2 — TRUST & STANDARDS  (Can I trust you?)
+          SECTION 2 — TRUST & STANDARDS  (Rolling marquee)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={trustRef} className="py-16 bg-white border-y border-gray-100">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-12 md:gap-20">
-            {[
-              { icon: <Leaf size={20} />, label: '100% Organic' },
-              { icon: <Shield size={20} />, label: 'Life-stage\u2013based formulas' },
-              { icon: <MapPin size={20} />, label: 'Fully traceable ingredients' },
-              { icon: <CheckCircle2 size={20} />, label: 'Batch Tested' },
-            ].map((badge, i) => (
-              <div key={i} className="trust-badge flex items-center gap-3">
-                <div className="text-[#1E2A3A] opacity-40">{badge.icon}</div>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#1E2A3A]">{badge.label}</span>
-              </div>
-            ))}
-          </div>
+      <section ref={trustRef} className="py-5 bg-white border-y border-gray-100 overflow-hidden">
+        <div className="trust-marquee flex whitespace-nowrap">
+          {[...Array(4)].map((_, rep) => (
+            <div key={rep} className="flex items-center gap-12 md:gap-20 px-8 animate-marquee shrink-0">
+              {[
+                { icon: <Leaf size={18} />, label: '100% Organic' },
+                { icon: <Shield size={18} />, label: 'Life-stage\u2013based formulas' },
+                { icon: <MapPin size={18} />, label: 'Fully traceable ingredients' },
+                { icon: <CheckCircle2 size={18} />, label: 'Batch Tested' },
+              ].map((badge, i) => (
+                <div key={i} className="trust-badge flex items-center gap-2.5 shrink-0">
+                  <div className="text-[#E8A598]">{badge.icon}</div>
+                  <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#1E2A3A]/70">{badge.label}</span>
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -421,9 +434,9 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════
           SECTION 3 — LIFE-STAGE APPROACH  (Where do I fit?)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={stagesRef} className="py-28 bg-white">
-        <div className="container mx-auto px-6 lg:px-16">
-          <div className="stages-header text-center mb-16 max-w-2xl mx-auto">
+      <section ref={stagesRef} className="py-20 md:py-28 bg-white">
+        <div className="mx-auto px-6 lg:px-12 max-w-[1400px]">
+          <div className="stages-header text-center mb-12 max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-[2.75rem] text-[#1E2A3A] leading-tight mb-5">
               <span className="font-light">Because life doesn't stay the same</span>
               <br />
@@ -435,28 +448,68 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="stage-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto">
-            {lifeStages.map((stage) => (
-              <Link
-                key={stage.label}
-                to={stage.path}
-                className="stage-card group block"
-              >
-                <div className="relative bg-[#FAFAF8] rounded-xl p-6 border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-lg h-full">
-                  <div className="w-10 h-10 rounded-full mb-4 flex items-center justify-center" style={{ backgroundColor: `${stage.color}30` }}>
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: stage.color }} />
+          {/* Life stage cards — show 4 initially, expand to all */}
+          <div className="stage-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {(showAllStages ? lifeStages : lifeStages.slice(0, 4)).map((stage, i) => (
+              <Link key={stage.label} to={stage.path} className="stage-card group block">
+                <div className="relative bg-[#FAFAF8] rounded-xl border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-lg h-full flex flex-col overflow-hidden">
+                  {/* Product image + video hover */}
+                  <div
+                    className="relative aspect-[4/5] overflow-hidden"
+                    style={{ backgroundColor: `${stage.color}15` }}
+                    onMouseEnter={() => setHoveredStage(i)}
+                    onMouseLeave={() => setHoveredStage(null)}
+                  >
+                    <img
+                      src="/images/ilona-isha.jpg"
+                      alt={stage.label}
+                      className="w-full h-full object-cover mix-blend-multiply opacity-85 group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <video
+                      ref={el => stageVideoRefs.current[i] = el}
+                      src="/videos/bottle-spin.mp4"
+                      muted
+                      loop
+                      playsInline
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${hoveredStage === i ? 'opacity-100' : 'opacity-0'}`}
+                    />
                   </div>
-                  <h3 className="text-sm font-semibold text-[#1E2A3A] mb-2">{stage.label}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed mb-4">{stage.desc}</p>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#1E2A3A] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                    View Collection <ArrowRight size={10} className="transition-transform group-hover:translate-x-0.5" />
-                  </span>
+                  {/* Text content */}
+                  <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="text-lg font-semibold text-[#1E2A3A] mb-2 leading-tight">{stage.label}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-grow">{stage.desc}</p>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#1E2A3A] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                      View Collection <ArrowRight size={11} className="transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
-          <p className="text-center text-[11px] text-gray-400 mt-8 italic">
+          {/* View more / View less button */}
+          {!showAllStages && (
+            <div className="text-center mt-8">
+              <button
+                onClick={() => setShowAllStages(true)}
+                className="inline-flex items-center gap-2 px-8 py-3 border border-[#1E2A3A] text-[#1E2A3A] rounded-full text-sm font-semibold tracking-wide hover:bg-[#1E2A3A] hover:text-white transition-all duration-300"
+              >
+                View All Stages <ArrowRight size={14} />
+              </button>
+            </div>
+          )}
+          {showAllStages && (
+            <div className="text-center mt-8">
+              <button
+                onClick={() => setShowAllStages(false)}
+                className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-[#1E2A3A] transition-colors"
+              >
+                Show Less
+              </button>
+            </div>
+          )}
+
+          <p className="text-center text-[11px] text-gray-400 mt-6 italic">
             Selection is based on life stage categories and is not intended as medical advice.
           </p>
         </div>
@@ -465,28 +518,50 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════
           SECTION 4 — GUIDED DISCOVERY / QUIZ  (Help me without deciding for me)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={quizRef} className="py-28 bg-[#FFFBF5]">
+      <section ref={quizRef} className="py-16 md:py-24 bg-[#FFFBF5]">
         <div className="container mx-auto px-6">
-          <div className="quiz-inner max-w-2xl mx-auto">
+          <div className="quiz-inner max-w-4xl mx-auto">
 
-            {/* Quiz not started */}
+            {/* Quiz not started — card layout */}
             {quizStep === 0 && (
-              <div className="text-center">
-                <h2 className="text-3xl md:text-[2.5rem] text-[#1E2A3A] leading-tight mb-5">
-                  <span className="font-light">Not sure </span>
-                  <span className="font-serif italic">where to start?</span>
-                </h2>
-                <p className="text-gray-500 text-[15px] leading-relaxed mb-3">
-                  If you're unsure which life stage collection to explore, our guided questionnaire can help you navigate Vitabae's products based on general lifestyle and life stage information.
-                </p>
-                <p className="text-gray-400 text-xs italic mb-10">
-                  This tool is for educational purposes only and does not provide medical advice.
-                </p>
-                <Button onClick={() => setQuizStep(1)} className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none px-12 py-7 text-[11px] uppercase tracking-[0.2em] font-medium group">
-                  Start the Quiz
-                  <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
-                <p className="text-[11px] text-gray-400 mt-4">Takes less than 2 minutes. No medical questions.</p>
+              <div className="relative bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="grid md:grid-cols-2">
+                  {/* Left — visual side */}
+                  <div className="relative bg-gradient-to-br from-[#1E2A3A] to-[#2d4a5a] p-10 md:p-14 flex flex-col justify-center text-white">
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-4 relative z-10">Personalized Wellness</p>
+                    <h2 className="text-3xl md:text-4xl leading-tight mb-5 relative z-10">
+                      <span className="font-light">Find Your</span>
+                      <br />
+                      <span className="font-serif italic">Personalized Formula</span>
+                    </h2>
+                    <p className="text-white/60 text-sm leading-relaxed relative z-10">
+                      Smart recommendations based on your specific age, lifestyle, and wellness goals. Takes less than 2 minutes.
+                    </p>
+                    {/* Decorative dots */}
+                    <div className="flex gap-2 mt-8 relative z-10">
+                      {[...Array(3)].map((_, i) => (
+                        <div key={i} className="w-2 h-2 rounded-full bg-[#E8A598]" style={{ opacity: 1 - i * 0.3 }} />
+                      ))}
+                    </div>
+                  </div>
+                  {/* Right — CTA side */}
+                  <div className="p-10 md:p-14 flex flex-col justify-center items-center text-center">
+                    <div className="w-16 h-16 rounded-full bg-[#FFFBF5] border border-gray-100 flex items-center justify-center mb-6">
+                      <Leaf size={24} className="text-[#E8A598]" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-[#1E2A3A] mb-3">Discover What's Right For You</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-xs">
+                      Answer a few quick questions about your life stage and goals — we'll match you with the right formulas. No accounts, no commitments.
+                    </p>
+                    <Button onClick={() => setQuizStep(1)} className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group w-full max-w-xs">
+                      Start Discovery Quiz
+                      <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                    <p className="text-[10px] text-gray-400 mt-4">No sign-up required</p>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -612,67 +687,52 @@ export default function Home() {
           SECTION 5 & 6 — MAP + INGREDIENT DETAIL
           (Show me — don't tell me / Prove it)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={mapRef} className="py-28 bg-white">
-        <div className="container mx-auto px-6 lg:px-16">
-          <div className="map-header text-center mb-14 max-w-2xl mx-auto">
+      <section ref={mapRef} className="py-20 md:py-28 bg-white">
+        <div className="mx-auto px-6 lg:px-12 max-w-[1400px]">
+          <div className="map-header text-center mb-10 max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-[2.75rem] text-[#1E2A3A] leading-tight mb-5">
               <span className="font-light">See where your ingredients </span>
               <span className="font-serif italic">come from.</span>
             </h2>
-            <p className="text-gray-500 text-[15px] leading-relaxed mb-3">
-              At Vitabae, transparency goes beyond an ingredient list.
+            <p className="text-gray-500 text-[15px] leading-relaxed">
               We work directly with partner farms so you can see where each plant is grown and who grows it.
-            </p>
-            <p className="text-gray-400 text-xs">
-              This interactive map allows you to explore the origins of our ingredients—directly at the source.
             </p>
           </div>
 
-          {/* Map + Detail side by side */}
-          <div className="map-container max-w-6xl mx-auto">
-            <div className={`grid ${selected ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 max-w-4xl mx-auto'} gap-8 transition-all duration-500`}>
+          {/* Map — full width when no selection, side-by-side when selected */}
+          <div className="map-container">
 
-              {/* LEFT — India Map */}
+            {/* No ingredient selected — full-width map */}
+            {!selected && (
               <div className="relative bg-[#1E2A3A] rounded-2xl overflow-hidden shadow-2xl">
-                <div className="relative" style={{ height: 'clamp(380px, 55vw, 560px)' }}>
+                <div className="relative" style={{ height: 'clamp(450px, 60vw, 680px)' }}>
                   <IndiaMap
                     ingredients={ingredients}
-                    activeIngredient={hoveredPin !== null ? hoveredPin : activeIngredient}
+                    activeIngredient={hoveredPin}
                     onPinClick={(i) => {
-                      setActiveIngredient(activeIngredient === i ? null : i);
+                      setActiveIngredient(i);
                       setShowVideo(false);
                     }}
                     onPinHover={(i) => setHoveredPin(i)}
                   />
 
-                  {/* Hover tooltip — farm name, ingredient, video preview */}
-                  {hoveredPin !== null && activeIngredient !== hoveredPin && (() => {
+                  {/* Hover tooltip */}
+                  {hoveredPin !== null && (() => {
                     const hovered = ingredients[hoveredPin];
                     return (
                       <div className="absolute top-6 right-6 bg-white rounded-xl shadow-xl overflow-hidden max-w-[240px] pointer-events-none animate-fade-in z-10">
-                        {/* Video / image preview */}
                         <div className="relative w-full h-32 bg-[#1E2A3A]">
-                          <img
-                            src="/images/ilona-isha.jpg"
-                            alt={hovered.name}
-                            className="w-full h-full object-cover opacity-80"
-                          />
+                          <img src="/images/ilona-isha.jpg" alt={hovered.name} className="w-full h-full object-cover opacity-80" />
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
                               <Play size={16} className="text-[#1E2A3A] ml-0.5" />
                             </div>
                           </div>
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
-                            <p className="text-[9px] text-white/70 uppercase tracking-wider">Watch farm video</p>
-                          </div>
                         </div>
-                        {/* Info */}
                         <div className="p-3.5">
-                          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#E8A598] mb-0.5">
-                            {hovered.region}
-                          </p>
+                          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#E8A598] mb-0.5">{hovered.region}</p>
                           <p className="text-sm font-semibold text-[#1E2A3A]">{hovered.name}</p>
-                          <p className="text-[11px] text-gray-400 font-serif italic mb-2">{hovered.scientific}</p>
+                          <p className="text-[11px] text-gray-400 font-serif italic mb-1">{hovered.scientific}</p>
                           <p className="text-[9px] text-gray-400">Click to explore details</p>
                         </div>
                       </div>
@@ -687,15 +747,13 @@ export default function Home() {
                       {ingredients.map((ing, i) => (
                         <button
                           key={ing.name}
-                          onClick={() => { setActiveIngredient(activeIngredient === i ? null : i); setShowVideo(false); }}
+                          onClick={() => { setActiveIngredient(i); setShowVideo(false); }}
                           onMouseEnter={() => setHoveredPin(i)}
                           onMouseLeave={() => setHoveredPin(null)}
                           className={`text-[9px] md:text-[10px] py-0.5 px-2 rounded-full transition-all duration-200 ${
-                            activeIngredient === i
-                              ? 'bg-white/15 text-white font-semibold'
-                              : hoveredPin === i
-                                ? 'bg-white/10 text-white/80'
-                                : 'text-white/40 hover:text-white/70 hover:bg-white/5'
+                            hoveredPin === i
+                              ? 'bg-white/10 text-white/80'
+                              : 'text-white/40 hover:text-white/70 hover:bg-white/5'
                           }`}
                         >
                           {ing.name}
@@ -705,95 +763,91 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            )}
 
-              {/* RIGHT — Ingredient Detail (appears on hover/click) */}
-              {selected && (
-                <div ref={ingredientDetailRef} className="bg-[#FAFAF8] rounded-2xl p-6 md:p-8 border border-gray-100 shadow-sm">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-6">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#E8A598]">
-                      Every ingredient has a source. This is ours.
-                    </p>
-                    <button
-                      onClick={() => setActiveIngredient(null)}
-                      className="text-gray-400 hover:text-[#1E2A3A] transition-colors p-1"
-                    >
-                      <X size={14} />
-                    </button>
+            {/* Ingredient selected — full-width detail panel */}
+            {selected && (
+              <div ref={ingredientDetailRef} className="bg-[#FAFAF8] rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  {/* Left — Image & map context */}
+                  <div className="relative bg-[#1E2A3A] min-h-[350px] lg:min-h-[500px]">
+                    <IndiaMap
+                      ingredients={ingredients}
+                      activeIngredient={activeIngredient}
+                      onPinClick={(i) => {
+                        setActiveIngredient(i);
+                        setShowVideo(false);
+                      }}
+                      onPinHover={(i) => setHoveredPin(i)}
+                    />
+                    {/* Ingredient label overlay */}
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <div className="flex flex-wrap gap-1.5">
+                        {ingredients.map((ing, i) => (
+                          <button
+                            key={ing.name}
+                            onClick={() => { setActiveIngredient(i); setShowVideo(false); }}
+                            className={`text-[9px] py-0.5 px-2 rounded-full transition-all duration-200 ${
+                              activeIngredient === i
+                                ? 'bg-white/20 text-white font-semibold'
+                                : 'text-white/40 hover:text-white/70 hover:bg-white/5'
+                            }`}
+                          >
+                            {ing.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Circular video / image */}
-                  <div
-                    className="relative w-48 h-48 mx-auto rounded-full overflow-hidden shadow-xl border-4 border-white cursor-pointer group mb-4"
-                    onClick={() => setShowVideo(!showVideo)}
-                  >
-                    {showVideo ? (
-                      <div className="absolute inset-0 bg-[#1E2A3A] flex flex-col items-center justify-center text-white">
-                        <Play size={24} className="text-white/70 ml-0.5 mb-2" />
-                        <p className="text-[10px] font-medium">{selected.name} Farm</p>
-                        <p className="text-[9px] text-white/40 mt-0.5">{selected.region}</p>
-                      </div>
-                    ) : (
-                      <>
-                        <img
-                          src="/images/ilona-isha.jpg"
-                          alt={`${selected.name} from ${selected.region}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                            <Play size={18} className="text-[#1E2A3A] ml-0.5" />
-                          </div>
+                  {/* Right — Detail */}
+                  <div className="p-8 md:p-10 lg:p-12">
+                    <div className="flex items-start justify-between mb-6">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#E8A598]">
+                        Every ingredient has a source. This is ours.
+                      </p>
+                      <button
+                        onClick={() => setActiveIngredient(null)}
+                        className="text-gray-400 hover:text-[#1E2A3A] transition-colors p-1"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+
+                    <h3 className="text-3xl text-[#1E2A3A] font-light mb-1">{selected.name}</h3>
+                    <p className="text-sm text-gray-400 font-serif italic mb-8">{selected.scientific}</p>
+
+                    <div className="space-y-0">
+                      {[
+                        { label: 'Source', value: selected.region },
+                        { label: 'Farming Partnership', value: selected.partnership },
+                        { label: 'Plant Part Used', value: selected.plantPart },
+                        { label: 'Traceability', value: selected.traceability },
+                      ].map((item, i) => (
+                        <div key={i} className="py-4 border-b border-gray-200 last:border-0">
+                          <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400 block mb-1">
+                            {item.label}
+                          </span>
+                          <span className="text-sm text-[#1E2A3A] leading-relaxed">{item.value}</span>
                         </div>
-                      </>
-                    )}
-                  </div>
+                      ))}
+                    </div>
 
-                  <p className="text-center text-[10px] text-gray-400 mb-1">
-                    {selected.name} from {selected.region}
-                  </p>
-                  <p className="text-center text-[10px] text-gray-400 mb-1">
-                    {showVideo ? 'Click to view image' : 'Click to play farm video'}
-                  </p>
-                  <p className="text-center text-[9px] text-gray-300 mb-6">
-                    No stock footage. No marketing staging. Just the real source.
-                  </p>
-
-                  {/* Ingredient info */}
-                  <h3 className="text-2xl text-[#1E2A3A] font-light mb-1">{selected.name}</h3>
-                  <p className="text-sm text-gray-400 font-serif italic mb-6">{selected.scientific}</p>
-
-                  <div className="space-y-0">
-                    {[
-                      { label: 'Source', value: selected.region },
-                      { label: 'Farming Partnership', value: selected.partnership },
-                      { label: 'Plant Part Used', value: selected.plantPart },
-                      { label: 'Traceability', value: selected.traceability },
-                    ].map((item, i) => (
-                      <div key={i} className="py-3.5 border-b border-gray-200 last:border-0">
-                        <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400 block mb-1">
-                          {item.label}
-                        </span>
-                        <span className="text-[13px] text-[#1E2A3A] leading-relaxed">{item.value}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6">
-                    <Button asChild className="w-full bg-transparent hover:bg-[#1E2A3A] text-[#1E2A3A] hover:text-white border border-[#1E2A3A] rounded-none py-4 text-[10px] uppercase tracking-[0.2em] font-medium group transition-colors justify-center">
-                      <Link to="/Collection">
-                        View products containing this ingredient
-                        <ArrowRight size={12} className="ml-2 transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </Button>
+                    <div className="mt-8">
+                      <Button asChild className="w-full bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none py-5 text-[10px] uppercase tracking-[0.2em] font-medium group transition-colors justify-center">
+                        <Link to="/Collection">
+                          View products with {selected.name}
+                          <ArrowRight size={12} className="ml-2 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             <p className="text-center text-[11px] text-gray-400 mt-6 italic max-w-lg mx-auto">
               All information presented is provided for transparency and educational purposes only.
-              Ingredient sourcing does not imply specific health outcomes.
             </p>
           </div>
         </div>
@@ -802,53 +856,38 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════
           INNER CIRCLE — Private Facebook Group
       ══════════════════════════════════════════════════════════ */}
-      <section ref={innerCircleRef} className="py-28 bg-[#FFFBF5]">
+      <section ref={innerCircleRef} className="py-14 md:py-20 bg-[#1E2A3A]">
         <div className="container mx-auto px-6">
-          <div className="circle-inner max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-[2.75rem] text-[#1E2A3A] leading-tight mb-5">
-              <span className="font-light">Join the Vitabae </span>
-              <span className="font-serif italic">Inner Circle.</span>
+          <div className="circle-inner max-w-3xl mx-auto text-center">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-3">Join The Inner Circle</p>
+            <h2 className="text-2xl md:text-3xl text-white leading-tight mb-4">
+              <span className="font-light">Get expert wellness tips, early access to new formulas, </span>
+              <span className="font-serif italic">and exclusive community benefits.</span>
             </h2>
-            <p className="text-gray-500 text-[15px] leading-relaxed mb-8">
-              A private Facebook group where women come together to share experiences, ask questions, and support one another through different stages of life.
-              This is a respectful, moderated space designed for connection, conversation, and mutual support—without judgment, pressure, or medical advice.
-            </p>
 
-            <div className="text-left max-w-lg mx-auto mb-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-400 mb-4">What this space is about</p>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3 text-sm text-[#1E2A3A]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#E8A598] mt-1.5 flex-shrink-0" />
-                  Shared experiences across different life stages
-                </li>
-                <li className="flex items-start gap-3 text-sm text-[#1E2A3A]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#E8A598] mt-1.5 flex-shrink-0" />
-                  Open, supportive conversations in a trusted environment
-                </li>
-                <li className="flex items-start gap-3 text-sm text-[#1E2A3A]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#E8A598] mt-1.5 flex-shrink-0" />
-                  Learning from one another's perspectives and journeys
-                </li>
-              </ul>
-              <p className="text-xs text-gray-400 mt-4 leading-relaxed">
-                Vitabae is present to listen, moderate, and share brand updates—but the conversation belongs to the community.
-              </p>
+            {/* CTA to Facebook group */}
+            <div className="mt-8 mb-8">
+              <Button asChild className="bg-[#E8A598] hover:bg-[#d4917f] text-white rounded-none px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group">
+                <a href="https://www.facebook.com/groups/235593375864742" target="_blank" rel="noopener noreferrer">
+                  Join Our Private Community
+                  <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
+                </a>
+              </Button>
             </div>
 
-            <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none px-10 py-7 text-[11px] uppercase tracking-[0.2em] font-medium group">
-              <a href="https://www.facebook.com/groups/235593375864742" target="_blank" rel="noopener noreferrer">
-                Request to Join the Private Facebook Group
-                <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
-              </a>
-            </Button>
-
-            <p className="text-[11px] text-gray-400 mt-4 italic">
-              This group is intended for peer discussion and support only. It does not provide medical or healthcare advice.
-            </p>
-
-            <p className="text-sm text-gray-400 mt-8 font-serif italic">
-              A private space to connect—because no one should navigate life stages alone.
-            </p>
+            {/* Perks */}
+            <div className="flex flex-wrap justify-center gap-8">
+              {[
+                { label: 'Exclusive Perks' },
+                { label: 'Expert Content' },
+                { label: 'Member Events' },
+              ].map((perk, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-[#E8A598]" />
+                  <span className="text-xs text-white/70 font-medium">{perk.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
