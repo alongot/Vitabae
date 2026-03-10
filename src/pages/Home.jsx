@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Leaf, Shield, MapPin, CheckCircle2, ChevronDown, Play, X } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Leaf, Shield, MapPin, CheckCircle2, ChevronDown, Play, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import TiltBottle from '@/components/TiltBottle';
 import IndiaMap from '@/components/IndiaMap';
@@ -150,14 +150,22 @@ export default function Home() {
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [hoveredStage, setHoveredStage] = useState(null);
-  const [showAllStages, setShowAllStages] = useState(false);
   const stageVideoRefs = useRef([]);
+  const stageScrollRef = useRef(null);
+
+  const scrollStages = (direction) => {
+    const container = stageScrollRef.current;
+    if (!container) return;
+    const cardWidth = container.querySelector('.stage-card')?.offsetWidth || 340;
+    container.scrollBy({ left: direction * (cardWidth + 20), behavior: 'smooth' });
+  };
 
   /* ── Quiz questions ── */
   const quizQuestions = [
     {
       id: 1,
       question: 'Which best describes your current life stage?',
+      cols: 2,
       options: [
         { text: 'Reproductive age (18–35)', value: 'reproductive', description: 'Everyday wellness & cycle support' },
         { text: 'Preparing for pregnancy', value: 'trying-to-conceive', description: 'Optimizing health before conception' },
@@ -170,7 +178,8 @@ export default function Home() {
     },
     {
       id: 2,
-      question: 'What\'s your primary wellness goal?',
+      question: 'What matters most to you right now?',
+      cols: 3,
       options: [
         { text: 'Energy & vitality', value: 'energy' },
         { text: 'Stress & mood balance', value: 'stress' },
@@ -183,19 +192,21 @@ export default function Home() {
     {
       id: 3,
       question: 'How would you describe your stress levels?',
+      cols: 3,
       options: [
-        { text: 'High — stressed most days', value: 'high' },
-        { text: 'Moderate — occasional stress', value: 'moderate' },
-        { text: 'Low — I manage stress well', value: 'low' },
+        { text: 'High', value: 'high', description: 'Stressed most days' },
+        { text: 'Moderate', value: 'moderate', description: 'Occasional stress' },
+        { text: 'Low', value: 'low', description: 'I manage stress well' },
       ],
     },
     {
       id: 4,
-      question: 'Do you experience occasional digestive discomfort?',
+      question: 'How is your digestion lately?',
+      cols: 3,
       options: [
-        { text: 'Yes, frequently', value: 'frequent' },
-        { text: 'Sometimes', value: 'sometimes' },
-        { text: 'Rarely or never', value: 'rarely' },
+        { text: 'Needs help', value: 'frequent', description: 'Frequent discomfort' },
+        { text: 'So-so', value: 'sometimes', description: 'Occasional issues' },
+        { text: 'Great', value: 'rarely', description: 'Rarely any issues' },
       ],
     },
   ];
@@ -221,8 +232,8 @@ export default function Home() {
       const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
       heroTl
         .fromTo('.hero-title-line',
-          { y: 120, opacity: 0, clipPath: 'inset(100% 0 0 0)' },
-          { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0)', duration: 1.2, stagger: 0.15 }
+          { y: 120, opacity: 0, clipPath: 'inset(100% 0 -10% 0)' },
+          { y: 0, opacity: 1, clipPath: 'inset(0% 0 -10% 0)', duration: 1.2, stagger: 0.15 }
         )
         .fromTo('.hero-subtitle',
           { y: 40, opacity: 0 },
@@ -334,17 +345,17 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════
           SECTION 1 — HERO  (Is this for me?)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center bg-gradient-to-b from-[#FFFBF5] to-[#FAF5EE] overflow-hidden">
+      <section ref={heroRef} className="relative min-h-[85vh] flex items-center bg-gradient-to-b from-[#FFFBF5] to-[#FAF5EE] overflow-x-hidden">
         <div className="container mx-auto px-6 lg:px-16 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
             {/* Left — Copy */}
             <div className="hero-content relative z-10 max-w-xl">
-              <div className="overflow-visible">
-                <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] text-[#1E2A3A] leading-[1.15] tracking-tight pb-2">
+              <div>
+                <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] text-[#1E2A3A] leading-[1.2] tracking-tight pb-1">
                   <span className="hero-title-line block font-light">Dietary supplements</span>
                   <span className="hero-title-line block font-light">designed around</span>
-                  <span className="hero-title-line block font-serif italic">your life stages.</span>
+                  <span className="hero-title-line block font-serif italic pb-2">your life stages.</span>
                 </h1>
               </div>
 
@@ -435,8 +446,8 @@ export default function Home() {
           SECTION 3 — LIFE-STAGE APPROACH  (Where do I fit?)
       ══════════════════════════════════════════════════════════ */}
       <section ref={stagesRef} className="py-20 md:py-28 bg-white">
-        <div className="mx-auto px-6 lg:px-12 max-w-[1400px]">
-          <div className="stages-header text-center mb-12 max-w-2xl mx-auto">
+        <div className="w-full px-0">
+          <div className="stages-header text-center mb-12 max-w-2xl mx-auto px-6">
             <h2 className="text-3xl md:text-[2.75rem] text-[#1E2A3A] leading-tight mb-5">
               <span className="font-light">Because life doesn't stay the same</span>
               <br />
@@ -448,68 +459,69 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Life stage cards — show 4 initially, expand to all */}
-          <div className="stage-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(showAllStages ? lifeStages : lifeStages.slice(0, 4)).map((stage, i) => (
-              <Link key={stage.label} to={stage.path} className="stage-card group block">
-                <div className="relative bg-[#FAFAF8] rounded-xl border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-lg h-full flex flex-col overflow-hidden">
-                  {/* Product image + video hover */}
-                  <div
-                    className="relative aspect-[4/5] overflow-hidden"
-                    style={{ backgroundColor: `${stage.color}15` }}
-                    onMouseEnter={() => setHoveredStage(i)}
-                    onMouseLeave={() => setHoveredStage(null)}
-                  >
-                    <img
-                      src="/images/ilona-isha.jpg"
-                      alt={stage.label}
-                      className="w-full h-full object-cover mix-blend-multiply opacity-85 group-hover:scale-110 transition-transform duration-700"
-                    />
-                    <video
-                      ref={el => stageVideoRefs.current[i] = el}
-                      src="/videos/bottle-spin.mp4"
-                      muted
-                      loop
-                      playsInline
-                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${hoveredStage === i ? 'opacity-100' : 'opacity-0'}`}
-                    />
-                  </div>
-                  {/* Text content */}
-                  <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="text-lg font-semibold text-[#1E2A3A] mb-2 leading-tight">{stage.label}</h3>
-                    <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-grow">{stage.desc}</p>
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#1E2A3A] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                      View Collection <ArrowRight size={11} className="transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+          {/* Navigation arrows */}
+          <div className="flex items-center justify-end gap-2 mb-5 px-6 lg:px-12">
+            <button
+              onClick={() => scrollStages(-1)}
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#1E2A3A] hover:text-white hover:border-[#1E2A3A] transition-all duration-300"
+              aria-label="Previous"
+            >
+              <ArrowLeft size={16} />
+            </button>
+            <button
+              onClick={() => scrollStages(1)}
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#1E2A3A] hover:text-white hover:border-[#1E2A3A] transition-all duration-300"
+              aria-label="Next"
+            >
+              <ArrowRight size={16} />
+            </button>
           </div>
 
-          {/* View more / View less button */}
-          {!showAllStages && (
-            <div className="text-center mt-8">
-              <button
-                onClick={() => setShowAllStages(true)}
-                className="inline-flex items-center gap-2 px-8 py-3 border border-[#1E2A3A] text-[#1E2A3A] rounded-full text-sm font-semibold tracking-wide hover:bg-[#1E2A3A] hover:text-white transition-all duration-300"
-              >
-                View All Stages <ArrowRight size={14} />
-              </button>
+          {/* Auto-rolling product cards with manual scroll */}
+          <div ref={stageScrollRef} className="stage-cards-grid overflow-hidden w-full">
+            <div className="flex gap-5 animate-stage-scroll hover:[animation-play-state:paused] w-max">
+              {[...lifeStages, ...lifeStages].map((stage, i) => {
+                const realIndex = i % lifeStages.length;
+                return (
+                  <Link key={`${stage.label}-${i}`} to={stage.path} className="stage-card group block flex-shrink-0 w-[80vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw]">
+                    <div className="relative bg-[#FAFAF8] rounded-xl border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-lg h-full flex flex-col overflow-hidden">
+                      {/* Product image + video hover */}
+                      <div
+                        className="relative aspect-[4/5] overflow-hidden"
+                        style={{ backgroundColor: `${stage.color}15` }}
+                        onMouseEnter={() => setHoveredStage(realIndex)}
+                        onMouseLeave={() => setHoveredStage(null)}
+                      >
+                        <img
+                          src="/images/ilona-isha.jpg"
+                          alt={stage.label}
+                          className="w-full h-full object-cover mix-blend-multiply opacity-85 group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <video
+                          ref={el => { if (i < lifeStages.length) stageVideoRefs.current[realIndex] = el; }}
+                          src="/videos/bottle-spin.mp4"
+                          muted
+                          loop
+                          playsInline
+                          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${hoveredStage === realIndex ? 'opacity-100' : 'opacity-0'}`}
+                        />
+                      </div>
+                      {/* Text content */}
+                      <div className="p-5 flex flex-col flex-grow">
+                        <h3 className="text-lg font-semibold text-[#1E2A3A] mb-2 leading-tight">{stage.label}</h3>
+                        <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-grow">{stage.desc}</p>
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#1E2A3A] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                          View Collection <ArrowRight size={11} className="transition-transform group-hover:translate-x-0.5" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
-          )}
-          {showAllStages && (
-            <div className="text-center mt-8">
-              <button
-                onClick={() => setShowAllStages(false)}
-                className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-[#1E2A3A] transition-colors"
-              >
-                Show Less
-              </button>
-            </div>
-          )}
+          </div>
 
-          <p className="text-center text-[11px] text-gray-400 mt-6 italic">
+          <p className="text-center text-[11px] text-gray-400 mt-6 italic px-6">
             Selection is based on life stage categories and is not intended as medical advice.
           </p>
         </div>
@@ -522,46 +534,36 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="quiz-inner max-w-4xl mx-auto">
 
-            {/* Quiz not started — card layout */}
+            {/* Quiz not started */}
             {quizStep === 0 && (
-              <div className="relative bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                <div className="grid md:grid-cols-2">
-                  {/* Left — visual side */}
-                  <div className="relative bg-gradient-to-br from-[#1E2A3A] to-[#2d4a5a] p-10 md:p-14 flex flex-col justify-center text-white">
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-4 relative z-10">Personalized Wellness</p>
-                    <h2 className="text-3xl md:text-4xl leading-tight mb-5 relative z-10">
-                      <span className="font-light">Find Your</span>
-                      <br />
-                      <span className="font-serif italic">Personalized Formula</span>
-                    </h2>
-                    <p className="text-white/60 text-sm leading-relaxed relative z-10">
-                      Smart recommendations based on your specific age, lifestyle, and wellness goals. Takes less than 2 minutes.
-                    </p>
-                    {/* Decorative dots */}
-                    <div className="flex gap-2 mt-8 relative z-10">
-                      {[...Array(3)].map((_, i) => (
-                        <div key={i} className="w-2 h-2 rounded-full bg-[#E8A598]" style={{ opacity: 1 - i * 0.3 }} />
-                      ))}
+              <div className="text-center">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-4">Personalized Wellness</p>
+                <h2 className="text-3xl md:text-5xl text-[#1E2A3A] leading-tight mb-5">
+                  <span className="font-light">Find Your</span>{' '}
+                  <span className="font-serif italic">Personalized Formula</span>
+                </h2>
+                <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-lg mx-auto mb-10">
+                  Smart recommendations based on your specific age, lifestyle, and wellness goals. Takes less than 2 minutes.
+                </p>
+
+                {/* Step preview */}
+                <div className="flex items-center justify-center gap-3 mb-10">
+                  {['Life Stage', 'Goals', 'Stress', 'Digestion'].map((step, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-[#1E2A3A]/10 flex items-center justify-center text-[10px] font-bold text-[#1E2A3A]">{i + 1}</div>
+                        <span className="text-[11px] text-gray-400 font-medium hidden sm:block">{step}</span>
+                      </div>
+                      {i < 3 && <div className="w-8 h-px bg-gray-200" />}
                     </div>
-                  </div>
-                  {/* Right — CTA side */}
-                  <div className="p-10 md:p-14 flex flex-col justify-center items-center text-center">
-                    <div className="w-16 h-16 rounded-full bg-[#FFFBF5] border border-gray-100 flex items-center justify-center mb-6">
-                      <Leaf size={24} className="text-[#E8A598]" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-[#1E2A3A] mb-3">Discover What's Right For You</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-xs">
-                      Answer a few quick questions about your life stage and goals — we'll match you with the right formulas. No accounts, no commitments.
-                    </p>
-                    <Button onClick={() => setQuizStep(1)} className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group w-full max-w-xs">
-                      Start Discovery Quiz
-                      <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                    <p className="text-[10px] text-gray-400 mt-4">No sign-up required</p>
-                  </div>
+                  ))}
                 </div>
+
+                <Button onClick={() => setQuizStep(1)} className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-12 py-7 text-[12px] uppercase tracking-[0.2em] font-medium group">
+                  Start Discovery Quiz
+                  <ArrowRight size={15} className="ml-2 transition-transform group-hover:translate-x-1" />
+                </Button>
+                <p className="text-[10px] text-gray-400 mt-4">No sign-up required</p>
               </div>
             )}
 
@@ -570,53 +572,62 @@ export default function Home() {
               const q = quizQuestions[quizStep - 1];
               return (
                 <div className="animate-fade-in">
-                  {/* Progress bar */}
-                  <div className="w-full h-1 bg-gray-200 rounded-full mb-10">
-                    <div
-                      className="h-full bg-[#1E2A3A] rounded-full transition-all duration-500"
-                      style={{ width: `${(quizStep / quizQuestions.length) * 100}%` }}
-                    />
+                  {/* Step indicators */}
+                  <div className="flex items-center justify-center gap-2 mb-8">
+                    {quizQuestions.map((_, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300 ${
+                          i + 1 < quizStep ? 'bg-[#C8D6B9] text-white' :
+                          i + 1 === quizStep ? 'bg-[#1E2A3A] text-white scale-110' :
+                          'bg-gray-100 text-gray-400'
+                        }`}>
+                          {i + 1 < quizStep ? <CheckCircle2 size={14} /> : i + 1}
+                        </div>
+                        {i < quizQuestions.length - 1 && (
+                          <div className={`w-10 h-0.5 rounded transition-colors duration-300 ${i + 1 < quizStep ? 'bg-[#C8D6B9]' : 'bg-gray-100'}`} />
+                        )}
+                      </div>
+                    ))}
                   </div>
 
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-3 text-center">
-                    Question {quizStep} of {quizQuestions.length}
-                  </p>
-                  <h3 className="text-2xl md:text-3xl text-[#1E2A3A] text-center mb-10 font-light">
+                  {/* Back button */}
+                  {quizStep > 1 && (
+                    <button
+                      onClick={() => setQuizStep(quizStep - 1)}
+                      className="text-[10px] text-gray-400 hover:text-[#1E2A3A] uppercase tracking-wider transition-colors flex items-center gap-1 mb-6"
+                    >
+                      <ArrowRight size={10} className="rotate-180" /> Back
+                    </button>
+                  )}
+
+                  <h3 className="text-2xl md:text-4xl text-[#1E2A3A] text-center mb-10 font-light">
                     {q.question}
                   </h3>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className={`grid gap-3 max-w-2xl mx-auto ${
+                    q.cols === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'
+                  }`}>
                     {q.options.map((opt) => (
                       <button
                         key={opt.value}
                         onClick={() => {
                           const newAnswers = { ...quizAnswers, [q.id]: opt.value };
                           setQuizAnswers(newAnswers);
-                          // Auto-advance after selection
-                          setTimeout(() => setQuizStep(quizStep + 1), 300);
+                          setTimeout(() => setQuizStep(quizStep + 1), 400);
                         }}
-                        className={`text-left p-5 border rounded-xl transition-all duration-300 hover:border-[#1E2A3A] hover:shadow-md ${
+                        className={`text-center p-5 border-2 rounded-2xl transition-all duration-300 hover:border-[#1E2A3A] hover:shadow-lg hover:-translate-y-1 ${
                           quizAnswers[q.id] === opt.value
-                            ? 'border-[#1E2A3A] bg-[#1E2A3A]/5 shadow-md'
-                            : 'border-gray-200 bg-white'
+                            ? 'border-[#1E2A3A] bg-[#1E2A3A]/5 shadow-lg -translate-y-1'
+                            : 'border-gray-100 bg-white'
                         }`}
                       >
-                        <span className="text-sm font-medium text-[#1E2A3A] block">{opt.text}</span>
+                        <span className="text-sm font-semibold text-[#1E2A3A] block">{opt.text}</span>
                         {opt.description && (
-                          <span className="text-xs text-gray-400 mt-1 block">{opt.description}</span>
+                          <span className="text-[11px] text-gray-400 mt-1 block leading-relaxed">{opt.description}</span>
                         )}
                       </button>
                     ))}
                   </div>
-
-                  {quizStep > 1 && (
-                    <button
-                      onClick={() => setQuizStep(quizStep - 1)}
-                      className="mt-6 text-xs text-gray-400 hover:text-[#1E2A3A] uppercase tracking-wider transition-colors mx-auto block"
-                    >
-                      &larr; Back
-                    </button>
-                  )}
                 </div>
               );
             })()}
@@ -637,28 +648,38 @@ export default function Home() {
 
               return (
                 <div className="animate-fade-in text-center">
-                  <div className="w-16 h-16 rounded-full bg-[#C8D6B9] flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle2 size={28} className="text-white" />
+                  {/* Completed steps */}
+                  <div className="flex items-center justify-center gap-2 mb-8">
+                    {quizQuestions.map((_, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-[#C8D6B9] text-white flex items-center justify-center">
+                          <CheckCircle2 size={14} />
+                        </div>
+                        {i < quizQuestions.length - 1 && <div className="w-10 h-0.5 rounded bg-[#C8D6B9]" />}
+                      </div>
+                    ))}
                   </div>
-                  <h3 className="text-2xl md:text-3xl text-[#1E2A3A] mb-3">
-                    <span className="font-light">Your stage: </span>
+
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-3">Your Results</p>
+                  <h3 className="text-3xl md:text-4xl text-[#1E2A3A] mb-3">
+                    <span className="font-light">We recommend: </span>
                     <span className="font-serif italic">{result.stage}</span>
                   </h3>
-                  <p className="text-gray-500 text-sm mb-8 max-w-md mx-auto leading-relaxed">
+                  <p className="text-gray-500 text-sm mb-10 max-w-md mx-auto leading-relaxed">
                     Based on your answers, here are ingredients commonly explored during this life stage.
                   </p>
 
-                  <div className="grid grid-cols-3 gap-4 mb-10 max-w-lg mx-auto">
+                  <div className="grid grid-cols-3 gap-5 mb-10 max-w-lg mx-auto">
                     {result.ingredients.map((ing) => (
-                      <div key={ing} className="bg-white border border-gray-100 rounded-xl p-4 hover:shadow-md transition-shadow">
-                        <img src="/images/ilona-isha.jpg" alt={ing} className="w-full aspect-square object-cover rounded-lg mb-3 mix-blend-multiply bg-[#EBEAE6]" />
-                        <p className="text-xs font-semibold text-[#1E2A3A]">{ing}</p>
+                      <div key={ing} className="bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                        <img src="/images/ilona-isha.jpg" alt={ing} className="w-full aspect-square object-cover rounded-xl mb-3 mix-blend-multiply bg-[#EBEAE6]" />
+                        <p className="text-sm font-semibold text-[#1E2A3A]">{ing}</p>
                       </div>
                     ))}
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium">
+                    <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium">
                       <Link to={result.path}>
                         View {result.stage} Collection
                       </Link>
@@ -666,14 +687,14 @@ export default function Home() {
                     <Button
                       variant="outline"
                       onClick={() => { setQuizStep(0); setQuizAnswers({}); }}
-                      className="rounded-none px-8 py-6 text-[11px] uppercase tracking-[0.2em] border-gray-300 text-gray-500 hover:text-[#1E2A3A]"
+                      className="rounded-full px-8 py-6 text-[11px] uppercase tracking-[0.2em] border-gray-200 text-gray-500 hover:text-[#1E2A3A] hover:border-[#1E2A3A]"
                     >
                       Retake Quiz
                     </Button>
                   </div>
 
-                  <p className="text-[10px] text-gray-400 mt-6 italic max-w-sm mx-auto">
-                    These suggestions are for educational purposes only and are not intended as medical advice. Consult your healthcare provider before starting any supplement.
+                  <p className="text-[10px] text-gray-300 mt-8 italic max-w-sm mx-auto">
+                    These suggestions are for educational purposes only and are not intended as medical advice.
                   </p>
                 </div>
               );
@@ -687,25 +708,29 @@ export default function Home() {
           SECTION 5 & 6 — MAP + INGREDIENT DETAIL
           (Show me — don't tell me / Prove it)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={mapRef} className="py-20 md:py-28 bg-white">
-        <div className="mx-auto px-6 lg:px-12 max-w-[1400px]">
-          <div className="map-header text-center mb-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-[2.75rem] text-[#1E2A3A] leading-tight mb-5">
-              <span className="font-light">See where your ingredients </span>
-              <span className="font-serif italic">come from.</span>
-            </h2>
-            <p className="text-gray-500 text-[15px] leading-relaxed">
-              We work directly with partner farms so you can see where each plant is grown and who grows it.
-            </p>
-          </div>
+      <section ref={mapRef} className="bg-white">
+        <div className="w-full">
 
           {/* Map — full width when no selection, side-by-side when selected */}
           <div className="map-container">
 
             {/* No ingredient selected — full-width map */}
             {!selected && (
-              <div className="relative bg-[#1E2A3A] rounded-2xl overflow-hidden shadow-2xl">
-                <div className="relative" style={{ height: 'clamp(450px, 60vw, 680px)' }}>
+              <div className="relative bg-[#FAFAF8] overflow-hidden w-full">
+                {/* Header — above the map */}
+                <div className="pt-14 md:pt-20 pb-8 px-6 text-center">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-4">Sourced With Intention</p>
+                  <h2 className="text-3xl md:text-5xl text-[#1E2A3A] leading-tight mb-4">
+                    <span className="font-light">See where your ingredients </span>
+                    <span className="font-serif italic">come from.</span>
+                  </h2>
+                  <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-lg mx-auto">
+                    We work directly with partner farms so you can see where each plant is grown and who grows it.
+                  </p>
+                </div>
+
+                {/* Map */}
+                <div className="relative" style={{ height: 'clamp(400px, 75vh, 900px)' }}>
                   <IndiaMap
                     ingredients={ingredients}
                     activeIngredient={hoveredPin}
@@ -741,8 +766,8 @@ export default function Home() {
                 </div>
 
                 {/* Bottom ingredient list */}
-                <div className="px-5 md:px-8 pb-5 md:pb-6">
-                  <div className="border-t border-white/10 pt-4">
+                <div className="px-5 md:px-8 pb-3 md:pb-4">
+                  <div className="border-t border-gray-200 pt-4">
                     <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-1">
                       {ingredients.map((ing, i) => (
                         <button
@@ -752,8 +777,8 @@ export default function Home() {
                           onMouseLeave={() => setHoveredPin(null)}
                           className={`text-[9px] md:text-[10px] py-0.5 px-2 rounded-full transition-all duration-200 ${
                             hoveredPin === i
-                              ? 'bg-white/10 text-white/80'
-                              : 'text-white/40 hover:text-white/70 hover:bg-white/5'
+                              ? 'bg-[#1E2A3A]/10 text-[#1E2A3A]'
+                              : 'text-gray-400 hover:text-[#1E2A3A] hover:bg-gray-100'
                           }`}
                         >
                           {ing.name}
@@ -762,15 +787,18 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                <p className="text-center text-[10px] text-gray-300 pb-5 italic px-6">
+                  All information presented is provided for transparency and educational purposes only.
+                </p>
               </div>
             )}
 
             {/* Ingredient selected — full-width detail panel */}
             {selected && (
-              <div ref={ingredientDetailRef} className="bg-[#FAFAF8] rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              <div ref={ingredientDetailRef} className="bg-[#FAFAF8] overflow-hidden w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* Left — Image & map context */}
-                  <div className="relative bg-[#1E2A3A] min-h-[350px] lg:min-h-[500px]">
+                  <div className="relative bg-[#F0F4ED] min-h-[350px] sm:min-h-[450px] lg:min-h-[80vh]">
                     <IndiaMap
                       ingredients={ingredients}
                       activeIngredient={activeIngredient}
@@ -789,8 +817,8 @@ export default function Home() {
                             onClick={() => { setActiveIngredient(i); setShowVideo(false); }}
                             className={`text-[9px] py-0.5 px-2 rounded-full transition-all duration-200 ${
                               activeIngredient === i
-                                ? 'bg-white/20 text-white font-semibold'
-                                : 'text-white/40 hover:text-white/70 hover:bg-white/5'
+                                ? 'bg-[#1E2A3A]/15 text-[#1E2A3A] font-semibold'
+                                : 'text-gray-400 hover:text-[#1E2A3A] hover:bg-gray-200/50'
                             }`}
                           >
                             {ing.name}
@@ -801,7 +829,7 @@ export default function Home() {
                   </div>
 
                   {/* Right — Detail */}
-                  <div className="p-8 md:p-10 lg:p-12">
+                  <div className="p-6 sm:p-8 md:p-10 lg:p-12">
                     <div className="flex items-start justify-between mb-6">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#E8A598]">
                         Every ingredient has a source. This is ours.
@@ -846,9 +874,6 @@ export default function Home() {
               </div>
             )}
 
-            <p className="text-center text-[11px] text-gray-400 mt-6 italic max-w-lg mx-auto">
-              All information presented is provided for transparency and educational purposes only.
-            </p>
           </div>
         </div>
       </section>
@@ -856,37 +881,37 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════
           INNER CIRCLE — Private Facebook Group
       ══════════════════════════════════════════════════════════ */}
-      <section ref={innerCircleRef} className="py-14 md:py-20 bg-[#1E2A3A]">
+      <section ref={innerCircleRef} className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-6">
-          <div className="circle-inner max-w-3xl mx-auto text-center">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-3">Join The Inner Circle</p>
-            <h2 className="text-2xl md:text-3xl text-white leading-tight mb-4">
-              <span className="font-light">Get expert wellness tips, early access to new formulas, </span>
-              <span className="font-serif italic">and exclusive community benefits.</span>
-            </h2>
+          <div className="circle-inner max-w-4xl mx-auto">
+            <div className="bg-[#FAFAF8] rounded-2xl border border-gray-100 p-10 md:p-14 text-center">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-4">Join The Inner Circle</p>
+              <h2 className="text-2xl md:text-4xl text-[#1E2A3A] leading-tight mb-4 max-w-2xl mx-auto">
+                <span className="font-light">Get expert wellness tips, early access to new formulas, </span>
+                <span className="font-serif italic">and exclusive community benefits.</span>
+              </h2>
 
-            {/* CTA to Facebook group */}
-            <div className="mt-8 mb-8">
-              <Button asChild className="bg-[#E8A598] hover:bg-[#d4917f] text-white rounded-none px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group">
+              {/* Perks as cards */}
+              <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mt-8 mb-10">
+                {[
+                  { label: 'Exclusive Perks', icon: <Shield size={20} /> },
+                  { label: 'Expert Content', icon: <Leaf size={20} /> },
+                  { label: 'Member Events', icon: <CheckCircle2 size={20} /> },
+                ].map((perk, i) => (
+                  <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col items-center gap-2">
+                    <div className="text-[#E8A598]">{perk.icon}</div>
+                    <span className="text-[11px] text-[#1E2A3A] font-semibold">{perk.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group">
                 <a href="https://www.facebook.com/groups/235593375864742" target="_blank" rel="noopener noreferrer">
                   Join Our Private Community
                   <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
                 </a>
               </Button>
-            </div>
-
-            {/* Perks */}
-            <div className="flex flex-wrap justify-center gap-8">
-              {[
-                { label: 'Exclusive Perks' },
-                { label: 'Expert Content' },
-                { label: 'Member Events' },
-              ].map((perk, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-[#E8A598]" />
-                  <span className="text-xs text-white/70 font-medium">{perk.label}</span>
-                </div>
-              ))}
             </div>
           </div>
         </div>

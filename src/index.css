@@ -365,6 +365,16 @@ html.lenis, html.lenis body {
   animation: marquee 20s linear infinite;
 }
 
+/* Life stage cards rolling scroll */
+@keyframes stage-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-stage-scroll {
+  animation: stage-scroll 40s linear infinite;
+}
+
 /* Disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -58,13 +58,13 @@ function IndiaMap({ ingredients, activeIngredient, onPinClick, onPinHover }) {
           <path
             key={location.id}
             d={location.path}
-            fill={isHighlighted ? '#3d6580' : '#253d50'}
-            stroke="#1a3040"
+            fill={isHighlighted ? '#d4ddd0' : '#e8ece5'}
+            stroke="#c8d1c4"
             strokeWidth="0.6"
             strokeLinejoin="round"
             style={{ transition: 'fill 0.3s ease' }}
-            onMouseEnter={(e) => { if (!isHighlighted) e.target.style.fill = '#2e4f65'; }}
-            onMouseLeave={(e) => { if (!isHighlighted) e.target.style.fill = '#253d50'; }}
+            onMouseEnter={(e) => { if (!isHighlighted) e.target.style.fill = '#dce3d8'; }}
+            onMouseLeave={(e) => { if (!isHighlighted) e.target.style.fill = '#e8ece5'; }}
           >
             <title>{location.name}</title>
           </path>
@@ -97,7 +97,7 @@ function IndiaMap({ ingredients, activeIngredient, onPinClick, onPinHover }) {
             <circle
               cx={pos.x} cy={pos.y}
               r={isActive ? 9 : 6}
-              fill={isActive ? `${ing.color}30` : 'rgba(255,255,255,0.08)'}
+              fill={isActive ? `${ing.color}30` : 'rgba(30,42,58,0.06)'}
               style={{ transition: 'all 0.3s ease' }}
             />
 
@@ -105,8 +105,8 @@ function IndiaMap({ ingredients, activeIngredient, onPinClick, onPinHover }) {
             <circle
               cx={pos.x} cy={pos.y}
               r={isActive ? 5.5 : 3.5}
-              fill={isActive ? ing.color : 'rgba(255,255,255,0.75)'}
-              stroke="white"
+              fill={isActive ? ing.color : '#1E2A3A'}
+              stroke="#FAFAF8"
               strokeWidth={isActive ? 1.5 : 0.6}
               style={{
                 transition: 'all 0.3s ease',
