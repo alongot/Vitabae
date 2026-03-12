@@ -375,6 +375,26 @@ html.lenis, html.lenis body {
   animation: stage-scroll 40s linear infinite;
 }
 
+/* Life stages spinning orbit */
+@keyframes spin-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counter-spin-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.animate-spin-orbit {
+  animation: spin-orbit 30s linear infinite;
+}
+
+.animate-counter-spin-orbit {
+  animation: counter-spin-orbit 30s linear infinite;
+  display: inline-block;
+}
+
 /* Disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
