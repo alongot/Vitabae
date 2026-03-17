@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -278,8 +279,7 @@ const STEP_MOTIONS = {
 /* ══════════════════════════════════════════════════════════
    STEP DETAIL — inline, scroll-locked, wheel swaps steps
 ══════════════════════════════════════════════════════════ */
-const StepDetail = React.forwardRef(function StepDetail({ stepNum, onChangeStep, onClose }, ref) {
-  const sectionRef = useRef(null);
+function StepDetail({ stepNum, onChangeStep, onClose }) {
   const step = STEPS[stepNum - 1];
   const detail = STEP_DETAILS[stepNum];
   const StepIcon = step.icon;
@@ -304,15 +304,10 @@ const StepDetail = React.forwardRef(function StepDetail({ stepNum, onChangeStep,
     spin: 'detailSpin 6s linear infinite',
   }[motion] || 'detailPulse 1.2s ease-in-out infinite';
 
-  // Lock scroll immediately + capture wheel to advance steps
+  // Stop Lenis + capture wheel/touch/keyboard to advance steps
   useEffect(() => {
-    // Scroll to section instantly, then lock
-    const el = sectionRef.current;
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: y, behavior: 'instant' });
-    }
-    document.body.style.overflow = 'hidden';
+    // Pause Lenis smooth scroll
+    if (window.lenis) window.lenis.stop();
 
     let cooldown = false;
     const handleWheel = (e) => {
@@ -323,44 +318,67 @@ const StepDetail = React.forwardRef(function StepDetail({ stepNum, onChangeStep,
 
       if (e.deltaY > 0) {
         if (stepNum < 22) onChangeStep(stepNum + 1);
-        else { document.body.style.overflow = ''; onClose(); }
+        else onClose();
       } else {
         if (stepNum > 1) onChangeStep(stepNum - 1);
+        else onClose();
       }
 
       setTimeout(() => { cooldown = false; }, 400);
     };
 
-    const handleTouch = (e) => e.preventDefault();
+    let touchStartY = 0;
+    const handleTouchStart = (e) => { touchStartY = e.touches[0].clientY; };
+    const handleTouchMove = (e) => {
+      e.preventDefault();
+      const deltaY = touchStartY - e.touches[0].clientY;
+      if (Math.abs(deltaY) < 30) return;
+      if (cooldown) return;
+      cooldown = true;
+      touchStartY = e.touches[0].clientY;
+
+      if (deltaY > 0) {
+        if (stepNum < 22) onChangeStep(stepNum + 1);
+        else onClose();
+      } else {
+        if (stepNum > 1) onChangeStep(stepNum - 1);
+        else onClose();
+      }
+      setTimeout(() => { cooldown = false; }, 400);
+    };
+
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowDown' || e.key === ' ') {
         e.preventDefault();
         if (stepNum < 22) onChangeStep(stepNum + 1);
-        else { document.body.style.overflow = ''; onClose(); }
+        else onClose();
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         if (stepNum > 1) onChangeStep(stepNum - 1);
+        else onClose();
       } else if (e.key === 'Escape') {
-        document.body.style.overflow = '';
         onClose();
       }
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchmove', handleTouch, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.body.style.overflow = '';
+      // Resume Lenis
+      if (window.lenis) window.lenis.start();
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchmove', handleTouch);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [stepNum, onChangeStep, onClose]);
 
   if (!detail) return null;
 
-  return (
-    <section ref={(node) => { sectionRef.current = node; if (ref) ref.current = node; }} className="bg-white border-t border-gray-100">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
       <style>{`
         @keyframes detailPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
         @keyframes detailShake { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(4deg)} 75%{transform:rotate(-4deg)} }
@@ -402,7 +420,7 @@ const StepDetail = React.forwardRef(function StepDetail({ stepNum, onChangeStep,
         </div>
       </div>
 
-      {/* Content — visual left, description right, compact, no wasted space */}
+      {/* Content — visual left, description right */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-14">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-16 items-start">
 
@@ -461,18 +479,31 @@ const StepDetail = React.forwardRef(function StepDetail({ stepNum, onChangeStep,
         </div>
       </div>
 
-      {/* Bottom scroll hint */}
-      <div className="pb-6 flex justify-center text-gray-300">
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-[9px] uppercase tracking-wider">
+      {/* Navigation arrows + scroll hint */}
+      <div className="pb-8 flex flex-col items-center gap-4">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => { if (stepNum > 1) onChangeStep(stepNum - 1); else onClose(); }}
+            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#1E2A3A] hover:border-gray-400 transition-colors"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <span className="text-[10px] uppercase tracking-wider text-gray-400">
             {stepNum < 22 ? `Scroll for Step ${stepNum + 1}` : 'Scroll to finish'}
           </span>
-          <ChevronRight size={14} className="rotate-90 animate-bounce" />
+          <button
+            onClick={() => { if (stepNum < 22) onChangeStep(stepNum + 1); else onClose(); }}
+            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#1E2A3A] hover:border-gray-400 transition-colors"
+          >
+            <ChevronRight size={18} />
+          </button>
         </div>
+        <ChevronRight size={14} className="rotate-90 animate-bounce text-gray-300" />
       </div>
-    </section>
+    </div>,
+    document.body
   );
-});
+}
 
 /* ══════════════════════════════════════════════════════════
    ANIMATED COUNTER HOOK
@@ -512,7 +543,6 @@ function AnimatedCounter({ value, suffix = '', duration = 2 }) {
 export default function OurProcess() {
   const heroRef = useRef(null);
   const gridRef = useRef(null);
-  const detailRef = useRef(null);
   const [activeStep, setActiveStep] = useState(null);
 
   const topRow = STEPS.slice(0, 11);
@@ -520,9 +550,6 @@ export default function OurProcess() {
 
   const selectAndScroll = (step) => {
     setActiveStep(step.num);
-    setTimeout(() => {
-      detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
   };
 
   useEffect(() => {
@@ -765,14 +792,9 @@ export default function OurProcess() {
           STEP DETAIL — Single section, scroll swaps content
           ═══════════════════════════════════════════════════════════════ */}
       {activeStep && <StepDetail
-        ref={detailRef}
         stepNum={activeStep}
         onChangeStep={(num) => setActiveStep(num)}
-        onClose={() => {
-          setActiveStep(null);
-          setTimeout(() => gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-        }}
-        onJumpTo={(step) => selectAndScroll(step)}
+        onClose={() => setActiveStep(null)}
       />}
 
       {/* ═══════════════════════════════════════════════════════════════

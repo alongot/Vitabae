@@ -194,11 +194,12 @@ export default function Layout({ children }) {
             <div>
               <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] mb-5 text-gray-500">Shop</h4>
               <ul className="space-y-3 text-sm text-gray-400">
-                <li><Link to="/Collection?age=18-30" className="hover:text-white transition-colors">Ages 18-30</Link></li>
-                <li><Link to="/Collection?age=31-45" className="hover:text-white transition-colors">Ages 31-45</Link></li>
-                <li><Link to="/Collection?age=46-60" className="hover:text-white transition-colors">Ages 46-60</Link></li>
-                <li><Link to="/Collection?age=60+" className="hover:text-white transition-colors">Ages 60+</Link></li>
-                <li><Link to="/Collection" className="hover:text-white transition-colors">All Products</Link></li>
+                <li><Link to="/Collection?stage=reproductive" className="hover:text-white transition-colors">Reproductive Age</Link></li>
+                <li><Link to="/Collection?stage=pregnancy" className="hover:text-white transition-colors">Pregnancy</Link></li>
+                <li><Link to="/Collection?stage=postpartum" className="hover:text-white transition-colors">Post Pregnancy</Link></li>
+                <li><Link to="/Collection?stage=perimenopause" className="hover:text-white transition-colors">Perimenopause</Link></li>
+                <li><Link to="/Collection?stage=menopause" className="hover:text-white transition-colors">Menopause</Link></li>
+                <li><Link to="/Collection?stage=postmenopause" className="hover:text-white transition-colors">Post Menopause</Link></li>
               </ul>
             </div>
 

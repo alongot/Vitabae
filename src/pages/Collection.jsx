@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal, ArrowRight, X, Check, Leaf, ShieldCheck, Eye } from 'lucide-react';
@@ -713,21 +714,25 @@ export default function Collection() {
         </div>
       </div>
 
-      {/* Quick View Modal */}
-      {quickViewItem && (
+      {/* Quick View Modal — portal to escape Lenis transform */}
+      {quickViewItem && createPortal(
         <QuickViewModal
           ingredient={quickViewItem}
           selectedStages={filters.lifeStage}
           onClose={() => setQuickViewItem(null)}
-        />
+        />,
+        document.body
       )}
 
-      {/* Compare Drawer */}
-      <CompareDrawer
-        items={compareItems}
-        onRemove={(name) => setCompareItems(prev => prev.filter(i => i.name !== name))}
-        onClose={() => setCompareItems([])}
-      />
+      {/* Compare Drawer — portal to escape Lenis transform */}
+      {createPortal(
+        <CompareDrawer
+          items={compareItems}
+          onRemove={(name) => setCompareItems(prev => prev.filter(i => i.name !== name))}
+          onClose={() => setCompareItems([])}
+        />,
+        document.body
+      )}
     </div>
   );
 }
