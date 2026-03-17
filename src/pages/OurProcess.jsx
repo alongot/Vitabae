@@ -321,7 +321,6 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
         else onClose();
       } else {
         if (stepNum > 1) onChangeStep(stepNum - 1);
-        else onClose();
       }
 
       setTimeout(() => { cooldown = false; }, 400);
@@ -342,7 +341,6 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
         else onClose();
       } else {
         if (stepNum > 1) onChangeStep(stepNum - 1);
-        else onClose();
       }
       setTimeout(() => { cooldown = false; }, 400);
     };
@@ -355,7 +353,6 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         if (stepNum > 1) onChangeStep(stepNum - 1);
-        else onClose();
       } else if (e.key === 'Escape') {
         onClose();
       }
@@ -483,13 +480,14 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
       <div className="pb-8 flex flex-col items-center gap-4">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => { if (stepNum > 1) onChangeStep(stepNum - 1); else onClose(); }}
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#1E2A3A] hover:border-gray-400 transition-colors"
+            onClick={() => { if (stepNum > 1) onChangeStep(stepNum - 1); }}
+            disabled={stepNum <= 1}
+            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#1E2A3A] hover:border-gray-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-gray-400 disabled:hover:border-gray-200"
           >
             <ChevronLeft size={18} />
           </button>
           <span className="text-[10px] uppercase tracking-wider text-gray-400">
-            {stepNum < 22 ? `Scroll for Step ${stepNum + 1}` : 'Scroll to finish'}
+            Step {stepNum} of 22
           </span>
           <button
             onClick={() => { if (stepNum < 22) onChangeStep(stepNum + 1); else onClose(); }}
