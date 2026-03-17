@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, ArrowRight, Check, CheckCircle2, Info, Leaf, ShieldCheck, AlertTriangle, Clock, Pill, FlaskConical, BookOpen, Heart, Users, Baby, Flower2, ChevronRight } from 'lucide-react';
+import { Star, ArrowRight, Check, CheckCircle2, Info, Leaf, ShieldCheck, AlertTriangle, Clock, Pill, FlaskConical, BookOpen, Heart, Users, Baby, Flower2, ChevronRight, MapPin, Droplets, Sun, Wind, Sparkles } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import productsData from '../../data/products.json';
 
 // ─── GINGER PRODUCT DATA ───────────────────────────────────────────────────────
 const GINGER_DATA = {
@@ -20,8 +21,8 @@ const GINGER_DATA = {
   ],
   description: 'Organic Ginger rhizome powder, rich in naturally occurring gingerols and shogaols. Each capsule delivers the time-honored benefits of whole Ginger root — supporting digestive comfort, promoting menstrual wellness, and providing antioxidant support. Gently vacuum-dried at low temperatures to preserve the root\'s natural bioactive compounds.*',
   variants: [
-    { label: 'Medium Capsule (#0)', dosage: '2 per day' },
-    { label: 'Small Capsule (#1)', dosage: '3 per day' },
+    { label: 'Medium Capsule', dosage: '2 per day' },
+    { label: 'Small Capsule', dosage: '3 per day' },
   ],
 };
 
@@ -35,14 +36,316 @@ const FEATURE_TABS = [
   { id: 'safety', label: 'Safety' },
 ];
 
+// ─── INGREDIENT PROCESS DATA ────────────────────────────────────────────────
+const INGREDIENT_DETAILS = {
+  'ginger-capsules': {
+    name: 'Organic Ginger',
+    scientific: 'Zingiber officinale',
+    origin: 'Kerala, India',
+    activeCompound: 'Gingerols & Shogaols',
+    process: 'Fresh ginger rhizomes are hand-harvested at peak maturity, cleaned, and sliced thin. They are then dried using a vacuum tray dryer at low temperature under reduced pressure — a gentle method that preserves heat-sensitive gingerols and shogaols. The dried root is finely milled into a uniform powder and encapsulated.',
+    color: '#F4A492',
+    icon: 'sun',
+  },
+  'ashwagandha-capsules': {
+    name: 'Organic Ashwagandha',
+    scientific: 'Withania somnifera',
+    origin: 'Rajasthan, India',
+    activeCompound: 'Withanolides (5%)',
+    process: 'Ashwagandha roots are cultivated in the arid soils of Rajasthan, harvested after 150–180 days of growth, then washed and shade-dried to preserve the root\'s withanolide content. The dried roots are carefully milled and standardized before encapsulation.',
+    color: '#C8D6B9',
+    icon: 'wind',
+  },
+  'turmeric-capsules': {
+    name: 'Organic Turmeric',
+    scientific: 'Curcuma longa',
+    origin: 'Tamil Nadu, India',
+    activeCompound: 'Curcuminoids (95%)',
+    process: 'Turmeric rhizomes are harvested from organic farms in Tamil Nadu, boiled briefly to activate curcuminoids, then sun-dried and polished. The dried rhizomes are ground into a fine powder, paired with organic black pepper extract for enhanced absorption, and encapsulated.',
+    color: '#E8C547',
+    icon: 'sun',
+  },
+  'moringa-capsules': {
+    name: 'Organic Moringa',
+    scientific: 'Moringa oleifera',
+    origin: 'Andhra Pradesh, India',
+    activeCompound: 'Whole Leaf Nutrients',
+    process: 'Moringa leaves are hand-picked at dawn when nutrient density is highest, washed in purified water, and shade-dried at low temperatures to lock in vitamins, minerals, and antioxidants. The dried leaves are milled into a fine, nutrient-dense powder.',
+    color: '#6B8E23',
+    icon: 'droplets',
+  },
+  'shatavari-capsules': {
+    name: 'Organic Shatavari',
+    scientific: 'Asparagus racemosus',
+    origin: 'Himalayan Foothills, India',
+    activeCompound: 'Saponins (40%)',
+    process: 'Shatavari roots are wildcrafted from the Himalayan foothills, carefully cleaned, and sliced. They undergo low-temperature drying to preserve saponin content, then are milled and standardized for consistent potency in each capsule.',
+    color: '#B48EC6',
+    icon: 'sparkles',
+  },
+  'holy-basil-capsules': {
+    name: 'Organic Holy Basil',
+    scientific: 'Ocimum tenuiflorum',
+    origin: 'Uttar Pradesh, India',
+    activeCompound: 'Ursolic Acid (2.5%)',
+    process: 'Tulsi leaves are harvested from sacred gardens in Uttar Pradesh, air-dried in the shade to preserve volatile oils and ursolic acid, then gently ground into a fine powder. The whole-leaf approach retains the plant\'s full spectrum of bioactive compounds.',
+    color: '#7BAF5A',
+    icon: 'wind',
+  },
+};
+
+function IngredientProcess({ currentProductId }) {
+  const [activeIngredient, setActiveIngredient] = useState(0);
+  const allProducts = productsData.products;
+  const currentProduct = allProducts.find(p => p.id === currentProductId) || allProducts[0];
+  const ingredientDetail = INGREDIENT_DETAILS[currentProduct.id] || INGREDIENT_DETAILS['ginger-capsules'];
+
+  // Get ingredients for the current product (for single-ingredient products, just show the main one)
+  const ingredients = currentProduct.ingredients_full || [];
+
+  // Get recommended products (exclude current product, pick 2)
+  const recommended = allProducts
+    .filter(p => p.id !== currentProduct.id)
+    .slice(0, 2);
+
+  const iconMap = {
+    sun: <Sun size={20} />,
+    wind: <Wind size={20} />,
+    droplets: <Droplets size={20} />,
+    sparkles: <Sparkles size={20} />,
+  };
+
+  return (
+    <section className="bg-[#1E2A3A] py-20">
+      <div className="container mx-auto px-4 md:px-8">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">The Process Behind Each Ingredient</p>
+          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+            From Source to Capsule
+          </h2>
+          <p className="text-sm text-gray-400 max-w-xl mx-auto">
+            Every ingredient follows a careful journey — sourced at origin, processed with care, and encapsulated for maximum potency.
+          </p>
+        </div>
+
+        {/* Ingredient Detail Card */}
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden">
+            {/* Ingredient Header */}
+            <div className="p-8 md:p-10 border-b border-white/10">
+              <div className="flex flex-col md:flex-row md:items-start gap-6">
+                {/* Icon & Name */}
+                <div className="flex items-center gap-4 flex-1">
+                  <div
+                    className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: `${ingredientDetail.color}20` }}
+                  >
+                    <span style={{ color: ingredientDetail.color }}>
+                      {iconMap[ingredientDetail.icon]}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-light text-white">{ingredientDetail.name}</h3>
+                    <p className="text-sm text-gray-400 italic">{ingredientDetail.scientific}</p>
+                  </div>
+                </div>
+
+                {/* Quick Facts */}
+                <div className="flex flex-wrap gap-4">
+                  <div className="bg-white/5 rounded-lg px-4 py-2.5">
+                    <p className="text-[9px] uppercase tracking-wider text-gray-500 mb-0.5">Origin</p>
+                    <p className="text-sm text-white font-medium flex items-center gap-1.5">
+                      <MapPin size={12} className="text-[#E8A598]" />
+                      {ingredientDetail.origin}
+                    </p>
+                  </div>
+                  <div className="bg-white/5 rounded-lg px-4 py-2.5">
+                    <p className="text-[9px] uppercase tracking-wider text-gray-500 mb-0.5">Active Compound</p>
+                    <p className="text-sm text-white font-medium">{ingredientDetail.activeCompound}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Process Description */}
+            <div className="p-8 md:p-10 border-b border-white/10">
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-4">Our Process</h4>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                {ingredientDetail.process}
+              </p>
+
+              {/* Process Steps Visual */}
+              <div className="mt-8 flex items-center gap-0 overflow-x-auto no-scrollbar">
+                {['Harvest', 'Clean & Prepare', 'Gentle Drying', 'Mill to Powder', 'Encapsulate'].map((step, i) => (
+                  <React.Fragment key={step}>
+                    <div className="flex flex-col items-center min-w-[100px]">
+                      <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-xs font-bold text-white bg-white/5">
+                        {i + 1}
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-2 text-center whitespace-nowrap">{step}</p>
+                    </div>
+                    {i < 4 && (
+                      <div className="flex-1 min-w-[20px] h-px bg-white/10 mx-1" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+
+            {/* Video */}
+            <div className="p-8 md:p-10 border-b border-white/10">
+              <div className="aspect-video bg-black/30 rounded-xl overflow-hidden">
+                <video
+                  src="/videos/capsule-firefly.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
+            {/* Recommended Products */}
+            <div className="p-8 md:p-10">
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-6">
+                Pairs Well With
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {recommended.map((rec) => {
+                  const recDetail = INGREDIENT_DETAILS[rec.id] || {};
+                  return (
+                    <Link
+                      key={rec.id}
+                      to={`/Product?id=${rec.id}`}
+                      className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-5 transition-all"
+                    >
+                      <div className="flex items-start gap-4">
+                        {/* Product Image */}
+                        <div className="w-16 h-16 rounded-lg bg-white/5 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                          <Leaf size={24} className="text-gray-500" />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[9px] uppercase tracking-wider text-[#E8A598] mb-1">{rec.category.replace(/-/g, ' ')}</p>
+                          <h5 className="text-sm font-medium text-white group-hover:text-[#E8A598] transition-colors truncate">
+                            {rec.name}
+                          </h5>
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{rec.shortDescription}</p>
+                          <div className="flex items-center justify-between mt-3">
+                            <span className="text-sm text-white font-light">${rec.price.toFixed(2)}</span>
+                            <span className="text-[10px] uppercase tracking-wider text-[#E8A598] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                              View <ArrowRight size={10} />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RecommendedProducts({ currentProductId }) {
+  const allProducts = productsData.products;
+  const recommended = allProducts.filter(p => p.id !== currentProductId).slice(0, 2);
+
+  return (
+    <section className="bg-[#FAF8F5] py-16 border-t border-gray-100">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="text-center mb-10">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">Complete Your Routine</p>
+          <h2 className="text-2xl md:text-3xl font-light text-[#1E2A3A]">
+            Recommended For You
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {recommended.map((product) => {
+            const detail = INGREDIENT_DETAILS[product.id] || {};
+            return (
+              <Link
+                key={product.id}
+                to={`/Product?id=${product.id}`}
+                className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all"
+              >
+                {/* Image */}
+                <div className="aspect-[16/10] bg-[#F5F3EF] flex items-center justify-center p-8 relative">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full object-contain mix-blend-multiply"
+                  />
+                  <span
+                    className="absolute top-4 left-4 text-[9px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-full"
+                    style={{ backgroundColor: `${detail.color || '#E8A598'}20`, color: detail.color || '#E8A598' }}
+                  >
+                    {product.category.replace(/-/g, ' ')}
+                  </span>
+                </div>
+
+                {/* Info */}
+                <div className="p-6">
+                  <h3 className="text-lg font-medium text-[#1E2A3A] group-hover:text-[#E8A598] transition-colors mb-1">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 italic mb-3">{product.tagline}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed mb-4">{product.shortDescription}</p>
+
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {product.benefits.slice(0, 3).map((b, i) => (
+                      <span key={i} className="text-[9px] uppercase tracking-wider bg-[#FAF8F5] border border-gray-100 px-2 py-1 text-gray-500">{b}</span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <span className="text-lg font-light text-[#1E2A3A]">${product.price.toFixed(2)}</span>
+                    <span className="text-[10px] uppercase tracking-wider text-[#E8A598] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      View Product <ArrowRight size={12} />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="text-center mt-10">
+          <Button asChild variant="outline" className="rounded-none px-8 py-5 text-[11px] uppercase tracking-[0.2em] border-gray-300 text-gray-500 hover:text-[#1E2A3A] hover:border-[#1E2A3A]">
+            <Link to="/Collection">
+              View All Products <ArrowRight size={14} className="ml-2" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function ProductPage() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [activeTab, setActiveTab] = useState('benefits');
+  const [activeView, setActiveView] = useState('product');
   const [isImageHovered, setIsImageHovered] = useState(false);
   const heroVideoRef = useRef(null);
   const tabsRef = useRef(null);
+
+  const PRODUCT_VIEWS = [
+    { id: 'product', label: 'Product' },
+    { id: 'capsule', label: 'Capsule Size' },
+    { id: 'powder', label: 'Ingredient Powder' },
+    { id: 'routine', label: 'Daily Routine' },
+    { id: 'flat-lay', label: 'Flat Lay' },
+  ];
 
   useEffect(() => {
     if (isImageHovered && heroVideoRef.current) {
@@ -95,37 +398,137 @@ export default function ProductPage() {
         <div className="container mx-auto px-4 md:px-8 pt-10 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-            {/* Product Image / Video */}
+            {/* Product Image / Views */}
             <div className="space-y-4">
-              <div
-                className="aspect-square bg-[#FAF8F5] rounded-2xl p-10 relative overflow-hidden cursor-pointer group"
-                onMouseEnter={() => setIsImageHovered(true)}
-                onMouseLeave={() => setIsImageHovered(false)}
-              >
-                <img
-                  src={product.image_url}
-                  alt={GINGER_DATA.name}
-                  className="w-full h-full object-contain mix-blend-multiply"
-                />
-                <video
-                  ref={heroVideoRef}
-                  src="/videos/bottle-spin.mp4"
-                  muted
-                  loop
-                  playsInline
-                  className={`absolute inset-0 w-full h-full object-contain p-10 transition-opacity duration-500 ${isImageHovered ? 'opacity-100' : 'opacity-0'}`}
-                />
-                <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-[10px] uppercase tracking-wider px-4 py-1.5 rounded-full transition-opacity duration-300 ${isImageHovered ? 'opacity-100' : 'opacity-0'}`}>
-                  360° View
-                </div>
+              {/* Main View Area */}
+              <div className="aspect-square bg-[#FAF8F5] rounded-2xl relative overflow-hidden">
+                {/* Product View */}
+                {activeView === 'product' && (
+                  <div
+                    className="w-full h-full p-10 cursor-pointer"
+                    onMouseEnter={() => setIsImageHovered(true)}
+                    onMouseLeave={() => setIsImageHovered(false)}
+                  >
+                    <img
+                      src={product.image_url}
+                      alt={GINGER_DATA.name}
+                      className="w-full h-full object-contain mix-blend-multiply"
+                    />
+                    <video
+                      ref={heroVideoRef}
+                      src="/videos/bottle-spin.mp4"
+                      muted
+                      loop
+                      playsInline
+                      className={`absolute inset-0 w-full h-full object-contain p-10 transition-opacity duration-500 ${isImageHovered ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                    <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-[10px] uppercase tracking-wider px-4 py-1.5 rounded-full transition-opacity duration-300 ${isImageHovered ? 'opacity-100' : 'opacity-0'}`}>
+                      360° View
+                    </div>
+                  </div>
+                )}
+
+                {/* Capsule Size View */}
+                {activeView === 'capsule' && (
+                  <div className="w-full h-full flex flex-col items-center justify-center p-10 gap-6">
+                    <div className="flex items-end gap-10">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-14 h-28 rounded-full bg-[#E8E4DC] border border-gray-200" />
+                        <span className="text-xs font-medium text-[#1E2A3A]">Medium</span>
+                        <span className="text-[10px] text-gray-400">2 per day</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-11 h-22 rounded-full bg-[#E8E4DC] border border-gray-200" />
+                        <span className="text-xs font-medium text-[#1E2A3A]">Small</span>
+                        <span className="text-[10px] text-gray-400">3 per day</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400 text-center max-w-xs">Both sizes contain the same organic ginger formula — choose the size that's easiest for you to swallow.</p>
+                  </div>
+                )}
+
+                {/* Ingredient Powder View */}
+                {activeView === 'powder' && (
+                  <div className="w-full h-full flex flex-col items-center justify-center p-10 gap-4">
+                    <div className="w-40 h-40 rounded-full bg-[#E8C97E]/30 border-2 border-dashed border-[#E8C97E]/50 flex items-center justify-center">
+                      <div className="w-28 h-28 rounded-full bg-[#E8C97E]/50 flex items-center justify-center">
+                        <span className="text-sm font-medium text-[#8B6914]">Ginger Powder</span>
+                      </div>
+                    </div>
+                    <div className="text-center mt-4">
+                      <p className="text-sm font-medium text-[#1E2A3A]">100% Organic Ginger Rhizome</p>
+                      <p className="text-xs text-gray-500 mt-1">Vacuum-dried at low temperature to preserve gingerols & shogaols</p>
+                      <p className="text-[10px] text-[#E8A598] font-medium mt-2 uppercase tracking-wider">No fillers · No binders · No additives</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Daily Routine View */}
+                {activeView === 'routine' && (
+                  <div className="w-full h-full flex flex-col items-center justify-center p-10 gap-6">
+                    <div className="space-y-5 w-full max-w-xs">
+                      {[
+                        { time: 'Morning', icon: '☀️', text: 'Take with breakfast for digestive support' },
+                        { time: 'Midday', icon: '🌿', text: 'Optional second dose with lunch' },
+                        { time: 'Evening', icon: '🌙', text: 'Third dose with dinner if needed' },
+                      ].map((step, i) => (
+                        <div key={i} className="flex items-start gap-4">
+                          <div className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center text-base flex-shrink-0 shadow-sm">
+                            {step.icon}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-[#1E2A3A]">{step.time}</p>
+                            <p className="text-xs text-gray-500">{step.text}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-gray-400 text-center">Always take with meals for best absorption</p>
+                  </div>
+                )}
+
+                {/* Flat Lay View */}
+                {activeView === 'flat-lay' && (
+                  <div className="w-full h-full flex flex-col items-center justify-center p-10 gap-4">
+                    <div className="grid grid-cols-3 gap-4 w-full max-w-xs">
+                      <div className="aspect-square rounded-xl bg-[#EBE6DD] flex items-center justify-center">
+                        <Leaf size={24} className="text-[#6B8E23]" />
+                      </div>
+                      <div className="aspect-square rounded-xl bg-[#E8E4DC] flex items-center justify-center row-span-2 col-span-2">
+                        <div className="text-center">
+                          <img src={product.image_url} alt={GINGER_DATA.name} className="w-20 h-20 object-contain mx-auto mix-blend-multiply" />
+                        </div>
+                      </div>
+                      <div className="aspect-square rounded-xl bg-[#F4E8DC] flex items-center justify-center">
+                        <Pill size={20} className="text-[#C8946A]" />
+                      </div>
+                      <div className="aspect-square rounded-xl bg-[#DCE8D6] flex items-center justify-center">
+                        <ShieldCheck size={20} className="text-[#6B8E23]" />
+                      </div>
+                      <div className="aspect-square rounded-xl bg-[#F0EBE3] flex items-center justify-center col-span-2">
+                        <span className="text-[10px] text-gray-500 uppercase tracking-wider font-medium">USDA Organic · Lab Tested · cGMP</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Thumbnail strip placeholder */}
+              {/* Clickable View Tabs */}
               <div className="grid grid-cols-5 gap-2">
-                {['Product', 'Capsule Size', 'Powder', 'Routine', 'Flat Lay'].map((label, i) => (
-                  <div key={i} className="aspect-square bg-[#FAF8F5] rounded-lg border border-gray-100 flex items-center justify-center">
-                    <span className="text-[8px] text-gray-400 uppercase tracking-wider text-center px-1">{label}</span>
-                  </div>
+                {PRODUCT_VIEWS.map((view) => (
+                  <button
+                    key={view.id}
+                    onClick={() => setActiveView(view.id)}
+                    className={`aspect-square rounded-lg border flex items-center justify-center transition-all ${
+                      activeView === view.id
+                        ? 'border-[#1E2A3A] bg-[#1E2A3A]/5'
+                        : 'border-gray-100 bg-[#FAF8F5] hover:border-gray-300'
+                    }`}
+                  >
+                    <span className={`text-[8px] uppercase tracking-wider text-center px-1 font-medium ${
+                      activeView === view.id ? 'text-[#1E2A3A]' : 'text-gray-400'
+                    }`}>{view.label}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -210,41 +613,57 @@ export default function ProductPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          SECTION 2 — FEATURES (Tabbed Navigation)
+          SECTION 2 — FEATURES (Vertical Column Navigation)
           ═══════════════════════════════════════════════════════════════════════ */}
       <section ref={tabsRef} className="bg-white border-t border-gray-100">
-        {/* Tab Navigation */}
-        <div className="sticky top-16 z-40 bg-white border-b border-gray-100">
-          <div className="container mx-auto px-4">
-            <div className="flex overflow-x-auto no-scrollbar">
-              {FEATURE_TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`whitespace-nowrap px-5 py-4 text-[11px] uppercase tracking-[0.1em] font-medium border-b-2 transition-colors ${
-                    activeTab === tab.id
-                      ? 'border-[#1E2A3A] text-[#1E2A3A]'
-                      : 'border-transparent text-gray-400 hover:text-gray-600'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+        {/* Full-width tab bar */}
+        <div className="border-b border-gray-100">
+          <div className="container mx-auto px-4 md:px-8">
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-0">
+              {FEATURE_TABS.map((tab) => {
+                const isActive = activeTab === tab.id;
+                const tabIcons = {
+                  benefits: <Heart size={18} />,
+                  formula: <FlaskConical size={18} />,
+                  science: <BookOpen size={18} />,
+                  'how-to-use': <Pill size={18} />,
+                  compatibility: <CheckCircle2 size={18} />,
+                  safety: <ShieldCheck size={18} />,
+                };
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`group flex flex-col items-center gap-2.5 py-6 md:py-8 px-3 transition-all border-b-[3px] ${
+                      isActive
+                        ? 'border-b-[#E8A598] bg-[#FAF8F5] text-[#1E2A3A]'
+                        : 'border-b-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50/50'
+                    }`}
+                  >
+                    <span className={`transition-colors ${isActive ? 'text-[#E8A598]' : 'text-gray-300 group-hover:text-gray-400'}`}>
+                      {tabIcons[tab.id]}
+                    </span>
+                    <span className="text-[10px] md:text-[11px] uppercase tracking-[0.1em] font-medium leading-tight text-center">{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
 
+        {/* Content */}
         <div className="container mx-auto px-4 md:px-8 py-14">
           <div className="max-w-4xl mx-auto">
+            <div>
 
             {/* ── TAB 1: BENEFITS ──────────────────────────────────────────── */}
             {activeTab === 'benefits' && (
               <div className="animate-in fade-in duration-300">
-                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10 text-center">
+                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10">
                   How Ginger Can Support Your Life Stage
                 </h3>
 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {/* Reproductive Age */}
                   <div className="border border-gray-100 rounded-xl p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-4">
@@ -324,12 +743,12 @@ export default function ProductPage() {
                 </div>
 
                 {/* FDA Disclaimer */}
-                <p className="text-[10px] text-gray-400 italic mt-8 text-center">
+                <p className="text-[10px] text-gray-400 italic mt-8">
                   *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
                 </p>
 
                 {/* Why It Matters */}
-                <div className="mt-12 bg-[#FAF8F5] rounded-xl p-8 border border-gray-100">
+                <div className="mt-10 bg-[#FAF8F5] rounded-xl p-8 border border-gray-100">
                   <h4 className="text-lg font-medium text-[#1E2A3A] mb-4">Why It Matters</h4>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4">
                     Ginger's naturally occurring gingerols and shogaols play a role in digestive function, comfort, and antioxidant protection.* Valued across cultures for centuries, this whole-food rhizome powder aids in maintaining digestive health, menstrual comfort, and gentle nausea relief throughout women's life stages.*
@@ -344,8 +763,8 @@ export default function ProductPage() {
             {/* ── TAB 2: FORMULA ───────────────────────────────────────────── */}
             {activeTab === 'formula' && (
               <div className="animate-in fade-in duration-300">
-                <h2 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2 text-center">Formula</h2>
-                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10 text-center">
+                <h2 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2">Formula</h2>
+                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10">
                   Complete Formula Breakdown
                 </h3>
 
@@ -374,7 +793,7 @@ export default function ProductPage() {
                   </table>
                 </div>
 
-                <p className="text-sm text-gray-500 text-center mb-10 font-medium">No fillers, binders, preservatives, or artificial additives</p>
+                <p className="text-sm text-gray-500 mb-10 font-medium">No fillers, binders, preservatives, or artificial additives</p>
 
                 {/* Sourcing & Quality */}
                 <div className="bg-[#FAF8F5] rounded-xl p-8 border border-gray-100 mb-8">
@@ -406,7 +825,7 @@ export default function ProductPage() {
                   </p>
                 </div>
 
-                <p className="text-[10px] text-gray-400 italic text-center">
+                <p className="text-[10px] text-gray-400 italic">
                   *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
                 </p>
               </div>
@@ -415,8 +834,8 @@ export default function ProductPage() {
             {/* ── TAB 3: SCIENTIFIC SUPPORT ────────────────────────────────── */}
             {activeTab === 'science' && (
               <div className="animate-in fade-in duration-300">
-                <h2 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2 text-center">Scientific Support</h2>
-                <p className="text-sm text-gray-500 leading-relaxed text-center max-w-2xl mx-auto mb-10">
+                <h2 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2">Scientific Support</h2>
+                <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mb-10">
                   The compounds below reflect what is naturally present in whole Ginger and what traditional use and emerging research suggest about their role in overall wellness. This information is provided for transparency — it does not represent established therapeutic mechanisms, and this product is not intended to replace medical treatment or advice.
                 </p>
 
@@ -474,14 +893,14 @@ export default function ProductPage() {
                   </p>
                 </div>
 
-                <div className="text-center mb-10">
+                <div className="mb-10">
                   <h5 className="text-sm font-medium text-[#1E2A3A] mb-2">Want to explore the research?</h5>
                   <Link to="/Library" className="text-sm text-[#E8A598] hover:text-[#d4897c] inline-flex items-center gap-1 transition-colors">
                     View our full library of research that guides our formulation <ChevronRight size={14} />
                   </Link>
                 </div>
 
-                <p className="text-[10px] text-gray-400 italic text-center mb-10">
+                <p className="text-[10px] text-gray-400 italic mb-10">
                   *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
                 </p>
 
@@ -510,20 +929,20 @@ export default function ProductPage() {
             {activeTab === 'how-to-use' && (
               <div className="animate-in fade-in duration-300">
                 {/* Daily Use */}
-                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-8 text-center">Daily Use</h3>
+                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-8">Daily Use</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div className="bg-[#FAF8F5] rounded-xl p-6 border border-gray-100 text-center">
                     <Pill size={24} className="mx-auto mb-3 text-[#1E2A3A]" />
-                    <p className="text-sm font-medium text-[#1E2A3A]">Big Capsule (#0)</p>
+                    <p className="text-sm font-medium text-[#1E2A3A]">Medium Capsule</p>
                     <p className="text-sm text-gray-500">Take 2 capsules daily with meals</p>
                   </div>
                   <div className="bg-[#FAF8F5] rounded-xl p-6 border border-gray-100 text-center">
                     <Pill size={20} className="mx-auto mb-3 text-[#1E2A3A]" />
-                    <p className="text-sm font-medium text-[#1E2A3A]">Small Capsule (#1)</p>
+                    <p className="text-sm font-medium text-[#1E2A3A]">Small Capsule</p>
                     <p className="text-sm text-gray-500">Take 3 capsules daily with meals</p>
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 text-center mb-10">Or as directed by your healthcare practitioner.</p>
+                <p className="text-xs text-gray-400 mb-10">Or as directed by your healthcare practitioner.</p>
 
                 {/* Best Time */}
                 <div className="border border-gray-100 rounded-xl p-8 mb-8">
@@ -576,7 +995,7 @@ export default function ProductPage() {
                   </ul>
                 </div>
 
-                <p className="text-[10px] text-gray-400 italic text-center">
+                <p className="text-[10px] text-gray-400 italic">
                   *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
                 </p>
               </div>
@@ -586,9 +1005,9 @@ export default function ProductPage() {
             {activeTab === 'compatibility' && (
               <div className="animate-in fade-in duration-300">
                 {/* Suitable With */}
-                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10 text-center">Compatibility</h3>
+                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10">Compatibility</h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div className="space-y-6 mb-10">
                   {/* Supplements */}
                   <div className="border border-gray-100 rounded-xl p-6">
                     <h4 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Supplements</h4>
@@ -682,7 +1101,7 @@ export default function ProductPage() {
                   </div>
                 </div>
 
-                <p className="text-[10px] text-gray-400 italic text-center mt-6">
+                <p className="text-[10px] text-gray-400 italic mt-6">
                   *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
                 </p>
               </div>
@@ -691,7 +1110,7 @@ export default function ProductPage() {
             {/* ── TAB 6: SAFETY ────────────────────────────────────────────── */}
             {activeTab === 'safety' && (
               <div className="animate-in fade-in duration-300">
-                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10 text-center">Safety Information</h3>
+                <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10">Safety Information</h3>
 
                 {/* Side Effects */}
                 <div className="space-y-6 mb-10">
@@ -833,36 +1252,20 @@ export default function ProductPage() {
               </div>
             )}
 
+            </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          SECTION 3 — INGREDIENT PROCESS (VIDEO)
+          SECTION 3 — INGREDIENT PROCESS + RECOMMENDED PRODUCTS
           ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#1E2A3A] py-20">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-10">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">Our Process</p>
-            <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
-              From Root to Capsule
-            </h2>
-            <p className="text-sm text-gray-400 max-w-xl mx-auto">
-              Watch how we transform organic Ginger rhizome into a potent, bioactive powder — preserving gingerols and shogaols through gentle vacuum drying.
-            </p>
-          </div>
-          <div className="max-w-4xl mx-auto aspect-video bg-black/30 rounded-2xl overflow-hidden relative">
-            <video
-              src="/videos/capsule-firefly.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
+      <IngredientProcess currentProductId={id} />
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          RECOMMENDED PRODUCTS
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <RecommendedProducts currentProductId={id} />
 
       {/* ═══════════════════════════════════════════════════════════════════════
           SECTION 4 — FAQ

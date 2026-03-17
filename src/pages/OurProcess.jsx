@@ -7,7 +7,7 @@ import {
   Sprout, Handshake, ClipboardCheck, Warehouse, Lock, FlaskConical, Microscope,
   TestTubes, CheckCircle2, Droplets, Thermometer, Scissors, CogIcon, Beaker,
   Wind, Blend, Layers, Pill, Hash, Package, ShieldCheck, FileSearch,
-  ArrowRight, ChevronDown, ChevronUp, Eye, AlertTriangle, Award, X
+  ArrowRight, ArrowLeft, Eye, AlertTriangle, Award, X, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,7 +25,7 @@ const STEPS = [
   { num: 7,  title: 'Internal Quality Testing', icon: Microscope, phase: 'testing', short: 'Visual inspection, botanical identity, moisture content, and particle size are checked in-house first.' },
   { num: 8,  title: 'External Laboratory Testing', icon: TestTubes, phase: 'testing', short: 'Independent labs test for heavy metals, microbiologicals, pesticide residues, and regulatory compliance.' },
   { num: 9,  title: 'Released or Rejected', icon: CheckCircle2, phase: 'testing', short: 'One final decision per batch. Compliant batches are released. Non-compliant batches are returned or destroyed.' },
-  { num: 10, title: 'Cleaning & Material Preparation', icon: Droplets, phase: 'processing', short: 'Fresh materials are washed and prepared. Dry materials are visually inspected. Nothing moves forward until it\'s clean.' },
+  { num: 10, title: 'Cleaning & Material Preparation', icon: Droplets, phase: 'processing', short: 'Every material must be cleaned and prepared before it moves into production. This is where hands-on work begins.' },
   { num: 11, title: 'Primary Drying', icon: Thermometer, phase: 'processing', short: 'Materials enter our vacuum tray dryer, where moisture is removed at low temperatures to protect heat-sensitive compounds.' },
   { num: 12, title: 'Size Reduction', icon: Scissors, phase: 'processing', short: 'Dried materials are cut into uniform 1–3 cm pieces, preparing them for grinding.' },
   { num: 13, title: 'Pre-Grinding', icon: CogIcon, phase: 'processing', short: 'Cut material is reduced to coarse granules, creating uniform particle size for efficient processing.' },
@@ -40,292 +40,570 @@ const STEPS = [
   { num: 22, title: 'Traceability & Batch Release', icon: FileSearch, phase: 'finishing', short: 'Every capsule is fully traceable from farm to finished bottle with complete batch documentation.' },
 ];
 
-const PHASE_META = {
-  origin:     { label: 'Origin', color: '#6B8E23' },
-  intake:     { label: 'Intake & Storage', color: '#E8A598' },
-  testing:    { label: 'Testing', color: '#5B8DB8' },
-  processing: { label: 'Processing', color: '#D4A0C0' },
-  finishing:  { label: 'Finishing', color: '#1E2A3A' },
+const PHASE_COLORS = {
+  origin: '#6B8E23',
+  intake: '#E8A598',
+  testing: '#5B8DB8',
+  processing: '#D4A0C0',
+  finishing: '#1E2A3A',
 };
 
 /* ══════════════════════════════════════════════════════════
    STEP DETAIL CONTENT
 ══════════════════════════════════════════════════════════ */
 const STEP_DETAILS = {
-  1: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Every ingredient has its own story. Before anything else, we take the time to understand the ingredient itself: how it grows, what it needs, and under which natural conditions it can truly thrive.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">An Ingredient-by-Ingredient Approach</h4>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">There is no one-size-fits-all method. Each ingredient is studied individually, based on scientific and nutritional data, agronomic research, botanical studies, and observations of how the plant behaves in different environments.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Defining the Right Growing Conditions</h4>
-      <ul className="space-y-1.5 text-sm text-gray-600 mb-4">
-        <li>• <strong>Soil</strong> — structure, mineral composition, drainage, and pH</li>
-        <li>• <strong>Climate</strong> — rainfall, temperatures, seasonal variations, and long-term stability</li>
-        <li>• <strong>Natural Environment</strong> — sunlight exposure, wind, and humidity</li>
-        <li>• <strong>Biological Pressure</strong> — pests, plant-specific diseases, and natural resilience</li>
-        <li>• <strong>Water Resources</strong> — irrigation requirements and dependence on natural rainfall</li>
-      </ul>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Identifying Naturally Suitable Areas</h4>
-      <p className="text-sm text-gray-600 leading-relaxed">We select regions for their natural conditions, not for their convenience. This is where everything begins.</p>
-    </>
-  ),
-  2: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Sourcing is not a transaction. It's a relationship built over time. We work directly with farmers — no large intermediary organizations standing between us.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">One Farm at a Time</h4>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">We send our own Vitabae team members into the field, organized by region. Their role is to identify growing areas that match our criteria, meet with farmers directly, observe actual agricultural practices, and assess whether what is claimed matches what is actually done. In some cases, several months are needed to identify a single compatible farm.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">From First Contact to Trust</h4>
-      <p className="text-sm text-gray-600 leading-relaxed">Most farmers do not trust immediately — and this is entirely understandable. Building a long-term relationship requires transparency, consistency, respect for local practices, and above all, time. Some collaborations take years to fully develop. By the time raw materials arrive at our facility, we already know their origin, their journey, and the hands that cultivated them.</p>
-    </>
-  ),
-  3: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">When raw materials arrive, nothing is accepted by default. Every delivery goes through the same process — regardless of the supplier or how long we've worked together.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Document Verification</h4>
-      <ul className="space-y-1 text-sm text-gray-600 mb-4">
-        <li>• Invoice and purchase order alignment</li>
-        <li>• Organic certificate validity</li>
-        <li>• Certificate of Analysis (CoA)</li>
-        <li>• Batch number and traceability information</li>
-        <li>• Manufacturing and expiry dates</li>
-      </ul>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Transport Vehicle Inspection</h4>
-      <ul className="space-y-1 text-sm text-gray-600 mb-4">
-        <li>• Overall cleanliness</li>
-        <li>• Absence of chemical residues or unusual odors</li>
-        <li>• Transport conditions (heat, humidity exposure)</li>
-      </ul>
-      <p className="text-xs text-gray-500 italic">If either the vehicle or the documentation is non-compliant, the batch is immediately blocked. No exceptions.</p>
-    </>
-  ),
-  4: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Storage is part of quality control, not just logistics. Organic raw materials are stored in a warehouse strictly dedicated to organic products.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Non-Negotiable Rules</h4>
-      <ul className="space-y-1 text-sm text-gray-600 mb-4">
-        <li>• Complete separation between organic and non-organic materials</li>
-        <li>• Sealed walls and doors with no gaps</li>
-        <li>• Adequate ventilation and lighting</li>
-        <li>• Shipping containers are never used as storage areas</li>
-      </ul>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Physical Organization</h4>
-      <ul className="space-y-1 text-sm text-gray-600">
-        <li>• Materials stored only on clean plastic pallets</li>
-        <li>• New storage bags only (never reused)</li>
-        <li>• Pallets kept away from walls and floors</li>
-        <li>• Clear aisles for inspection and cleaning</li>
-        <li>• Strict application of FIFO (First In, First Out)</li>
-      </ul>
-    </>
-  ),
-  5: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Quarantine is not a storage step — it is a controlled safety barrier. It ensures that no material can move into production until its identity, purity, and safety are fully verified.</p>
-      <p className="text-sm text-gray-600 leading-relaxed mb-3">A blue "QC HOLD" label is applied to each batch. During quarantine:</p>
-      <ul className="space-y-1 text-sm text-gray-600 mb-4">
-        <li>• No use is permitted</li>
-        <li>• No transfer to production is allowed</li>
-        <li>• The material stays on hold until all testing is complete</li>
-      </ul>
-      <p className="text-xs text-gray-500 italic">Quarantine is mandatory — even for approved or long-term suppliers. Trust does not bypass verification.</p>
-    </>
-  ),
-  6: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Sampling is carried out exclusively by our Quality Assurance / Quality Control team. This is not delegated.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Sampling Rules</h4>
-      <ul className="space-y-1 text-sm text-gray-600 mb-4">
-        <li>• Clean, dry, dedicated sampling tools</li>
-        <li>• One tool per raw material</li>
-        <li>• Samples taken from multiple bags to represent the full batch</li>
-        <li>• Sampled bags clearly marked with an "S" identification tag</li>
-      </ul>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">What Gets Recorded</h4>
-      <ul className="space-y-1 text-sm text-gray-600">
-        <li>• Material name & Batch number</li>
-        <li>• Quantity received</li>
-        <li>• Receiving and sampling dates</li>
-        <li>• Responsible personnel</li>
-      </ul>
-    </>
-  ),
-  7: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">The first level of verification happens in-house. Internal tests include:</p>
-      <ul className="space-y-1 text-sm text-gray-600 mb-4">
-        <li>• Visual inspection (color, odor, appearance)</li>
-        <li>• Botanical identity confirmation</li>
-        <li>• Moisture content measurement</li>
-        <li>• Particle size analysis where applicable</li>
-      </ul>
-      <p className="text-sm text-gray-600 leading-relaxed">These tests verify consistency with documentation and suitability for processing. A batch can be blocked at this stage if any anomaly is detected.</p>
-    </>
-  ),
-  8: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">We test to find what's actually there — not to confirm what we hope. Samples are sent to qualified, independent external laboratories.</p>
-      <div className="border border-gray-100 rounded-lg overflow-hidden mb-4">
-        <table className="w-full text-xs">
-          <thead><tr className="bg-[#FAF8F5]">
-            <th className="text-left px-4 py-2.5 font-semibold text-gray-500 uppercase tracking-wider">Test</th>
-            <th className="text-left px-4 py-2.5 font-semibold text-gray-500 uppercase tracking-wider">What We Check</th>
-          </tr></thead>
-          <tbody>
-            <tr className="border-t border-gray-100"><td className="px-4 py-2.5 font-medium text-[#1E2A3A]">Heavy Metals</td><td className="px-4 py-2.5 text-gray-600">Lead, arsenic, cadmium, mercury</td></tr>
-            <tr className="border-t border-gray-100"><td className="px-4 py-2.5 font-medium text-[#1E2A3A]">Microbiological</td><td className="px-4 py-2.5 text-gray-600">Total plate count, yeast, mold, E. coli, Salmonella</td></tr>
-            <tr className="border-t border-gray-100"><td className="px-4 py-2.5 font-medium text-[#1E2A3A]">Pesticide Residues</td><td className="px-4 py-2.5 text-gray-600">Screened against organic certification standards</td></tr>
-            <tr className="border-t border-gray-100"><td className="px-4 py-2.5 font-medium text-[#1E2A3A]">Regulatory Compliance</td><td className="px-4 py-2.5 text-gray-600">All applicable safety and quality parameters</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p className="text-xs text-gray-500 italic">External testing is mandatory, even if internal results are acceptable. Both levels must pass.</p>
-    </>
-  ),
-  9: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">One decision. No middle ground. Once all results are received, a single, final decision is made for each batch.</p>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <h5 className="text-xs font-bold text-green-800 uppercase tracking-wider mb-2">If Compliant</h5>
-          <ul className="space-y-1 text-xs text-green-700">
-            <li>• Green "RELEASED" label applied</li>
-            <li>• Date and QA/QC signature added</li>
-            <li>• Transfer to approved storage</li>
-          </ul>
-        </div>
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h5 className="text-xs font-bold text-red-800 uppercase tracking-wider mb-2">If Non-Compliant</h5>
-          <ul className="space-y-1 text-xs text-red-700">
-            <li>• Red "REJECTED" label applied</li>
-            <li>• Immediate transfer to rejected area</li>
-            <li>• Returned to supplier or destroyed</li>
-          </ul>
-        </div>
-      </div>
-      <p className="text-xs text-gray-500 italic">Rejection is a normal and necessary part of the process. Some batches never make it through. That's how it should work.</p>
-    </>
-  ),
-  10: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Every material must be cleaned and prepared before it moves into production. This is where hands-on work begins.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Two Paths, One Standard</h4>
-      <p className="text-sm text-gray-600 mb-3"><strong>Dry materials</strong> go through visual inspection on sorting tables, with manual removal of foreign matter and non-conforming pieces.</p>
-      <p className="text-sm text-gray-600 mb-3"><strong>Fresh materials</strong> are loaded into our washing machine — 25 kg at a time — and washed using RO-purified water. Each 30-minute cycle removes soil, dust, and debris while reducing surface microbial load.</p>
-      <p className="text-sm text-gray-600">Where required, materials then pass through our steam balancer — 25 kg per batch, 30 minutes of controlled steam exposure followed by rapid cooling in chilled water.</p>
-    </>
-  ),
-  11: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Heat is the enemy of the very compounds we're trying to protect. Conventional drying applies direct heat and destroys bioactive compounds — the natural molecules that give each ingredient its beneficial properties.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">How It Works</h4>
-      <p className="text-sm text-gray-600 leading-relaxed">Cleaned materials enter our 200 kg-capacity vacuum tray dryer, where moisture is removed under reduced pressure at controlled low temperatures. By lowering air pressure, water evaporates at temperatures far below what conventional drying requires. Temperature, drying duration, and vacuum pressure are continuously monitored throughout the cycle. This is slower than conventional drying. That's the point.</p>
-    </>
-  ),
-  12: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed">Dried materials are fed into our mechanical cutter and cut into pieces approximately 1–3 cm in size, creating uniform material suitable for the grinding stages that follow. It's a simple step — but uniformity here determines consistency later.</p>
-    </>
-  ),
-  13: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed">Cut material is loaded into our pulveriser — 25 kg per batch — and reduced to coarse granules over a 30-minute cycle using impact, shear, and friction. The machine is cleaned for 20 minutes between batches. This step creates the uniform particle size needed for efficient, reproducible extraction or milling downstream.</p>
-    </>
-  ),
-  14: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-4">Not every ingredient goes through extraction. But when it does, this is the most complex stage in our entire process.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Drawing Out What Matters</h4>
-      <p className="text-sm text-gray-600 mb-3">Material enters our stainless steel extractor — 25 kg in a 250-litre tank — with purified RO water as the only solvent. At approximately 70°C with continuous stirring, active compounds are drawn into the water over 4 hours and 30 minutes. No harsh solvents. No chemical shortcuts. Water only.</p>
-      <h4 className="text-sm font-bold text-[#1E2A3A] mb-2 uppercase tracking-wider">Filtering & Concentrating</h4>
-      <p className="text-sm text-gray-600">The filtered extract enters our 250-litre vacuum concentrator, where water is removed through controlled heating under vacuum over 5 hours. The target concentration: Brix 45–55%.</p>
-    </>
-  ),
-  15: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed">The concentrated extract moves back to our vacuum tray dryer — 25 to 35 kg per batch — for final moisture removal. 8 hours under vacuum with steam-heated shelves at controlled pressure. After each batch, the dryer undergoes 1 full hour of cleaning before it's loaded again. Rushing this step would compromise everything that came before it.</p>
-    </>
-  ),
-  16: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed">Dried material enters our multi mill, processing up to 100 kg per hour through impact and shear forces. The result: consistent, uniform powder with the particle size needed for accurate blending and encapsulation. The mill is cleaned for 30 minutes between batches. What comes out must be the same — every time.</p>
-    </>
-  ),
-  17: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed">Powder passes through our vibro sifter at up to 200 kg per hour, filtered through 80-mesh screens. Oversized particles are removed. What remains is checked for uniformity and bulk density. Only powder that passes this check moves to blending. This is the last quality gate before ingredients are combined.</p>
-    </>
-  ),
-  18: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-3">Ingredients are precisely weighed, then combined in our 20-litre ribbon blender. Under controlled temperature and humidity, the blender runs for a full hour — or until complete uniformity is confirmed. Cleaning between batches: 15 minutes.</p>
-      <p className="text-xs text-gray-500 italic">Non-uniform blends are rejected. There are no exceptions. If the blend isn't right, nothing that follows will be either.</p>
-    </>
-  ),
-  19: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-3">Capsules are filled using our capsule filling machine. Vacuum separation opens each shell, precise amounts of powder are deposited, and capsules are reclosed and locked — all with continuous weight monitoring and real-time adjustments.</p>
-      <p className="text-xs text-gray-500 italic">Every capsule is weighed. Every variation is tracked. Consistency is not a goal — it's a requirement.</p>
-    </>
-  ),
-  20: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-3">No human hand touches the capsules at this stage. High-accuracy sensors count each capsule and transfer them directly into bottles without manual handling.</p>
-      <p className="text-xs text-gray-500 italic">Any bottle with an incorrect count is automatically rejected. If the count isn't exact, the bottle doesn't move forward.</p>
-    </>
-  ),
-  21: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-3">Bottles move through our automatic capping and sealing machine, where caps are placed with controlled torque. Where applicable, induction sealing ensures airtight closure.</p>
-      <p className="text-xs text-gray-500 italic">Every bottle undergoes torque verification and seal integrity checks. What's inside is protected. What's outside stays out.</p>
-    </>
-  ),
-  22: (
-    <>
-      <p className="text-sm text-gray-600 leading-relaxed mb-3">Each batch carries a unique batch number, complete processing parameters, full quality control records, and an unbroken chain of documentation from farm to finished capsule.</p>
-      <p className="text-sm text-gray-600 leading-relaxed font-medium">22 documented process steps. Two independent testing levels. 100% batch traceability. This is what happens between the soil and your bottle.</p>
-    </>
-  ),
+  1: {
+    visual: 'soil-study',
+    points: [
+      { label: 'Soil', desc: 'Structure, mineral composition, drainage, and pH' },
+      { label: 'Climate', desc: 'Rainfall, temperatures, seasonal variations, and long-term stability' },
+      { label: 'Environment', desc: 'Sunlight exposure, wind, and humidity' },
+      { label: 'Biological Pressure', desc: 'Pests, plant-specific diseases, and natural resilience' },
+      { label: 'Water Resources', desc: 'Irrigation requirements and dependence on natural rainfall' },
+    ],
+    body: 'Every ingredient has its own story. Before anything else, we take the time to understand the ingredient itself: how it grows, what it needs, and under which natural conditions it can truly thrive. There is no one-size-fits-all method. Each ingredient is studied individually, based on scientific and nutritional data, agronomic research, botanical studies, and observations of how the plant behaves in different environments.',
+  },
+  2: {
+    visual: 'farm-visit',
+    points: [
+      { label: 'Direct Relationships', desc: 'No large intermediary organizations between us and the farmer' },
+      { label: 'Field Visits', desc: 'Our own team members visit farms, organized by region' },
+      { label: 'Practice Verification', desc: 'We observe actual agricultural practices on-site' },
+      { label: 'Long-term Trust', desc: 'Some collaborations take years to fully develop' },
+    ],
+    body: 'Sourcing is not a transaction. It\'s a relationship built over time. We send our own Vitabae team members into the field to identify growing areas that match our criteria, meet with farmers directly, and assess whether what is claimed matches what is actually done. By the time raw materials arrive at our facility, we already know their origin, their journey, and the hands that cultivated them.',
+  },
+  3: {
+    visual: 'inspection',
+    points: [
+      { label: 'Invoice & PO Alignment', desc: 'Purchase order verification against delivery' },
+      { label: 'Organic Certificate', desc: 'Validity and authenticity confirmed' },
+      { label: 'Certificate of Analysis', desc: 'CoA reviewed against specifications' },
+      { label: 'Transport Inspection', desc: 'Vehicle cleanliness, chemical residues, and conditions checked' },
+    ],
+    body: 'When raw materials arrive, nothing is accepted by default. Every delivery goes through the same process — regardless of the supplier or how long we\'ve worked together. If either the vehicle or the documentation is non-compliant, the batch is immediately blocked. No exceptions.',
+  },
+  4: {
+    visual: 'warehouse',
+    points: [
+      { label: 'Complete Separation', desc: 'Organic and non-organic materials never share space' },
+      { label: 'Sealed Environment', desc: 'Walls and doors with no gaps, adequate ventilation' },
+      { label: 'Clean Pallets Only', desc: 'Materials stored on clean plastic pallets, never reused bags' },
+      { label: 'FIFO Rotation', desc: 'First In, First Out — strict inventory management' },
+    ],
+    body: 'Storage is part of quality control, not just logistics. Organic raw materials are stored in a warehouse strictly dedicated to organic products. Shipping containers are never used as storage areas. Pallets are kept away from walls and floors with clear aisles for inspection and cleaning.',
+  },
+  5: {
+    visual: 'quarantine',
+    points: [
+      { label: 'QC HOLD Label', desc: 'Blue label applied to every incoming batch' },
+      { label: 'No Use Permitted', desc: 'Material cannot be used during quarantine' },
+      { label: 'No Transfer', desc: 'No movement to production until testing is complete' },
+      { label: 'No Exceptions', desc: 'Mandatory even for approved or long-term suppliers' },
+    ],
+    body: 'Quarantine is not a storage step — it is a controlled safety barrier. It ensures that no material can move into production until its identity, purity, and safety are fully verified. Trust does not bypass verification.',
+  },
+  6: {
+    visual: 'sampling',
+    points: [
+      { label: 'Dedicated Tools', desc: 'Clean, dry sampling tools — one per raw material' },
+      { label: 'Multi-Bag Sampling', desc: 'Samples taken from multiple bags to represent the full batch' },
+      { label: 'Tagged & Tracked', desc: 'Sampled bags marked with identification tags' },
+      { label: 'Full Documentation', desc: 'Material name, batch number, dates, and personnel recorded' },
+    ],
+    body: 'Sampling is carried out exclusively by our Quality Assurance / Quality Control team. This is not delegated. Samples are taken from multiple bags using dedicated tools to ensure the full batch is represented.',
+  },
+  7: {
+    visual: 'internal-lab',
+    points: [
+      { label: 'Visual Inspection', desc: 'Color, odor, and appearance verification' },
+      { label: 'Botanical Identity', desc: 'Confirmation against reference standards' },
+      { label: 'Moisture Content', desc: 'Measured to ensure within specification' },
+      { label: 'Particle Size', desc: 'Analysis where applicable for processing suitability' },
+    ],
+    body: 'The first level of verification happens in-house. These tests verify consistency with documentation and suitability for processing. A batch can be blocked at this stage if any anomaly is detected.',
+  },
+  8: {
+    visual: 'external-lab',
+    points: [
+      { label: 'Heavy Metals', desc: 'Lead, arsenic, cadmium, mercury screening' },
+      { label: 'Microbiological', desc: 'Total plate count, yeast, mold, E. coli, Salmonella' },
+      { label: 'Pesticide Residues', desc: 'Screened against organic certification standards' },
+      { label: 'Regulatory Compliance', desc: 'All applicable safety and quality parameters' },
+    ],
+    body: 'We test to find what\'s actually there — not to confirm what we hope. Samples are sent to qualified, independent external laboratories. External testing is mandatory, even if internal results are acceptable. Both levels must pass.',
+  },
+  9: {
+    visual: 'release-reject',
+    points: [
+      { label: 'If Compliant', desc: 'Green "RELEASED" label applied, dated, signed by QA/QC' },
+      { label: 'If Non-Compliant', desc: 'Red "REJECTED" label — returned to supplier or destroyed' },
+      { label: 'No Middle Ground', desc: 'One decision per batch, no conditional approvals' },
+      { label: 'Normal & Necessary', desc: 'Some batches never make it through. That\'s how it should work.' },
+    ],
+    body: 'Once all results are received, a single, final decision is made for each batch. There is no middle ground. Rejection is a normal and necessary part of the process.',
+  },
+  10: {
+    visual: 'cleaning',
+    points: [
+      { label: 'Dry Materials', desc: 'Visual inspection on sorting tables, manual foreign matter removal' },
+      { label: 'Fresh Materials', desc: 'Washed 25 kg at a time in RO-purified water, 30-minute cycles' },
+      { label: 'Steam Balancing', desc: '25 kg per batch, 30 minutes of controlled steam exposure' },
+      { label: 'Rapid Cooling', desc: 'Followed by chilled water to stop thermal effects' },
+    ],
+    body: 'Every material must be cleaned and prepared before it moves into production. This is where hands-on work begins. Two paths, one standard: dry materials go through sorting, fresh materials through washing.',
+  },
+  11: {
+    visual: 'vacuum-drying',
+    points: [
+      { label: '200 kg Capacity', desc: 'Vacuum tray dryer for controlled moisture removal' },
+      { label: 'Low Temperature', desc: 'Reduced pressure lowers the boiling point of water' },
+      { label: 'Continuous Monitoring', desc: 'Temperature, duration, and vacuum pressure tracked throughout' },
+      { label: 'Preserves Bioactives', desc: 'Protects heat-sensitive gingerols, shogaols, and other compounds' },
+    ],
+    body: 'Heat is the enemy of the very compounds we\'re trying to protect. By lowering air pressure, water evaporates at temperatures far below what conventional drying requires. This is slower than conventional drying. That\'s the point.',
+  },
+  12: {
+    visual: 'cutting',
+    points: [
+      { label: 'Mechanical Cutter', desc: 'Consistent 1–3 cm pieces' },
+      { label: 'Uniformity', desc: 'Determines consistency in all downstream steps' },
+    ],
+    body: 'Dried materials are fed into our mechanical cutter and cut into pieces approximately 1–3 cm in size, creating uniform material suitable for the grinding stages that follow. Uniformity here determines consistency later.',
+  },
+  13: {
+    visual: 'pre-grinding',
+    points: [
+      { label: 'Pulveriser', desc: '25 kg per batch, 30-minute cycle' },
+      { label: 'Impact & Shear', desc: 'Coarse granules created through mechanical force' },
+      { label: 'Cleaning Between Batches', desc: '20 minutes of thorough cleaning between each run' },
+    ],
+    body: 'Cut material is loaded into our pulveriser and reduced to coarse granules over a 30-minute cycle using impact, shear, and friction. This creates the uniform particle size needed for efficient, reproducible extraction or milling downstream.',
+  },
+  14: {
+    visual: 'extraction',
+    points: [
+      { label: 'Water Only', desc: 'Purified RO water as the only solvent — no chemicals' },
+      { label: '4.5 Hours', desc: '25 kg in a 250-litre tank at ~70°C with continuous stirring' },
+      { label: 'Vacuum Concentration', desc: '5 hours of controlled heating under vacuum' },
+      { label: 'Target Brix 45–55%', desc: 'Precise concentration for optimal potency' },
+    ],
+    body: 'Not every ingredient goes through extraction. But when it does, this is the most complex stage in our entire process. Active compounds are drawn into water over 4 hours and 30 minutes. No harsh solvents. No chemical shortcuts. Water only.',
+  },
+  15: {
+    visual: 'final-drying',
+    points: [
+      { label: '25–35 kg Per Batch', desc: 'Concentrated extract back in vacuum tray dryer' },
+      { label: '8 Hours Under Vacuum', desc: 'Steam-heated shelves at controlled pressure' },
+      { label: '1 Hour Cleaning', desc: 'Full cleaning between every batch' },
+    ],
+    body: 'The concentrated extract moves back to our vacuum tray dryer for final moisture removal. 8 hours under vacuum with steam-heated shelves at controlled pressure. Rushing this step would compromise everything that came before it.',
+  },
+  16: {
+    visual: 'milling',
+    points: [
+      { label: 'Multi Mill', desc: 'Up to 100 kg per hour through impact and shear forces' },
+      { label: 'Uniform Powder', desc: 'Consistent particle size for accurate blending' },
+      { label: '30-Minute Cleaning', desc: 'Between every batch for purity' },
+    ],
+    body: 'Dried material enters our multi mill, processing up to 100 kg per hour. The result: consistent, uniform powder with the particle size needed for accurate blending and encapsulation. What comes out must be the same — every time.',
+  },
+  17: {
+    visual: 'sieving',
+    points: [
+      { label: 'Vibro Sifter', desc: 'Up to 200 kg per hour through 80-mesh screens' },
+      { label: 'Oversized Removal', desc: 'Particles that don\'t meet spec are removed' },
+      { label: 'Uniformity Check', desc: 'Bulk density confirmed before moving forward' },
+    ],
+    body: 'Powder passes through our vibro sifter, filtered through 80-mesh screens. Only powder that passes this check moves to blending. This is the last quality gate before ingredients are combined.',
+  },
+  18: {
+    visual: 'blending',
+    points: [
+      { label: 'Ribbon Blender', desc: '20-litre capacity, controlled temperature and humidity' },
+      { label: 'Full Hour Cycle', desc: 'Runs until complete uniformity is confirmed' },
+      { label: 'Zero Tolerance', desc: 'Non-uniform blends are rejected. No exceptions.' },
+    ],
+    body: 'Ingredients are precisely weighed, then combined in our ribbon blender under controlled conditions. If the blend isn\'t right, nothing that follows will be either.',
+  },
+  19: {
+    visual: 'encapsulation',
+    points: [
+      { label: 'Vacuum Separation', desc: 'Opens each capsule shell precisely' },
+      { label: 'Continuous Weight Monitoring', desc: 'Every capsule weighed in real-time' },
+      { label: 'Real-Time Adjustments', desc: 'Automatic corrections during filling' },
+    ],
+    body: 'Capsules are filled using our capsule filling machine. Vacuum separation opens each shell, precise amounts of powder are deposited, and capsules are reclosed and locked. Every capsule is weighed. Every variation is tracked. Consistency is not a goal — it\'s a requirement.',
+  },
+  20: {
+    visual: 'counting',
+    points: [
+      { label: 'High-Accuracy Sensors', desc: 'Count each capsule automatically' },
+      { label: 'No Manual Handling', desc: 'Capsules transfer directly into bottles' },
+      { label: 'Auto-Rejection', desc: 'Incorrect counts automatically rejected' },
+    ],
+    body: 'No human hand touches the capsules at this stage. High-accuracy sensors count each capsule and transfer them directly into bottles. If the count isn\'t exact, the bottle doesn\'t move forward.',
+  },
+  21: {
+    visual: 'sealing',
+    points: [
+      { label: 'Controlled Torque', desc: 'Caps placed with precise, consistent force' },
+      { label: 'Induction Sealing', desc: 'Airtight closure where applicable' },
+      { label: 'Verification', desc: 'Torque and seal integrity checked on every bottle' },
+    ],
+    body: 'Bottles move through our automatic capping and sealing machine. What\'s inside is protected. What\'s outside stays out.',
+  },
+  22: {
+    visual: 'traceability',
+    points: [
+      { label: 'Unique Batch Number', desc: 'Every batch carries full identification' },
+      { label: 'Complete Records', desc: 'Processing parameters and quality control documentation' },
+      { label: 'Farm to Capsule', desc: 'Unbroken chain of documentation' },
+    ],
+    body: '22 documented process steps. Two independent testing levels. 100% batch traceability. This is what happens between the soil and your bottle.',
+  },
 };
+
+/* ══════════════════════════════════════════════════════════
+   MOTION TYPES per step
+══════════════════════════════════════════════════════════ */
+const STEP_MOTIONS = {
+  1: 'grow', 2: 'shake', 3: 'scan', 4: 'bounce', 5: 'pulse',
+  6: 'drip', 7: 'magnify', 8: 'pulse', 9: 'stamp', 10: 'shake',
+  11: 'float', 12: 'cut', 13: 'shake', 14: 'drip', 15: 'float',
+  16: 'shake', 17: 'bounce', 18: 'spin', 19: 'bounce', 20: 'pulse',
+  21: 'stamp', 22: 'grow',
+};
+
+/* ══════════════════════════════════════════════════════════
+   STEP DETAIL — inline, scroll-locked, wheel swaps steps
+══════════════════════════════════════════════════════════ */
+const StepDetail = React.forwardRef(function StepDetail({ stepNum, onChangeStep, onClose }, ref) {
+  const sectionRef = useRef(null);
+  const step = STEPS[stepNum - 1];
+  const detail = STEP_DETAILS[stepNum];
+  const StepIcon = step.icon;
+  const color = PHASE_COLORS[step.phase];
+  const motion = STEP_MOTIONS[stepNum] || 'pulse';
+  const phaseLabel = step.phase === 'origin' ? 'Origin' :
+    step.phase === 'intake' ? 'Intake & Storage' :
+    step.phase === 'testing' ? 'Testing' :
+    step.phase === 'processing' ? 'Processing' : 'Finishing';
+
+  const motionStyle = {
+    grow: 'detailPulse 2s ease-in-out infinite',
+    shake: 'detailShake 1.5s ease-in-out infinite',
+    scan: 'detailSlide 2s ease-in-out infinite',
+    bounce: 'detailBounce 1.5s ease-in-out infinite',
+    pulse: 'detailPulse 1.2s ease-in-out infinite',
+    drip: 'detailDrip 1.5s ease-in-out infinite',
+    magnify: 'detailPulse 2.5s ease-in-out infinite',
+    stamp: 'detailStamp 0.8s ease-in-out infinite',
+    float: 'detailFloat 2s ease-in-out infinite',
+    cut: 'detailShake 0.6s ease-in-out infinite',
+    spin: 'detailSpin 6s linear infinite',
+  }[motion] || 'detailPulse 1.2s ease-in-out infinite';
+
+  // Lock scroll immediately + capture wheel to advance steps
+  useEffect(() => {
+    // Scroll to section instantly, then lock
+    const el = sectionRef.current;
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: y, behavior: 'instant' });
+    }
+    document.body.style.overflow = 'hidden';
+
+    let cooldown = false;
+    const handleWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (cooldown) return;
+      cooldown = true;
+
+      if (e.deltaY > 0) {
+        if (stepNum < 22) onChangeStep(stepNum + 1);
+        else { document.body.style.overflow = ''; onClose(); }
+      } else {
+        if (stepNum > 1) onChangeStep(stepNum - 1);
+      }
+
+      setTimeout(() => { cooldown = false; }, 400);
+    };
+
+    const handleTouch = (e) => e.preventDefault();
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowDown' || e.key === ' ') {
+        e.preventDefault();
+        if (stepNum < 22) onChangeStep(stepNum + 1);
+        else { document.body.style.overflow = ''; onClose(); }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (stepNum > 1) onChangeStep(stepNum - 1);
+      } else if (e.key === 'Escape') {
+        document.body.style.overflow = '';
+        onClose();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchmove', handleTouch, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchmove', handleTouch);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [stepNum, onChangeStep, onClose]);
+
+  if (!detail) return null;
+
+  return (
+    <section ref={(node) => { sectionRef.current = node; if (ref) ref.current = node; }} className="bg-white border-t border-gray-100">
+      <style>{`
+        @keyframes detailPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+        @keyframes detailShake { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(4deg)} 75%{transform:rotate(-4deg)} }
+        @keyframes detailSlide { 0%,100%{transform:translateX(0)} 50%{transform:translateX(12px)} }
+        @keyframes detailBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes detailDrip { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+        @keyframes detailStamp { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        @keyframes detailFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-6px) scale(1.04)} }
+        @keyframes detailSpin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+      `}</style>
+
+      {/* Top bar */}
+      <div className="border-b border-gray-100 sticky top-0 z-30 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+            <span className="text-[11px] uppercase tracking-[0.2em] font-semibold" style={{ color }}>{phaseLabel}</span>
+            <span className="text-gray-300 mx-1">·</span>
+            <span className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">Step {stepNum} / 22</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-0.5 mr-2">
+              {STEPS.map((s) => (
+                <button
+                  key={s.num}
+                  onClick={() => onChangeStep(s.num)}
+                  className={`rounded-full transition-all ${s.num === stepNum ? 'w-5 h-2.5' : 'w-2 h-2 opacity-30 hover:opacity-60'}`}
+                  style={{ backgroundColor: PHASE_COLORS[s.phase] }}
+                />
+              ))}
+            </div>
+            <button
+              onClick={onClose}
+              className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-gray-500 hover:text-[#1E2A3A] bg-gray-100 hover:bg-gray-200 rounded-full px-4 py-2 transition-colors"
+            >
+              <X size={12} /> Back to Map
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Content — visual left, description right, compact, no wasted space */}
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-16 items-start">
+
+          {/* LEFT — Animated visual */}
+          <div className="rounded-2xl overflow-hidden relative" style={{ backgroundColor: `${color}06`, border: `1px solid ${color}12` }}>
+            <div className="aspect-[4/3] flex flex-col items-center justify-center p-6 md:p-10 relative">
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[75%] h-[75%] rounded-full border border-dashed opacity-[0.06]" style={{ borderColor: color }} />
+              </div>
+              <div className="mb-6">
+                <div
+                  className="w-20 h-20 md:w-28 md:h-28 rounded-2xl flex items-center justify-center"
+                  style={{ backgroundColor: `${color}15`, animation: motionStyle }}
+                >
+                  <StepIcon size={48} style={{ color }} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 md:gap-3 w-full max-w-md">
+                {detail.points.map((pt, i) => (
+                  <div key={i} className="bg-white/90 rounded-lg p-2.5 md:p-3 shadow-sm border border-gray-100">
+                    <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider mb-0.5" style={{ color }}>{pt.label}</p>
+                    <p className="text-[9px] md:text-[10px] text-gray-500 leading-snug">{pt.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — Text */}
+          <div>
+            <p className="text-sm uppercase tracking-[0.25em] font-bold mb-2" style={{ color: `${color}90` }}>Step {stepNum}</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-[#1E2A3A] mb-4 leading-[1.1]">
+              {step.title}
+            </h2>
+            <p className="text-lg md:text-xl text-gray-400 italic mb-6 leading-relaxed">
+              {step.short}
+            </p>
+            <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8">
+              {detail.body}
+            </p>
+            <div className="space-y-4">
+              <h4 className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">What Happens</h4>
+              {detail.points.map((pt, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold text-white" style={{ backgroundColor: color }}>
+                    {i + 1}
+                  </div>
+                  <div>
+                    <p className="text-base font-medium text-[#1E2A3A]">{pt.label}</p>
+                    <p className="text-sm text-gray-500">{pt.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom scroll hint */}
+      <div className="pb-6 flex justify-center text-gray-300">
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-[9px] uppercase tracking-wider">
+            {stepNum < 22 ? `Scroll for Step ${stepNum + 1}` : 'Scroll to finish'}
+          </span>
+          <ChevronRight size={14} className="rotate-90 animate-bounce" />
+        </div>
+      </div>
+    </section>
+  );
+});
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATED COUNTER HOOK
+══════════════════════════════════════════════════════════ */
+function AnimatedCounter({ value, suffix = '', duration = 2 }) {
+  const ref = useRef(null);
+  const [display, setDisplay] = useState('0');
+
+  useEffect(() => {
+    const num = parseInt(value) || 0;
+    const isPercent = value.includes('%');
+
+    const trigger = ScrollTrigger.create({
+      trigger: ref.current,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to({ val: 0 }, {
+          val: num,
+          duration,
+          ease: 'power2.out',
+          onUpdate: function () {
+            setDisplay(Math.round(this.targets()[0].val) + (isPercent ? '%' : '') + suffix);
+          },
+        });
+      },
+    });
+    return () => trigger.kill();
+  }, [value, suffix, duration]);
+
+  return <span ref={ref}>{display}</span>;
+}
 
 /* ══════════════════════════════════════════════════════════
    COMPONENT
 ══════════════════════════════════════════════════════════ */
 export default function OurProcess() {
   const heroRef = useRef(null);
-  const [expandedStep, setExpandedStep] = useState(null);
+  const gridRef = useRef(null);
+  const detailRef = useRef(null);
+  const [activeStep, setActiveStep] = useState(null);
+
+  const topRow = STEPS.slice(0, 11);
+  const bottomRow = STEPS.slice(11);
+
+  const selectAndScroll = (step) => {
+    setActiveStep(step.num);
+    setTimeout(() => {
+      detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      /* Hero entrance */
       const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
       heroTl
         .fromTo('.process-hero-label', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 })
         .fromTo('.process-hero-title', { y: 80, opacity: 0, clipPath: 'inset(100% 0 0 0)' }, { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0)', duration: 1.2 }, '-=0.3')
         .fromTo('.process-hero-sub', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
-        .fromTo('.process-hero-stat', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 }, '-=0.3');
+        .fromTo('.process-hero-stat', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.15 }, '-=0.3');
 
-      // Animate step cards on scroll
-      document.querySelectorAll('.step-card').forEach((el) => {
+      /* Top row — stagger in from left */
+      gsap.fromTo('.step-node-top',
+        { y: 40, opacity: 0, scale: 0.8 },
+        {
+          y: 0, opacity: 1, scale: 1,
+          duration: 0.5, stagger: 0.08, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: '.step-grid-top', start: 'top 85%' },
+        }
+      );
+
+      /* Bottom row — stagger in from right */
+      gsap.fromTo('.step-node-bottom',
+        { y: -40, opacity: 0, scale: 0.8 },
+        {
+          y: 0, opacity: 1, scale: 1,
+          duration: 0.5, stagger: 0.08, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: '.step-grid-bottom', start: 'top 85%' },
+        }
+      );
+
+      /* Connecting line animation */
+      gsap.fromTo('.connect-line',
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 1.5, ease: 'power2.inOut',
+          scrollTrigger: { trigger: '.step-grid-top', start: 'top 80%' },
+        }
+      );
+
+      /* Risk cards */
+      document.querySelectorAll('.risk-card').forEach((el, i) => {
         gsap.fromTo(el,
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%' } }
+          { y: 30, opacity: 0 },
+          {
+            y: 0, opacity: 1,
+            duration: 0.5, delay: i * 0.08, ease: 'power2.out',
+            scrollTrigger: { trigger: el, start: 'top 90%' },
+          }
         );
       });
+
+      gsap.fromTo('.standards-block',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: '.standards-block', start: 'top 85%' } }
+      );
     });
     return () => ctx.revert();
   }, []);
 
-  const toggleStep = (num) => {
-    setExpandedStep(expandedStep === num ? null : num);
-  };
 
   return (
     <div className="bg-[#FFFBF5] min-h-screen">
 
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 1 — HERO
+          HERO
           ═══════════════════════════════════════════════════════════════ */}
-      <section ref={heroRef} className="bg-[#1E2A3A] text-white py-24 md:py-32 px-4 overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center">
+      <section ref={heroRef} className="relative bg-[#1E2A3A] text-white py-28 md:py-36 px-4 overflow-hidden">
+        <video
+          src="/videos/farm-documentary.mp4"
+          autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }} />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <span className="process-hero-label text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-6 block">
             Our Process
           </span>
@@ -335,23 +613,148 @@ export default function OurProcess() {
               <span className="font-serif italic">to Capsule</span>
             </h1>
           </div>
-          <p className="process-hero-sub text-gray-400 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed mb-4">
-            Behind every capsule is a documented journey — one that begins long before anything is harvested or processed. This is the full story of how we work. Not simplified. Not glossed over. Everything that happens between the soil and your bottle.
-          </p>
-          <p className="process-hero-sub text-[#E8A598] text-sm font-medium mb-10">
-            22 documented process steps. Click any stage to explore it in detail.
+          <p className="process-hero-sub text-gray-400 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed mb-12">
+            22 documented steps. Two independent testing levels. 100% batch traceability. Click any step to explore.
           </p>
 
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-12">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
             {[
               { num: '22', label: 'Process Steps' },
               { num: '2', label: 'Testing Levels' },
               { num: '100%', label: 'Batch Traceability' },
             ].map((s, i) => (
               <div key={i} className="process-hero-stat text-center">
-                <span className="text-3xl md:text-4xl font-light text-white block">{s.num}</span>
-                <span className="text-[10px] uppercase tracking-[0.15em] text-gray-500">{s.label}</span>
+                <span className="text-4xl md:text-5xl font-light text-white block mb-1">
+                  <AnimatedCounter value={s.num} duration={2 + i * 0.3} />
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500">{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="process-hero-sub mt-14">
+            <div className="w-5 h-8 rounded-full border border-white/20 mx-auto flex justify-center pt-1.5">
+              <div className="w-0.5 h-2 bg-white/40 rounded-full animate-bounce" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          22 STEPS — TWO ROWS OF 11
+          ═══════════════════════════════════════════════════════════════ */}
+      <section ref={gridRef} className="py-20 md:py-32 scroll-mt-4">
+        <div className="mx-auto px-4 md:px-8 max-w-[1400px]">
+          <div className="text-center mb-14">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-3">The Full Journey</p>
+            <h2 className="text-2xl md:text-4xl font-light text-[#1E2A3A]">
+              22 Steps. <span className="font-serif italic">Zero Shortcuts.</span>
+            </h2>
+          </div>
+
+          {/* TOP ROW — Steps 1–11 */}
+          <div className="step-grid-top relative mb-6 pb-4">
+            {/* Connecting line — below text */}
+            <div className="connect-line absolute bottom-0 left-[4%] right-[4%] h-[2px] bg-gradient-to-r from-[#6B8E23] via-[#5B8DB8] to-[#D4A0C0] origin-left z-0 hidden md:block" />
+
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-3 md:gap-3 relative z-10">
+              {topRow.map((step) => {
+                const Icon = step.icon;
+                const color = PHASE_COLORS[step.phase];
+                const isSelected = false;
+                return (
+                  <button
+                    key={step.num}
+                    onClick={() => selectAndScroll(step)}
+                    className={`step-node-top group flex flex-col items-center gap-2.5 py-5 px-2 rounded-2xl transition-all duration-300 ${
+                      isSelected
+                        ? 'bg-white shadow-lg scale-105 border border-gray-200'
+                        : 'hover:bg-white/80 hover:shadow-md hover:-translate-y-1'
+                    }`}
+                  >
+                    <div
+                      className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 ${
+                        isSelected ? 'border-white shadow-md scale-110' : 'border-transparent group-hover:scale-105'
+                      }`}
+                      style={{ backgroundColor: isSelected ? color : `${color}18` }}
+                    >
+                      <Icon size={22} style={{ color: isSelected ? '#fff' : color }} />
+                    </div>
+                    <span className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-[#1E2A3A]' : 'text-gray-400'}`}>
+                      {step.num}
+                    </span>
+                    <span className={`text-[10px] leading-tight text-center line-clamp-2 max-w-[100px] hidden md:block ${isSelected ? 'text-[#1E2A3A] font-medium' : 'text-gray-500'}`}>
+                      {step.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Arrow connector between rows */}
+          <div className="flex justify-center my-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-px bg-gray-200" />
+              <div className="w-8 h-8 rounded-full bg-[#FAF8F5] border border-gray-200 flex items-center justify-center">
+                <ChevronRight size={14} className="text-gray-400 rotate-90" />
+              </div>
+              <div className="w-12 h-px bg-gray-200" />
+            </div>
+          </div>
+
+          {/* BOTTOM ROW — Steps 12–22 */}
+          <div className="step-grid-bottom relative mt-6 pb-4">
+            {/* Connecting line — below text */}
+            <div className="connect-line absolute bottom-0 left-[4%] right-[4%] h-[2px] bg-gradient-to-r from-[#D4A0C0] via-[#D4A0C0] to-[#1E2A3A] origin-left z-0 hidden md:block" />
+
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-3 md:gap-3 relative z-10">
+              {bottomRow.map((step) => {
+                const Icon = step.icon;
+                const color = PHASE_COLORS[step.phase];
+                const isSelected = false;
+                return (
+                  <button
+                    key={step.num}
+                    onClick={() => selectAndScroll(step)}
+                    className={`step-node-bottom group flex flex-col items-center gap-2.5 py-5 px-2 rounded-2xl transition-all duration-300 ${
+                      isSelected
+                        ? 'bg-white shadow-lg scale-105 border border-gray-200'
+                        : 'hover:bg-white/80 hover:shadow-md hover:-translate-y-1'
+                    }`}
+                  >
+                    <div
+                      className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 ${
+                        isSelected ? 'border-white shadow-md scale-110' : 'border-transparent group-hover:scale-105'
+                      }`}
+                      style={{ backgroundColor: isSelected ? color : `${color}18` }}
+                    >
+                      <Icon size={22} style={{ color: isSelected ? '#fff' : color }} />
+                    </div>
+                    <span className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-[#1E2A3A]' : 'text-gray-400'}`}>
+                      {step.num}
+                    </span>
+                    <span className={`text-[10px] leading-tight text-center line-clamp-2 max-w-[100px] hidden md:block ${isSelected ? 'text-[#1E2A3A] font-medium' : 'text-gray-500'}`}>
+                      {step.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Phase Legend */}
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            {[
+              { key: 'origin', label: 'Origin' },
+              { key: 'intake', label: 'Intake & Storage' },
+              { key: 'testing', label: 'Testing' },
+              { key: 'processing', label: 'Processing' },
+              { key: 'finishing', label: 'Finishing' },
+            ].map((p) => (
+              <div key={p.key} className="flex items-center gap-2">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: PHASE_COLORS[p.key] }} />
+                <span className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">{p.label}</span>
               </div>
             ))}
           </div>
@@ -359,146 +762,49 @@ export default function OurProcess() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
-          LINEAR TIMELINE — 22 STEPS
+          STEP DETAIL — Single section, scroll swaps content
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-4 md:px-8 max-w-3xl">
+      {activeStep && <StepDetail
+        ref={detailRef}
+        stepNum={activeStep}
+        onChangeStep={(num) => setActiveStep(num)}
+        onClose={() => {
+          setActiveStep(null);
+          setTimeout(() => gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+        }}
+        onJumpTo={(step) => selectAndScroll(step)}
+      />}
 
-          {/* Phase legend */}
-          <div className="flex flex-wrap justify-center gap-3 mb-14">
-            {Object.entries(PHASE_META).map(([key, meta]) => (
-              <div key={key} className="flex items-center gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: meta.color }} />
-                <span className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">{meta.label}</span>
-              </div>
-            ))}
+      {/* ═══════════════════════════════════════════════════════════════
+          PROCESS VIDEO
+          ═══════════════════════════════════════════════════════════════ */}
+      <section className="bg-[#1E2A3A] py-16 md:py-20">
+        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+          <div className="text-center mb-10">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">Watch the Process</p>
+            <h2 className="text-2xl md:text-3xl font-light text-white">From Root to Capsule</h2>
           </div>
-
-          {/* Timeline */}
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gray-200" />
-
-            {STEPS.map((step, i) => {
-              const Icon = step.icon;
-              const phase = PHASE_META[step.phase];
-              const isExpanded = expandedStep === step.num;
-              const prevPhase = i > 0 ? STEPS[i - 1].phase : null;
-              const isNewPhase = step.phase !== prevPhase;
-
-              return (
-                <React.Fragment key={step.num}>
-                  {/* Phase divider */}
-                  {isNewPhase && (
-                    <div className="relative flex items-center mb-6 mt-2">
-                      <div className="absolute left-6 md:left-8 -translate-x-1/2 w-3 h-3 rounded-full border-2 border-white z-10" style={{ backgroundColor: phase.color }} />
-                      <div className="ml-14 md:ml-16">
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold" style={{ color: phase.color }}>
-                          {phase.label}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step node */}
-                  <div
-                    className="step-card relative flex items-start mb-1 cursor-pointer group"
-                    onClick={() => toggleStep(step.num)}
-                  >
-                    {/* Node dot on the line */}
-                    <div className="absolute left-6 md:left-8 -translate-x-1/2 z-10 mt-5">
-                      <div
-                        className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border-[3px] border-white shadow-sm transition-all duration-300 ${
-                          isExpanded ? 'scale-110' : 'group-hover:scale-105'
-                        }`}
-                        style={{ backgroundColor: isExpanded ? phase.color : `${phase.color}20` }}
-                      >
-                        <Icon size={16} className={isExpanded ? 'text-white' : ''} style={isExpanded ? {} : { color: phase.color }} />
-                      </div>
-                    </div>
-
-                    {/* Content card */}
-                    <div className="ml-14 md:ml-16 flex-grow mb-4 transition-all duration-300">
-                      <div className={`bg-white border rounded-xl overflow-hidden transition-all duration-300 ${
-                        isExpanded ? 'border-gray-300 shadow-lg' : 'border-gray-100 hover:border-gray-200 hover:shadow-sm'
-                      }`}>
-                        <div className="p-4 md:p-5">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Step {step.num}</span>
-                                <span className="w-1 h-1 rounded-full bg-gray-300" />
-                                <span className="text-[9px] uppercase tracking-wider font-semibold" style={{ color: phase.color }}>
-                                  {phase.label}
-                                </span>
-                              </div>
-                              <h3 className="text-sm md:text-base font-medium text-[#1E2A3A] mb-1.5 leading-tight">{step.title}</h3>
-                              <p className="text-xs text-gray-500 leading-relaxed">{step.short}</p>
-                            </div>
-                            <div className="flex-shrink-0 mt-1">
-                              {isExpanded ? (
-                                <ChevronUp size={16} className="text-gray-400" />
-                              ) : (
-                                <ChevronDown size={16} className="text-gray-300 group-hover:text-gray-500 transition-colors" />
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Expanded detail */}
-                        {isExpanded && STEP_DETAILS[step.num] && (
-                          <div className="px-4 md:px-5 pb-5 border-t border-gray-100 pt-4 animate-in fade-in duration-300">
-                            {STEP_DETAILS[step.num]}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </React.Fragment>
-              );
-            })}
-
-            {/* End marker */}
-            <div className="relative flex items-center mt-2">
-              <div className="absolute left-6 md:left-8 -translate-x-1/2 z-10">
-                <div className="w-5 h-5 rounded-full bg-[#1E2A3A] flex items-center justify-center">
-                  <CheckCircle2 size={12} className="text-white" />
-                </div>
-              </div>
-              <div className="ml-14 md:ml-16">
-                <p className="text-xs text-gray-500 font-medium">Your bottle is complete.</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Process Video */}
-          <div className="mt-16 rounded-2xl overflow-hidden">
-            <div className="relative aspect-video bg-[#1E2A3A]">
+          <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative aspect-video bg-black/30">
               <video
                 src="/videos/capsule-firefly.mp4"
                 autoPlay muted loop playsInline
-                className="w-full h-full object-cover opacity-80"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-white/80 text-sm font-light tracking-wider">From Root to Capsule</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 3 — INVISIBLE RISK + STANDARDS
+          INVISIBLE RISK + STANDARDS
           ═══════════════════════════════════════════════════════════════ */}
-      <section className="bg-white py-16 md:py-20 border-t border-gray-100">
+      <section className="bg-white py-16 md:py-24 border-t border-gray-100">
         <div className="container mx-auto px-4 md:px-8 max-w-5xl">
 
-          {/* What You Don't See */}
           <div className="text-center mb-14">
             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-3">Verification & Risk Control</p>
-            <h2 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-4">
+            <h2 className="text-2xl md:text-4xl font-light text-[#1E2A3A] mb-4">
               What You Don't See — But We <span className="font-serif italic">Never Stop Watching</span>
             </h2>
             <p className="text-sm text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -517,7 +823,7 @@ export default function OurProcess() {
             ].map((item, i) => {
               const IconComp = item.icon;
               return (
-                <div key={i} className="bg-[#FAF8F5] rounded-xl p-6 border border-gray-100">
+                <div key={i} className="risk-card bg-[#FAF8F5] rounded-xl p-6 border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                   <IconComp size={20} className="text-[#1E2A3A] mb-3" />
                   <h3 className="text-sm font-medium text-[#1E2A3A] mb-2">{item.title}</h3>
                   <p className="text-xs text-gray-500 leading-relaxed">{item.text}</p>
@@ -526,14 +832,8 @@ export default function OurProcess() {
             })}
           </div>
 
-          <div className="text-center mb-14">
-            <p className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed italic">
-              We don't just test the finished product. We control risk at every point along the way.
-            </p>
-          </div>
-
-          {/* The Standards Behind Our Standards */}
-          <div className="bg-[#1E2A3A] rounded-2xl p-8 md:p-12 text-white mb-14">
+          {/* Standards */}
+          <div className="standards-block bg-[#1E2A3A] rounded-2xl p-8 md:p-12 text-white mb-14">
             <h3 className="text-xl md:text-2xl font-light mb-6">
               The Standards Behind <span className="font-serif italic">Our Standards</span>
             </h3>
@@ -548,7 +848,7 @@ export default function OurProcess() {
                 { label: 'ISO 22000', sub: '2018 Standard' },
                 { label: 'Third-Party', sub: 'Lab Tested' },
               ].map((cert, i) => (
-                <div key={i} className="bg-white/10 rounded-xl p-4 text-center">
+                <div key={i} className="bg-white/10 rounded-xl p-4 text-center hover:bg-white/15 transition-colors duration-300">
                   <Award size={20} className="mx-auto mb-2 text-[#E8A598]" />
                   <p className="text-xs font-bold text-white uppercase tracking-wider">{cert.label}</p>
                   <p className="text-[10px] text-gray-400">{cert.sub}</p>
@@ -557,24 +857,21 @@ export default function OurProcess() {
             </div>
           </div>
 
-          {/* Closing Statement */}
+          {/* Closing */}
           <div className="text-center max-w-3xl mx-auto">
             <h3 className="text-xl md:text-2xl font-light text-[#1E2A3A] mb-4">
               This Is Our Process — And We Don't <span className="font-serif italic">Simplify It</span>
             </h3>
             <p className="text-sm text-gray-500 leading-relaxed mb-3">
-              Waiting is built into how we work. Testing takes time. Verification takes time. Building relationships with farmers takes time. Some ingredients move through quickly. Others take longer. Some batches never make it through at all.
-            </p>
-            <p className="text-sm text-gray-500 leading-relaxed mb-3">
               We don't simplify this for marketing. We don't gloss over the complexity. This is what actually happens — from the soil to your bottle.
             </p>
             <p className="text-sm text-gray-600 leading-relaxed mb-8 font-medium">
-              When research shows we should do something differently, we'll change. Until then, our process follows evidence, verification, and a deep respect for how plants naturally grow. This is how we define quality.
+              When research shows we should do something differently, we'll change. Until then, our process follows evidence, verification, and a deep respect for how plants naturally grow.
             </p>
 
             <p className="text-sm text-gray-500 mb-6">You've seen the process. Now meet the products it creates.</p>
 
-            <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group">
+            <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group">
               <Link to="/Collection">
                 Explore Our Products
                 <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
