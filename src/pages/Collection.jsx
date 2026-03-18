@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal, ArrowRight, X, Check, Leaf, ShieldCheck, Eye } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -92,7 +92,7 @@ const ALL_INGREDIENTS = [
 /* ══════════════════════════════════════════════════════════
    QUICK VIEW MODAL
 ══════════════════════════════════════════════════════════ */
-function QuickViewModal({ ingredient, selectedStages, onClose }) {
+function QuickViewModal({ ingredient, selectedStages, onClose, onNavigate }) {
   // Get all benefits across all matching life stages
   const allBenefits = [];
   const stageMatches = [];
@@ -178,11 +178,16 @@ function QuickViewModal({ ingredient, selectedStages, onClose }) {
               </div>
             </div>
 
-            <Button asChild className="w-full bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none py-5 text-[10px] uppercase tracking-[0.2em] font-medium">
-              <Link to={`/Product?id=${ingredient.name.toLowerCase().replace(/\s+/g, '-')}-capsules`}>
-                View Full Details
-                <ArrowRight size={12} className="ml-2" />
-              </Link>
+            <Button
+              className="w-full bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none py-5 text-[10px] uppercase tracking-[0.2em] font-medium"
+              onClick={() => {
+                const productId = ingredient.name.toLowerCase().replace(/\s*\(.*?\)\s*/g, '').trim().replace(/\s+/g, '-') + '-capsules';
+                onClose();
+                onNavigate(productId);
+              }}
+            >
+              View Full Details
+              <ArrowRight size={12} className="ml-2" />
             </Button>
           </div>
         </div>
@@ -351,7 +356,7 @@ const ProductCard = ({ ingredient, selectedStages, selectedBenefits, onQuickView
         <div className="flex items-center justify-between w-full mt-2">
           <span className="font-medium text-gray-900">${ingredient.price.toFixed(2)}</span>
           <Link
-            to={`/Product?id=${ingredient.name.toLowerCase().replace(/\s+/g, '-')}-capsules`}
+            to={`/Product?id=${ingredient.name.toLowerCase().replace(/\s*\(.*?\)\s*/g, '').trim().replace(/\s+/g, '-')}-capsules`}
             className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#F4A492] hover:text-[#1E2A3A] transition-colors inline-flex items-center gap-1"
           >
             Learn More <ArrowRight size={10} />
@@ -368,6 +373,7 @@ const ProductCard = ({ ingredient, selectedStages, selectedBenefits, onQuickView
 export default function Collection() {
   const [searchParams] = useSearchParams();
   const initialStage = searchParams.get('stage');
+  const navigate = useNavigate();
 
   const [filters, setFilters] = useState({ lifeStage: [], benefit: [] });
   const [sortBy, setSortBy] = useState('name');
@@ -515,8 +521,7 @@ export default function Collection() {
         <div className="mb-12">
           <h2 className="text-2xl font-serif text-[#1E2A3A] mb-6">Shop by Life Stage</h2>
           <div className="relative">
-            {/* Timeline line */}
-            <div className="hidden md:block absolute top-5 left-0 right-0 h-px bg-gray-200" />
+            {/* Timeline line removed */}
             <div className="flex flex-wrap md:flex-nowrap gap-3 md:gap-0 md:justify-between">
               {LIFE_STAGE_OPTIONS.map((stage) => {
                 const isActive = filters.lifeStage.includes(stage);
@@ -530,17 +535,13 @@ export default function Collection() {
                   >
                     {/* Dot */}
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 z-10 ${
+                      className={`w-10 h-10 rounded-full transition-all duration-300 z-10 border-0 ${
                         isActive
-                          ? 'scale-110 shadow-lg'
-                          : 'bg-white border-gray-200 group-hover:border-gray-400'
+                          ? 'scale-110 shadow-lg ring-2 ring-offset-2'
+                          : 'opacity-70 group-hover:opacity-100 group-hover:scale-105'
                       }`}
-                      style={isActive ? { backgroundColor: color, borderColor: color } : {}}
-                    >
-                      <span className={`text-xs font-bold ${isActive ? 'text-white' : 'text-gray-400'}`}>
-                        {count}
-                      </span>
-                    </div>
+                      style={{ backgroundColor: color, ringColor: color, outline: 'none' }}
+                    />
                     {/* Label */}
                     <span className={`text-[10px] text-center mt-2 uppercase tracking-wider transition-colors leading-tight ${
                       isActive ? 'text-[#1E2A3A] font-semibold' : 'text-gray-400 group-hover:text-gray-600'
@@ -720,6 +721,10 @@ export default function Collection() {
           ingredient={quickViewItem}
           selectedStages={filters.lifeStage}
           onClose={() => setQuickViewItem(null)}
+          onNavigate={(productId) => {
+            window.scrollTo(0, 0);
+            navigate(`/Product?id=${productId}`);
+          }}
         />,
         document.body
       )}

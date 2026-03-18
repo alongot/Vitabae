@@ -17,28 +17,28 @@ gsap.registerPlugin(ScrollTrigger);
    22 PROCESS STEPS
 ══════════════════════════════════════════════════════════ */
 const STEPS = [
-  { num: 1,  title: 'Understanding the Ingredient', icon: Sprout, phase: 'origin', short: 'We study each plant individually — its ideal soil, climate, and growing conditions — before sourcing begins.' },
-  { num: 2,  title: 'Finding Farms That Share Our Standards', icon: Handshake, phase: 'origin', short: 'We work directly with certified organic farmers in India, building long-term relationships based on trust and shared values.' },
-  { num: 3,  title: 'Receipt & Inspection', icon: ClipboardCheck, phase: 'intake', short: 'Every delivery is checked on arrival — documents, certifications, and transport conditions — before anything is unloaded.' },
-  { num: 4,  title: 'Storing What We\'ve Sourced', icon: Warehouse, phase: 'intake', short: 'Organic materials are stored in a dedicated warehouse with strict separation, clean pallets, and FIFO rotation.' },
-  { num: 5,  title: 'Mandatory Quarantine', icon: Lock, phase: 'intake', short: 'Every batch is held under a blue "QC HOLD" label. No material enters production until all testing is complete.' },
-  { num: 6,  title: 'Raw Material Sampling', icon: FlaskConical, phase: 'testing', short: 'Our QA/QC team takes samples from multiple bags using dedicated tools. Every detail is logged.' },
-  { num: 7,  title: 'Internal Quality Testing', icon: Microscope, phase: 'testing', short: 'Visual inspection, botanical identity, moisture content, and particle size are checked in-house first.' },
-  { num: 8,  title: 'External Laboratory Testing', icon: TestTubes, phase: 'testing', short: 'Independent labs test for heavy metals, microbiologicals, pesticide residues, and regulatory compliance.' },
-  { num: 9,  title: 'Released or Rejected', icon: CheckCircle2, phase: 'testing', short: 'One final decision per batch. Compliant batches are released. Non-compliant batches are returned or destroyed.' },
-  { num: 10, title: 'Cleaning & Material Preparation', icon: Droplets, phase: 'processing', short: 'Every material must be cleaned and prepared before it moves into production. This is where hands-on work begins.' },
-  { num: 11, title: 'Primary Drying', icon: Thermometer, phase: 'processing', short: 'Materials enter our vacuum tray dryer, where moisture is removed at low temperatures to protect heat-sensitive compounds.' },
-  { num: 12, title: 'Size Reduction', icon: Scissors, phase: 'processing', short: 'Dried materials are cut into uniform 1–3 cm pieces, preparing them for grinding.' },
-  { num: 13, title: 'Pre-Grinding', icon: CogIcon, phase: 'processing', short: 'Cut material is reduced to coarse granules, creating uniform particle size for efficient processing.' },
-  { num: 14, title: 'Extraction & Concentration', icon: Beaker, phase: 'processing', short: 'Where applicable, active compounds are drawn out using only purified water, then concentrated under vacuum.' },
-  { num: 15, title: 'Final Drying', icon: Wind, phase: 'processing', short: 'Concentrated extract undergoes slow, precise vacuum drying to reach its final dry specification.' },
-  { num: 16, title: 'Fine Milling', icon: Blend, phase: 'processing', short: 'Dried material is ground into consistent, uniform powder ready for blending.' },
-  { num: 17, title: 'Sieving', icon: Layers, phase: 'processing', short: 'Powder is filtered through 80-mesh screens. Oversized particles are removed. Uniformity is confirmed.' },
-  { num: 18, title: 'Blending', icon: Blend, phase: 'finishing', short: 'Ingredients are precisely weighed and blended under controlled conditions until fully uniform.' },
-  { num: 19, title: 'Encapsulation', icon: Pill, phase: 'finishing', short: 'Powder is deposited into capsules with continuous weight monitoring and real-time adjustments.' },
-  { num: 20, title: 'Counting & Bottle Filling', icon: Hash, phase: 'finishing', short: 'High-accuracy sensors count each capsule into bottles. Incorrect counts are automatically rejected.' },
-  { num: 21, title: 'Capping & Sealing', icon: Package, phase: 'finishing', short: 'Bottles are capped with controlled torque and sealed. Every seal is verified before moving forward.' },
-  { num: 22, title: 'Traceability & Batch Release', icon: FileSearch, phase: 'finishing', short: 'Every capsule is fully traceable from farm to finished bottle with complete batch documentation.' },
+  { num: 1,  title: 'Understanding the Ingredient', icon: Sprout, phase: 'origin', phaseLabel: 'Sourcing', short: 'We study each plant individually — its ideal soil, climate, and growing conditions — before sourcing begins.', bullets: ['Botanical research', 'Efficacy profiling', 'Origin mapping'], img: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=300&q=80' },
+  { num: 2,  title: 'Finding Farms That Share Our Standards', icon: Handshake, phase: 'origin', short: 'We work directly with certified organic farmers in India, building long-term relationships based on trust and shared values.', bullets: ['Organic certification', 'On-site farm audits', 'Ethical sourcing'], img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&q=80' },
+  { num: 3,  title: 'Receipt & Inspection', icon: ClipboardCheck, phase: 'intake', short: 'Every delivery is checked on arrival — documents, certifications, and transport conditions — before anything is unloaded.', bullets: ['Document check', 'Visual condition', 'Transport form'], img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=300&q=80' },
+  { num: 4,  title: 'Storing What We\'ve Sourced', icon: Warehouse, phase: 'intake', short: 'Organic materials are stored in a dedicated warehouse with strict separation, clean pallets, and FIFO rotation.', bullets: ['Climate-controlled', 'Spaced from walls', 'Clean pallets'], img: 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=300&q=80' },
+  { num: 5,  title: 'Mandatory Quarantine', icon: Lock, phase: 'intake', short: 'Every batch is held under a blue "QC HOLD" label. No material enters production until all testing is complete.', bullets: ['QC hold section', 'No access until cleared', 'Isolation labelled'], img: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=300&q=80' },
+  { num: 6,  title: 'Raw Material Sampling', icon: FlaskConical, phase: 'testing', short: 'Our QA/QC team takes samples from multiple bags using dedicated tools. Every detail is logged.', bullets: ['Batch sampling', 'Moisture & size', 'Sent to lab'], img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=300&q=80' },
+  { num: 7,  title: 'Internal Quality Testing', icon: Microscope, phase: 'testing', phaseLabel: 'Quality', short: 'Visual inspection, botanical identity, moisture content, and particle size are checked in-house first.', bullets: ['Botanical ID', 'Moisture testing', 'Particle analysis'], img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=300&q=80' },
+  { num: 8,  title: 'External Laboratory Testing', icon: TestTubes, phase: 'testing', short: 'Independent labs test for heavy metals, microbiologicals, pesticide residues, and regulatory compliance.', bullets: ['Heavy metals', 'Microbial testing', 'Pesticide screening'], img: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?w=300&q=80' },
+  { num: 9,  title: 'Released or Rejected', icon: CheckCircle2, phase: 'testing', short: 'One final decision per batch. Compliant batches are released. Non-compliant batches are returned or destroyed.', bullets: ['Pass/fail decision', 'Certificate issued', 'Failed batches returned'], img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=300&q=80' },
+  { num: 10, title: 'Cleaning & Material Preparation', icon: Droplets, phase: 'processing', short: 'Every material must be cleaned and prepared before it moves into production. This is where hands-on work begins.', bullets: ['Debris removal', 'Foreign matter check', 'Pre-process sort'], img: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=300&q=80' },
+  { num: 11, title: 'Primary Drying', icon: Thermometer, phase: 'processing', short: 'Materials enter our vacuum tray dryer, where moisture is removed at low temperatures to protect heat-sensitive compounds.', bullets: ['Low-temp air drying', 'Moisture monitored', 'Tray-dried evenly'], img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80' },
+  { num: 12, title: 'Size Reduction', icon: Scissors, phase: 'processing', phaseLabel: 'Processing', short: 'Dried materials are cut into uniform 1–3 cm pieces, preparing them for grinding.', bullets: ['Coarse cutting', 'Consistent particle form', 'Preps for grinding'], img: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=300&q=80' },
+  { num: 13, title: 'Pre-Grinding', icon: CogIcon, phase: 'processing', short: 'Cut material is reduced to coarse granules, creating uniform particle size for efficient processing.', bullets: ['Hammer mill stage', 'Coarse powder output', 'Heat monitored'], img: 'https://images.unsplash.com/photo-1581093458791-9f3c3250a8b0?w=300&q=80' },
+  { num: 14, title: 'Extraction & Concentration', icon: Beaker, phase: 'processing', short: 'Where applicable, active compounds are drawn out using only purified water, then concentrated under vacuum.', bullets: ['Water-based extraction', 'Vacuum concentration', 'Bioactives preserved'], img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=300&q=80' },
+  { num: 15, title: 'Final Drying', icon: Wind, phase: 'processing', short: 'Concentrated extract undergoes slow, precise vacuum drying to reach its final dry specification.', bullets: ['Vacuum dried', 'Residual moisture removed', 'Shelf stability ensured'], img: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=300&q=80' },
+  { num: 16, title: 'Fine Milling', icon: Blend, phase: 'processing', short: 'Dried material is ground into consistent, uniform powder ready for blending.', bullets: ['80-mesh target', 'Uniform particle size', 'Max bioavailability'], img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=300&q=80' },
+  { num: 17, title: 'Sieving', icon: Layers, phase: 'processing', short: 'Powder is filtered through 80-mesh screens. Oversized particles are removed. Uniformity is confirmed.', bullets: ['Grades particles', '80-mesh standard', 'Rejects foreign matter'], img: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?w=300&q=80' },
+  { num: 18, title: 'Blending', icon: Blend, phase: 'finishing', short: 'Ingredients are precisely weighed and blended under controlled conditions until fully uniform.', bullets: ['Precise ratio mixing', 'FIFO batch rotation', 'Homogeneity verified'], img: 'https://images.unsplash.com/photo-1563804447971-6e113ab80713?w=300&q=80' },
+  { num: 19, title: 'Encapsulation', icon: Pill, phase: 'finishing', phaseLabel: 'Packaging', short: 'Powder is deposited into capsules with continuous weight monitoring and real-time adjustments.', bullets: ['Auto capsule filling', 'Weight checked', 'Clean-room conditions'], img: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=300&q=80' },
+  { num: 20, title: 'Counting & Bottle Filling', icon: Hash, phase: 'finishing', short: 'High-accuracy sensors count each capsule into bottles. Incorrect counts are automatically rejected.', bullets: ['Automated counting', 'FIFO rotation', 'Fill qty verified'], img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=300&q=80' },
+  { num: 21, title: 'Capping & Sealing', icon: Package, phase: 'finishing', short: 'Bottles are capped with controlled torque and sealed. Every seal is verified before moving forward.', bullets: ['Induction seal', 'Tamper-evident', 'Torque verified'], img: 'https://images.unsplash.com/photo-1605289982774-9a6fef564df8?w=300&q=80' },
+  { num: 22, title: 'Traceability & Batch Release', icon: FileSearch, phase: 'finishing', short: 'Every capsule is fully traceable from farm to finished bottle with complete batch documentation.', bullets: ['Batch record complete', 'Label & barcode', 'Final QC sign-off'], img: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=300&q=80' },
 ];
 
 const PHASE_COLORS = {
@@ -285,10 +285,6 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
   const StepIcon = step.icon;
   const color = PHASE_COLORS[step.phase];
   const motion = STEP_MOTIONS[stepNum] || 'pulse';
-  const phaseLabel = step.phase === 'origin' ? 'Origin' :
-    step.phase === 'intake' ? 'Intake & Storage' :
-    step.phase === 'testing' ? 'Testing' :
-    step.phase === 'processing' ? 'Processing' : 'Finishing';
 
   const motionStyle = {
     grow: 'detailPulse 2s ease-in-out infinite',
@@ -304,70 +300,27 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
     spin: 'detailSpin 6s linear infinite',
   }[motion] || 'detailPulse 1.2s ease-in-out infinite';
 
-  // Stop Lenis + capture wheel/touch/keyboard to advance steps
   useEffect(() => {
-    // Pause Lenis smooth scroll
     if (window.lenis) window.lenis.stop();
-
     let cooldown = false;
     const handleWheel = (e) => {
       e.preventDefault();
-      e.stopPropagation();
       if (cooldown) return;
       cooldown = true;
-
-      if (e.deltaY > 0) {
-        if (stepNum < 22) onChangeStep(stepNum + 1);
-        else onClose();
-      } else {
-        if (stepNum > 1) onChangeStep(stepNum - 1);
-      }
-
-      setTimeout(() => { cooldown = false; }, 400);
+      if (e.deltaY > 0) { if (stepNum < 22) onChangeStep(stepNum + 1); else onClose(); }
+      else { if (stepNum > 1) onChangeStep(stepNum - 1); }
+      setTimeout(() => { cooldown = false; }, 500);
     };
-
-    let touchStartY = 0;
-    const handleTouchStart = (e) => { touchStartY = e.touches[0].clientY; };
-    const handleTouchMove = (e) => {
-      e.preventDefault();
-      const deltaY = touchStartY - e.touches[0].clientY;
-      if (Math.abs(deltaY) < 30) return;
-      if (cooldown) return;
-      cooldown = true;
-      touchStartY = e.touches[0].clientY;
-
-      if (deltaY > 0) {
-        if (stepNum < 22) onChangeStep(stepNum + 1);
-        else onClose();
-      } else {
-        if (stepNum > 1) onChangeStep(stepNum - 1);
-      }
-      setTimeout(() => { cooldown = false; }, 400);
-    };
-
     const handleKeyDown = (e) => {
-      if (e.key === 'ArrowDown' || e.key === ' ') {
-        e.preventDefault();
-        if (stepNum < 22) onChangeStep(stepNum + 1);
-        else onClose();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        if (stepNum > 1) onChangeStep(stepNum - 1);
-      } else if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (stepNum < 22) onChangeStep(stepNum + 1); else onClose(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (stepNum > 1) onChangeStep(stepNum - 1); }
+      else if (e.key === 'Escape') onClose();
     };
-
     window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      // Resume Lenis
       if (window.lenis) window.lenis.start();
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [stepNum, onChangeStep, onClose]);
@@ -375,7 +328,7 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
   if (!detail) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[#f7f4ef]">
       <style>{`
         @keyframes detailPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
         @keyframes detailShake { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(4deg)} 75%{transform:rotate(-4deg)} }
@@ -385,118 +338,262 @@ function StepDetail({ stepNum, onChangeStep, onClose }) {
         @keyframes detailStamp { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
         @keyframes detailFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-6px) scale(1.04)} }
         @keyframes detailSpin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        @keyframes contentSlideIn { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
       `}</style>
 
-      {/* Top bar */}
-      <div className="border-b border-gray-100 sticky top-0 z-30 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-            <span className="text-[11px] uppercase tracking-[0.2em] font-semibold" style={{ color }}>{phaseLabel}</span>
-            <span className="text-gray-300 mx-1">·</span>
-            <span className="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">Step {stepNum} / 22</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-0.5 mr-2">
-              {STEPS.map((s) => (
+      {/* ── Sticky top navigation ── */}
+      <div className="shrink-0 bg-white border-b border-gray-100 z-30">
+        <div className="px-4 md:px-8 py-3 flex items-center justify-between">
+          {/* Step pills */}
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar flex-1 mr-4">
+            {STEPS.map((s) => {
+              const isActive = s.num === stepNum;
+              const sColor = PHASE_COLORS[s.phase];
+              return (
                 <button
                   key={s.num}
                   onClick={() => onChangeStep(s.num)}
-                  className={`rounded-full transition-all ${s.num === stepNum ? 'w-5 h-2.5' : 'w-2 h-2 opacity-30 hover:opacity-60'}`}
-                  style={{ backgroundColor: PHASE_COLORS[s.phase] }}
-                />
-              ))}
+                  className={`shrink-0 rounded-full transition-all duration-300 ${
+                    isActive
+                      ? 'px-3 py-1 text-white text-[10px] font-semibold'
+                      : 'w-2.5 h-2.5 opacity-30 hover:opacity-70 hover:scale-125'
+                  }`}
+                  style={{ backgroundColor: sColor }}
+                  title={s.title}
+                >
+                  {isActive && s.num}
+                </button>
+              );
+            })}
+          </div>
+          {/* Close */}
+          <button onClick={onClose} className="shrink-0 flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-gray-500 hover:text-[#1E2A3A] bg-gray-100 hover:bg-gray-200 rounded-full px-4 py-2 transition-colors">
+            <X size={12} /> Close
+          </button>
+        </div>
+      </div>
+
+      {/* ── Main content area ── */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+
+        {/* LEFT — Animated Visual */}
+        <div className="lg:w-1/2 flex items-center justify-center relative overflow-hidden" style={{ backgroundColor: `${color}08` }}>
+          <style>{`
+            @keyframes orbitSlow { 0% { transform: rotate(0deg) translateX(120px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); } }
+            @keyframes orbitMed { 0% { transform: rotate(0deg) translateX(80px) rotate(0deg); } 100% { transform: rotate(-360deg) translateX(80px) rotate(360deg); } }
+            @keyframes particleRise { 0% { transform: translateY(0) scale(1); opacity:0.7; } 100% { transform: translateY(-200px) scale(0); opacity:0; } }
+            @keyframes flowDown { 0%,100% { transform: translateY(-20px); opacity:0; } 20% { opacity:0.6; } 80% { opacity:0.6; } 100% { transform: translateY(200px); opacity:0; } }
+            @keyframes gearSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            @keyframes gearSpinRev { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+            @keyframes scaleBreath { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+            @keyframes dashMove { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -40; } }
+            @keyframes fillUp { 0% { height: 0%; } 100% { height: 70%; } }
+            @keyframes dropFall { 0% { transform: translateY(-30px); opacity:1; } 100% { transform: translateY(60px); opacity:0; } }
+            @keyframes capsuleFill { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+          `}</style>
+
+          <div className="relative w-full h-full min-h-[300px] lg:min-h-0 flex items-center justify-center" key={stepNum} style={{ animation: 'contentSlideIn 0.5s ease-out' }}>
+
+            {/* Background decorative elements */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[70%] h-[70%] rounded-full border border-dashed opacity-[0.06]" style={{ borderColor: color }} />
+              <div className="absolute w-[45%] h-[45%] rounded-full border opacity-[0.04]" style={{ borderColor: color }} />
             </div>
+
+            {/* Step-specific animations */}
+            {/* Origin steps (1-2): Growing plant */}
+            {step.phase === 'origin' && (
+              <div className="relative flex flex-col items-center">
+                {/* Soil */}
+                <div className="w-48 h-3 rounded-full bg-[#8B6914]/30 mt-16" />
+                {/* Stem growing */}
+                <div className="absolute bottom-12 w-1 bg-[#6B8E23]/60 rounded-full" style={{ height: '80px', animation: 'scaleBreath 3s ease-in-out infinite', transformOrigin: 'bottom' }} />
+                {/* Leaves */}
+                {[0, 1, 2].map(i => (
+                  <div key={i} className="absolute rounded-full" style={{
+                    width: `${20 + i * 8}px`, height: `${12 + i * 5}px`,
+                    backgroundColor: `${color}${40 + i * 15}`,
+                    bottom: `${60 + i * 25}px`,
+                    left: i % 2 === 0 ? '55%' : 'auto',
+                    right: i % 2 !== 0 ? '55%' : 'auto',
+                    animation: `detailFloat ${2 + i * 0.5}s ease-in-out ${i * 0.3}s infinite`,
+                  }} />
+                ))}
+                {/* Main icon */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg" style={{ backgroundColor: `${color}20`, animation: motionStyle }}>
+                    <StepIcon size={40} style={{ color }} />
+                  </div>
+                </div>
+                {/* Particles rising */}
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="absolute w-2 h-2 rounded-full" style={{
+                    backgroundColor: `${color}50`,
+                    left: `${25 + Math.random() * 50}%`,
+                    bottom: '30%',
+                    animation: `particleRise ${2 + Math.random() * 2}s ease-out ${i * 0.4}s infinite`,
+                  }} />
+                ))}
+              </div>
+            )}
+
+            {/* Intake steps (3-5): Conveyor/boxes */}
+            {step.phase === 'intake' && (
+              <div className="relative flex items-center justify-center">
+                {/* Conveyor belt */}
+                <svg width="280" height="200" viewBox="0 0 280 200" className="absolute">
+                  <line x1="20" y1="140" x2="260" y2="140" stroke={color} strokeWidth="2" strokeDasharray="8 4" style={{ animation: 'dashMove 1s linear infinite' }} />
+                  {/* Boxes moving */}
+                  {[0, 1, 2].map(i => (
+                    <rect key={i} x={40 + i * 80} y={115} width="30" height="25" rx="3" fill={`${color}${30 + i * 10}`} stroke={color} strokeWidth="1" style={{ animation: `detailSlide ${2 + i * 0.3}s ease-in-out ${i * 0.5}s infinite` }} />
+                  ))}
+                </svg>
+                <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg z-10" style={{ backgroundColor: `${color}20`, animation: motionStyle }}>
+                  <StepIcon size={40} style={{ color }} />
+                </div>
+              </div>
+            )}
+
+            {/* Testing steps (6-9): Lab/microscope */}
+            {step.phase === 'testing' && (
+              <div className="relative flex items-center justify-center">
+                {/* Orbiting test elements */}
+                {[0, 1, 2, 3].map(i => (
+                  <div key={i} className="absolute" style={{
+                    animation: `${i % 2 === 0 ? 'orbitSlow' : 'orbitMed'} ${6 + i}s linear infinite`,
+                    animationDelay: `${i * 1.5}s`,
+                  }}>
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold text-white shadow-sm" style={{ backgroundColor: `${color}${60 + i * 10}` }}>
+                      {['✓', '?', '✓', '!'][i]}
+                    </div>
+                  </div>
+                ))}
+                {/* Scanning line */}
+                <div className="absolute w-40 h-px" style={{ backgroundColor: `${color}40`, animation: 'detailSlide 2s ease-in-out infinite' }} />
+                <div className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg z-10" style={{ backgroundColor: `${color}20`, animation: 'scaleBreath 2s ease-in-out infinite' }}>
+                  <StepIcon size={44} style={{ color }} />
+                </div>
+              </div>
+            )}
+
+            {/* Processing steps (10-17): Gears/grinding */}
+            {step.phase === 'processing' && (
+              <div className="relative flex items-center justify-center">
+                {/* Spinning gears */}
+                <svg width="260" height="260" viewBox="0 0 260 260" className="absolute opacity-20">
+                  <circle cx="90" cy="100" r="45" fill="none" stroke={color} strokeWidth="2" strokeDasharray="6 3" style={{ animation: 'gearSpin 8s linear infinite', transformOrigin: '90px 100px' }} />
+                  <circle cx="170" cy="130" r="35" fill="none" stroke={color} strokeWidth="2" strokeDasharray="6 3" style={{ animation: 'gearSpinRev 6s linear infinite', transformOrigin: '170px 130px' }} />
+                  <circle cx="130" cy="180" r="25" fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 3" style={{ animation: 'gearSpin 5s linear infinite', transformOrigin: '130px 180px' }} />
+                </svg>
+                {/* Falling particles */}
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="absolute rounded-full" style={{
+                    width: `${3 + Math.random() * 4}px`,
+                    height: `${3 + Math.random() * 4}px`,
+                    backgroundColor: `${color}${30 + Math.floor(Math.random() * 30)}`,
+                    left: `${30 + Math.random() * 40}%`,
+                    top: '20%',
+                    animation: `flowDown ${2 + Math.random() * 2}s ease-in ${i * 0.3}s infinite`,
+                  }} />
+                ))}
+                <div className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg z-10" style={{ backgroundColor: `${color}20`, animation: motionStyle }}>
+                  <StepIcon size={44} style={{ color }} />
+                </div>
+              </div>
+            )}
+
+            {/* Finishing steps (18-22): Capsule/packaging */}
+            {step.phase === 'finishing' && (
+              <div className="relative flex items-center justify-center">
+                {/* Capsule shapes floating */}
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="absolute" style={{
+                    left: `${20 + i * 14}%`,
+                    top: `${20 + (i % 3) * 20}%`,
+                    animation: `capsuleFill ${1.5 + i * 0.3}s ease-in-out ${i * 0.2}s infinite`,
+                  }}>
+                    <div className="w-4 h-8 rounded-full border" style={{ borderColor: `${color}40`, backgroundColor: `${color}10` }} />
+                  </div>
+                ))}
+                {/* Assembly line dots */}
+                <div className="absolute bottom-[35%] left-[15%] right-[15%] flex items-center justify-between">
+                  {Array.from({ length: 7 }).map((_, i) => (
+                    <div key={i} className="w-2 h-2 rounded-full" style={{
+                      backgroundColor: `${color}${20 + i * 8}`,
+                      animation: `detailBounce 1s ease-in-out ${i * 0.15}s infinite`,
+                    }} />
+                  ))}
+                </div>
+                <div className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg z-10" style={{ backgroundColor: `${color}20`, animation: motionStyle }}>
+                  <StepIcon size={44} style={{ color }} />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT — Text content */}
+        <div className="lg:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16 overflow-y-auto bg-white" key={`text-${stepNum}`} style={{ animation: 'contentSlideIn 0.5s ease-out 0.1s both' }}>
+          {/* Phase + step number */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+            <span className="text-[11px] uppercase tracking-[0.2em] font-semibold" style={{ color }}>
+              {step.phase === 'origin' ? 'Origin' : step.phase === 'intake' ? 'Intake' : step.phase === 'testing' ? 'Testing' : step.phase === 'processing' ? 'Processing' : 'Finishing'}
+            </span>
+            <span className="text-gray-300">·</span>
+            <span className="text-[11px] uppercase tracking-wider text-gray-400 font-medium">Step {stepNum}</span>
+          </div>
+
+          {/* Title */}
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#1E2A3A] mb-4 leading-[1.08]">
+            {step.title}
+          </h2>
+
+          {/* Short description */}
+          <p className="text-lg text-gray-400 font-light italic mb-6 leading-relaxed">
+            {step.short}
+          </p>
+
+          {/* Full body */}
+          <p className="text-[15px] text-gray-600 leading-[1.8] mb-8">
+            {detail.body}
+          </p>
+
+          {/* What happens list */}
+          <div className="space-y-3 mb-8">
+            {detail.points.map((pt, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-white mt-0.5" style={{ backgroundColor: color }}>
+                  {i + 1}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-[#1E2A3A]">{pt.label}</p>
+                  <p className="text-[13px] text-gray-500">{pt.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation */}
+          <div className="flex items-center justify-between pt-6 border-t border-gray-100">
             <button
-              onClick={onClose}
-              className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-gray-500 hover:text-[#1E2A3A] bg-gray-100 hover:bg-gray-200 rounded-full px-4 py-2 transition-colors"
+              onClick={() => { if (stepNum > 1) onChangeStep(stepNum - 1); }}
+              disabled={stepNum <= 1}
+              className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-gray-400 hover:text-[#1E2A3A] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group"
             >
-              <X size={12} /> Back to Map
+              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+              Previous
+            </button>
+            <span className="text-[10px] text-gray-300 uppercase tracking-wider">{stepNum} / 22</span>
+            <button
+              onClick={() => { if (stepNum < 22) onChangeStep(stepNum + 1); else onClose(); }}
+              className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-gray-400 hover:text-[#1E2A3A] transition-colors group"
+            >
+              {stepNum < 22 ? 'Next' : 'Finish'}
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Content — visual left, description right */}
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-16 items-start">
-
-          {/* LEFT — Animated visual */}
-          <div className="rounded-2xl overflow-hidden relative" style={{ backgroundColor: `${color}06`, border: `1px solid ${color}12` }}>
-            <div className="aspect-[4/3] flex flex-col items-center justify-center p-6 md:p-10 relative">
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-[75%] h-[75%] rounded-full border border-dashed opacity-[0.06]" style={{ borderColor: color }} />
-              </div>
-              <div className="mb-6">
-                <div
-                  className="w-20 h-20 md:w-28 md:h-28 rounded-2xl flex items-center justify-center"
-                  style={{ backgroundColor: `${color}15`, animation: motionStyle }}
-                >
-                  <StepIcon size={48} style={{ color }} />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 md:gap-3 w-full max-w-md">
-                {detail.points.map((pt, i) => (
-                  <div key={i} className="bg-white/90 rounded-lg p-2.5 md:p-3 shadow-sm border border-gray-100">
-                    <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider mb-0.5" style={{ color }}>{pt.label}</p>
-                    <p className="text-[9px] md:text-[10px] text-gray-500 leading-snug">{pt.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT — Text */}
-          <div>
-            <p className="text-sm uppercase tracking-[0.25em] font-bold mb-2" style={{ color: `${color}90` }}>Step {stepNum}</p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-[#1E2A3A] mb-4 leading-[1.1]">
-              {step.title}
-            </h2>
-            <p className="text-lg md:text-xl text-gray-400 italic mb-6 leading-relaxed">
-              {step.short}
-            </p>
-            <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8">
-              {detail.body}
-            </p>
-            <div className="space-y-4">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">What Happens</h4>
-              {detail.points.map((pt, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold text-white" style={{ backgroundColor: color }}>
-                    {i + 1}
-                  </div>
-                  <div>
-                    <p className="text-base font-medium text-[#1E2A3A]">{pt.label}</p>
-                    <p className="text-sm text-gray-500">{pt.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation arrows + scroll hint */}
-      <div className="pb-8 flex flex-col items-center gap-4">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => { if (stepNum > 1) onChangeStep(stepNum - 1); }}
-            disabled={stepNum <= 1}
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#1E2A3A] hover:border-gray-400 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-gray-400 disabled:hover:border-gray-200"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <span className="text-[10px] uppercase tracking-wider text-gray-400">
-            Step {stepNum} of 22
-          </span>
-          <button
-            onClick={() => { if (stepNum < 22) onChangeStep(stepNum + 1); else onClose(); }}
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#1E2A3A] hover:border-gray-400 transition-colors"
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
-        <ChevronRight size={14} className="rotate-90 animate-bounce text-gray-300" />
       </div>
     </div>,
     document.body
@@ -668,119 +765,95 @@ export default function OurProcess() {
       {/* ═══════════════════════════════════════════════════════════════
           22 STEPS — TWO ROWS OF 11
           ═══════════════════════════════════════════════════════════════ */}
-      <section ref={gridRef} className="py-20 md:py-32 scroll-mt-4">
-        <div className="mx-auto px-4 md:px-8 max-w-[1400px]">
-          <div className="text-center mb-14">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-3">The Full Journey</p>
-            <h2 className="text-2xl md:text-4xl font-light text-[#1E2A3A]">
-              22 Steps. <span className="font-serif italic">Zero Shortcuts.</span>
+      <section ref={gridRef} className="py-16 md:py-24 bg-[#f7f4ef] scroll-mt-4">
+        <div className="mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-[#9b8fcc] font-medium mb-3">The Full Journey</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-[#1a1714]">
+              22 Steps. <em className="italic font-normal">Zero Shortcuts.</em>
             </h2>
           </div>
 
-          {/* TOP ROW — Steps 1–11 */}
-          <div className="step-grid-top relative mb-6 pb-4">
-            {/* Connecting line — below text */}
-            <div className="connect-line absolute bottom-0 left-[4%] right-[4%] h-[2px] bg-gradient-to-r from-[#6B8E23] via-[#5B8DB8] to-[#D4A0C0] origin-left z-0 hidden md:block" />
-
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-3 md:gap-3 relative z-10">
-              {topRow.map((step) => {
-                const Icon = step.icon;
-                const color = PHASE_COLORS[step.phase];
-                const isSelected = false;
-                return (
-                  <button
-                    key={step.num}
-                    onClick={() => selectAndScroll(step)}
-                    className={`step-node-top group flex flex-col items-center gap-2.5 py-5 px-2 rounded-2xl transition-all duration-300 ${
-                      isSelected
-                        ? 'bg-white shadow-lg scale-105 border border-gray-200'
-                        : 'hover:bg-white/80 hover:shadow-md hover:-translate-y-1'
-                    }`}
-                  >
-                    <div
-                      className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 ${
-                        isSelected ? 'border-white shadow-md scale-110' : 'border-transparent group-hover:scale-105'
-                      }`}
-                      style={{ backgroundColor: isSelected ? color : `${color}18` }}
-                    >
-                      <Icon size={22} style={{ color: isSelected ? '#fff' : color }} />
+          {/* ROW 1 — Steps 1–11 */}
+          <div className="step-grid-top flex items-stretch gap-0 overflow-x-auto no-scrollbar pb-4">
+            {topRow.map((step, idx) => (
+              <React.Fragment key={step.num}>
+                <div
+                  className="step-node-top flex-shrink-0 flex flex-col bg-white border border-[#e8e2da] rounded-lg relative cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 hover:z-10 group"
+                  style={{ minWidth: '120px', flex: '1 1 0' }}
+                  onClick={() => selectAndScroll(step)}
+                >
+                  {/* Image or gradient */}
+                  <div className="w-full h-[110px] overflow-hidden relative rounded-t-lg">
+                    <div className="absolute inset-0 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${PHASE_COLORS[step.phase]}30 0%, ${PHASE_COLORS[step.phase]}60 100%)` }}>
+                      <step.icon size={28} className="text-white/50" />
                     </div>
-                    <span className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-[#1E2A3A]' : 'text-gray-400'}`}>
-                      {step.num}
-                    </span>
-                    <span className={`text-[10px] leading-tight text-center line-clamp-2 max-w-[100px] hidden md:block ${isSelected ? 'text-[#1E2A3A] font-medium' : 'text-gray-500'}`}>
-                      {step.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+                    <img src={step.img} alt={step.title} className="relative w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" onError={(e) => { e.target.style.display = 'none'; }} />
+                  </div>
+                  {/* Number badge */}
+                  <div className="absolute left-1/2 -translate-x-1/2 w-[30px] h-[30px] rounded-full bg-[#2c2622] text-[#f7f4ef] text-[11px] font-semibold flex items-center justify-center border-[3px] border-[#f7f4ef] z-10" style={{ top: '90px' }}>
+                    {step.num}
+                  </div>
+                  {/* Body */}
+                  <div className="px-2.5 pt-5 pb-3 flex-1 flex flex-col gap-1.5">
+                    {step.phaseLabel && (
+                      <span className="text-[8px] font-semibold tracking-[0.18em] uppercase text-[#9b8fcc]">{step.phaseLabel}</span>
+                    )}
+                    <p className="text-[10.5px] font-semibold text-[#1a1714] leading-[1.35]">{step.title}</p>
+                    <ul className="flex flex-col gap-1 mt-0.5">
+                      {step.bullets.map((b, i) => (
+                        <li key={i} className="text-[9px] font-light text-[#6a6460] leading-[1.5] pl-2 relative before:content-['•'] before:absolute before:left-0 before:text-[#9b8fcc] before:text-[9px]">{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                {idx < topRow.length - 1 && (
+                  <div className="flex-shrink-0 w-[22px] flex items-center justify-center text-[#9b8fcc] text-base" style={{ paddingBottom: '48px' }}>→</div>
+                )}
+              </React.Fragment>
+            ))}
           </div>
 
-          {/* Arrow connector between rows */}
-          <div className="flex justify-center my-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-px bg-gray-200" />
-              <div className="w-8 h-8 rounded-full bg-[#FAF8F5] border border-gray-200 flex items-center justify-center">
-                <ChevronRight size={14} className="text-gray-400 rotate-90" />
-              </div>
-              <div className="w-12 h-px bg-gray-200" />
-            </div>
-          </div>
+          {/* Row spacer */}
+          <div className="my-4" />
 
-          {/* BOTTOM ROW — Steps 12–22 */}
-          <div className="step-grid-bottom relative mt-6 pb-4">
-            {/* Connecting line — below text */}
-            <div className="connect-line absolute bottom-0 left-[4%] right-[4%] h-[2px] bg-gradient-to-r from-[#D4A0C0] via-[#D4A0C0] to-[#1E2A3A] origin-left z-0 hidden md:block" />
-
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-3 md:gap-3 relative z-10">
-              {bottomRow.map((step) => {
-                const Icon = step.icon;
-                const color = PHASE_COLORS[step.phase];
-                const isSelected = false;
-                return (
-                  <button
-                    key={step.num}
-                    onClick={() => selectAndScroll(step)}
-                    className={`step-node-bottom group flex flex-col items-center gap-2.5 py-5 px-2 rounded-2xl transition-all duration-300 ${
-                      isSelected
-                        ? 'bg-white shadow-lg scale-105 border border-gray-200'
-                        : 'hover:bg-white/80 hover:shadow-md hover:-translate-y-1'
-                    }`}
-                  >
-                    <div
-                      className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 ${
-                        isSelected ? 'border-white shadow-md scale-110' : 'border-transparent group-hover:scale-105'
-                      }`}
-                      style={{ backgroundColor: isSelected ? color : `${color}18` }}
-                    >
-                      <Icon size={22} style={{ color: isSelected ? '#fff' : color }} />
+          {/* ROW 2 — Steps 12–22 */}
+          <div className="step-grid-bottom flex items-stretch gap-0 overflow-x-auto no-scrollbar pb-4">
+            {bottomRow.map((step, idx) => (
+              <React.Fragment key={step.num}>
+                <div
+                  className="step-node-bottom flex-shrink-0 flex flex-col bg-white border border-[#e8e2da] rounded-lg relative cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 hover:z-10 group"
+                  style={{ minWidth: '120px', flex: '1 1 0' }}
+                  onClick={() => selectAndScroll(step)}
+                >
+                  {/* Image or gradient */}
+                  <div className="w-full h-[110px] overflow-hidden relative rounded-t-lg">
+                    <div className="absolute inset-0 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${PHASE_COLORS[step.phase]}30 0%, ${PHASE_COLORS[step.phase]}60 100%)` }}>
+                      <step.icon size={28} className="text-white/50" />
                     </div>
-                    <span className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-[#1E2A3A]' : 'text-gray-400'}`}>
-                      {step.num}
-                    </span>
-                    <span className={`text-[10px] leading-tight text-center line-clamp-2 max-w-[100px] hidden md:block ${isSelected ? 'text-[#1E2A3A] font-medium' : 'text-gray-500'}`}>
-                      {step.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Phase Legend */}
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            {[
-              { key: 'origin', label: 'Origin' },
-              { key: 'intake', label: 'Intake & Storage' },
-              { key: 'testing', label: 'Testing' },
-              { key: 'processing', label: 'Processing' },
-              { key: 'finishing', label: 'Finishing' },
-            ].map((p) => (
-              <div key={p.key} className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: PHASE_COLORS[p.key] }} />
-                <span className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">{p.label}</span>
-              </div>
+                    <img src={step.img} alt={step.title} className="relative w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" onError={(e) => { e.target.style.display = 'none'; }} />
+                  </div>
+                  {/* Number badge */}
+                  <div className="absolute left-1/2 -translate-x-1/2 w-[30px] h-[30px] rounded-full bg-[#2c2622] text-[#f7f4ef] text-[11px] font-semibold flex items-center justify-center border-[3px] border-[#f7f4ef] z-10" style={{ top: '90px' }}>
+                    {step.num}
+                  </div>
+                  {/* Body */}
+                  <div className="px-2.5 pt-5 pb-3 flex-1 flex flex-col gap-1.5">
+                    {step.phaseLabel && (
+                      <span className="text-[8px] font-semibold tracking-[0.18em] uppercase text-[#9b8fcc]">{step.phaseLabel}</span>
+                    )}
+                    <p className="text-[10.5px] font-semibold text-[#1a1714] leading-[1.35]">{step.title}</p>
+                    <ul className="flex flex-col gap-1 mt-0.5">
+                      {step.bullets.map((b, i) => (
+                        <li key={i} className="text-[9px] font-light text-[#6a6460] leading-[1.5] pl-2 relative before:content-['•'] before:absolute before:left-0 before:text-[#9b8fcc] before:text-[9px]">{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                {idx < bottomRow.length - 1 && (
+                  <div className="flex-shrink-0 w-[22px] flex items-center justify-center text-[#9b8fcc] text-base" style={{ paddingBottom: '48px' }}>→</div>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </div>
@@ -795,26 +868,7 @@ export default function OurProcess() {
         onClose={() => setActiveStep(null)}
       />}
 
-      {/* ═══════════════════════════════════════════════════════════════
-          PROCESS VIDEO
-          ═══════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#1E2A3A] py-16 md:py-20">
-        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
-          <div className="text-center mb-10">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">Watch the Process</p>
-            <h2 className="text-2xl md:text-3xl font-light text-white">From Root to Capsule</h2>
-          </div>
-          <div className="rounded-2xl overflow-hidden shadow-2xl">
-            <div className="relative aspect-video bg-black/30">
-              <video
-                src="/videos/capsule-firefly.mp4"
-                autoPlay muted loop playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Video section removed */}
 
       {/* ═══════════════════════════════════════════════════════════════
           INVISIBLE RISK + STANDARDS

@@ -1,29 +1,132 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, ArrowRight, Check, CheckCircle2, Info, Leaf, ShieldCheck, AlertTriangle, Clock, Pill, FlaskConical, BookOpen, Heart, Users, Baby, Flower2, ChevronRight, MapPin, Droplets, Sun, Wind, Sparkles } from 'lucide-react';
+import { Star, ArrowRight, ArrowLeft, Check, CheckCircle2, Info, Leaf, ShieldCheck, AlertTriangle, Clock, Pill, FlaskConical, BookOpen, Heart, Users, Baby, Flower2, ChevronRight, MapPin, Droplets, Sun, Wind, Sparkles, Plus } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import productsData from '../../data/products.json';
 
-// ─── GINGER PRODUCT DATA ───────────────────────────────────────────────────────
-const GINGER_DATA = {
-  name: 'Organic Ginger',
-  scientificName: 'Zingiber officinale',
-  headline: 'Organic Ginger for Digestive Comfort',
-  tagline: 'Ginger Rhizome (Zingiber officinale)',
-  benefits: [
-    'Digestive Comfort & Support',
-    'Menstrual & Pregnancy Wellness',
-    'Antioxidant & Comfort Support',
-  ],
-  description: 'Organic Ginger rhizome powder, rich in naturally occurring gingerols and shogaols. Each capsule delivers the time-honored benefits of whole Ginger root — supporting digestive comfort, promoting menstrual wellness, and providing antioxidant support. Gently vacuum-dried at low temperatures to preserve the root\'s natural bioactive compounds.*',
-  variants: [
-    { label: 'Medium Capsule', dosage: '2 per day' },
-    { label: 'Small Capsule', dosage: '3 per day' },
-  ],
+// ─── PRODUCT DATA BY ID ───────────────────────────────────────────────────────
+const PRODUCT_DATA = {
+  'ginger-capsules': {
+    name: 'Organic Ginger',
+    scientificName: 'Zingiber officinale',
+    headline: 'Organic Ginger for Digestive Comfort',
+    tagline: 'Ginger Rhizome (Zingiber officinale)',
+    benefits: ['Digestive Comfort & Support', 'Menstrual & Pregnancy Wellness', 'Antioxidant & Comfort Support'],
+    description: 'Organic Ginger rhizome powder, rich in naturally occurring gingerols and shogaols. Each capsule delivers the time-honored benefits of whole Ginger root — supporting digestive comfort, promoting menstrual wellness, and providing antioxidant support. Gently vacuum-dried at low temperatures to preserve the root\'s natural bioactive compounds.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'ashwagandha-capsules': {
+    name: 'Organic Ashwagandha',
+    scientificName: 'Withania somnifera',
+    headline: 'Organic Ashwagandha for Stress & Vitality',
+    tagline: 'Ashwagandha Root (Withania somnifera)',
+    benefits: ['Stress Resilience & Calm', 'Balanced Energy & Vitality', 'Adaptogenic Support'],
+    description: 'Organic Ashwagandha root powder, standardized to 5% withanolides. This time-honored adaptogenic herb supports a healthy stress response, promotes balanced energy, and helps maintain overall vitality. Cultivated in the arid soils of Rajasthan and gently processed to preserve bioactive compounds.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'turmeric-capsules': {
+    name: 'Organic Turmeric',
+    scientificName: 'Curcuma longa',
+    headline: 'Organic Turmeric for Comfort & Wellness',
+    tagline: 'Turmeric Rhizome (Curcuma longa)',
+    benefits: ['Comfort & Joint Support', 'Antioxidant Protection', 'Digestive Wellness'],
+    description: 'Organic Turmeric rhizome powder paired with organic black pepper extract for enhanced curcuminoid absorption. Supports comfort, joint health, and provides powerful antioxidant protection. Sourced from organic farms in Tamil Nadu, India.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'moringa-capsules': {
+    name: 'Organic Moringa Leaf',
+    scientificName: 'Moringa oleifera',
+    headline: 'Organic Moringa for Nutritional Wellness',
+    tagline: 'Moringa Leaf (Moringa oleifera)',
+    benefits: ['Nutritional Wellness', 'Antioxidant Balance', 'Overall Vitality'],
+    description: 'Organic Moringa leaf powder, one of nature\'s most nutrient-dense superfoods. Rich in vitamins, minerals, and antioxidants, each capsule supports nutritional wellness, antioxidant balance, and overall vitality. Hand-picked at dawn and shade-dried to preserve peak nutrient content.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'shatavari-capsules': {
+    name: 'Organic Shatavari',
+    scientificName: 'Asparagus racemosus',
+    headline: 'Organic Shatavari for Women\'s Wellness',
+    tagline: 'Shatavari Root (Asparagus racemosus)',
+    benefits: ['Hormonal Balance', 'Reproductive Wellness', 'Lactation Support'],
+    description: 'Organic Shatavari root powder, standardized to 40% saponins. This revered Ayurvedic herb supports hormonal balance, reproductive wellness, and lactation. Sustainably wildcrafted from the Himalayan foothills and gently processed to preserve its natural bioactive compounds.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'holy-basil-capsules': {
+    name: 'Organic Holy Basil',
+    scientificName: 'Ocimum tenuiflorum',
+    headline: 'Organic Holy Basil for Calm & Clarity',
+    tagline: 'Holy Basil / Tulsi (Ocimum tenuiflorum)',
+    benefits: ['Stress & Mood Support', 'Immune Wellness', 'Respiratory Health'],
+    description: 'Organic Holy Basil (Tulsi) leaf powder, rich in ursolic acid and other bioactive compounds. This sacred herb supports stress management, immune function, and respiratory health. Harvested from traditional gardens in Uttar Pradesh and shade-dried to preserve volatile oils.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'amla-capsules': {
+    name: 'Organic Amla',
+    scientificName: 'Phyllanthus emblica',
+    headline: 'Organic Amla for Antioxidant Wellness',
+    tagline: 'Amla Fruit (Phyllanthus emblica)',
+    benefits: ['Antioxidant Wellness', 'Immune Health', 'Metabolic Balance'],
+    description: 'Organic Amla fruit powder, one of nature\'s richest sources of Vitamin C. Each capsule supports antioxidant wellness, immune health, and metabolic balance. Sourced from organic farms in Uttar Pradesh with full lot documentation from harvest to final product.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'garlic-capsules': {
+    name: 'Organic Garlic',
+    scientificName: 'Allium sativum',
+    headline: 'Organic Garlic for Cardiovascular Wellness',
+    tagline: 'Garlic Bulb (Allium sativum)',
+    benefits: ['Cardiovascular Wellness', 'Immune Support', 'Metabolic Balance'],
+    description: 'Organic Garlic bulb powder, rich in naturally occurring allicin and sulfur compounds. Each capsule supports cardiovascular wellness, immune function, and metabolic balance. Sourced from organic farms in central India with rich alluvial soil.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'cinnamon-capsules': {
+    name: 'Organic Cinnamon',
+    scientificName: 'Cinnamomum verum',
+    headline: 'Organic Cinnamon for Metabolic Wellness',
+    tagline: 'Ceylon Cinnamon Bark (Cinnamomum verum)',
+    benefits: ['Metabolic Wellness', 'Blood Sugar Balance', 'Digestive Comfort'],
+    description: 'Organic Ceylon Cinnamon bark powder, rich in cinnamaldehyde. Each capsule supports metabolic wellness, healthy blood sugar levels, and digestive comfort. Sourced from traditional spice gardens in Kerala, India.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'licorice-capsules': {
+    name: 'Organic Licorice',
+    scientificName: 'Glycyrrhiza glabra',
+    headline: 'Organic Licorice for Digestive & Respiratory Support',
+    tagline: 'Licorice Root (Glycyrrhiza glabra)',
+    benefits: ['Digestive Comfort', 'Respiratory Wellness', 'Adrenal Support'],
+    description: 'Organic Licorice root powder, standardized for glycyrrhizin content. Each capsule supports digestive comfort, respiratory wellness, and adrenal health. Sourced from partner farms in Gujarat specializing in licorice root cultivation.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'giloy-capsules': {
+    name: 'Organic Giloy',
+    scientificName: 'Tinospora cordifolia',
+    headline: 'Organic Giloy for Immune Resilience',
+    tagline: 'Giloy Stem (Tinospora cordifolia)',
+    benefits: ['Immune Function', 'Detoxification Support', 'Overall Vitality'],
+    description: 'Organic Giloy stem powder, identity-verified using botanical authentication. Each capsule supports immune function, detoxification, and overall vitality. Harvested from managed forest areas with sustainability protocols.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'fennel-capsules': {
+    name: 'Organic Fennel',
+    scientificName: 'Foeniculum vulgare',
+    headline: 'Organic Fennel for Digestive Harmony',
+    tagline: 'Fennel Seed (Foeniculum vulgare)',
+    benefits: ['Digestive Comfort', 'Bloating Relief', 'Hormonal Balance'],
+    description: 'Organic Fennel seed powder, rich in volatile oils. Each capsule supports digestive comfort, bloating relief, and hormonal balance. Sourced from traditional fennel farms in Gujarat\'s semi-arid climate.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
+  'fenugreek-capsules': {
+    name: 'Organic Fenugreek',
+    scientificName: 'Trigonella foenum-graecum',
+    headline: 'Organic Fenugreek for Women\'s Wellness',
+    tagline: 'Fenugreek Seed (Trigonella foenum-graecum)',
+    benefits: ['Lactation Support', 'Digestive Wellness', 'Hormonal Balance'],
+    description: 'Organic Fenugreek seed powder, with verified saponin content. Each capsule supports lactation, digestive wellness, and hormonal balance. Sourced from organic farms in Rajasthan with generations of fenugreek expertise.*',
+    variants: [{ label: 'Medium Capsule (#0)', dosage: '2 per day' }, { label: 'Small Capsule (#1)', dosage: '3 per day' }],
+  },
 };
 
 // ─── FEATURES TAB DATA ─────────────────────────────────────────────────────────
@@ -92,162 +195,55 @@ const INGREDIENT_DETAILS = {
     color: '#7BAF5A',
     icon: 'wind',
   },
+  'amla-capsules': {
+    name: 'Organic Amla', scientific: 'Phyllanthus emblica', origin: 'Uttar Pradesh, India',
+    activeCompound: 'Vitamin C & Polyphenols', color: '#A8C686', icon: 'sun',
+    process: 'Amla fruits are hand-picked at peak ripeness, washed, and deseeded. The fruit is then dried at low temperature to preserve its exceptionally high Vitamin C content and polyphenol profile, before being milled into a fine powder.',
+  },
+  'garlic-capsules': {
+    name: 'Organic Garlic', scientific: 'Allium sativum', origin: 'Madhya Pradesh, India',
+    activeCompound: 'Allicin', color: '#F5F0DC', icon: 'sparkles',
+    process: 'Organic garlic bulbs are harvested, cleaned, and carefully sliced. They undergo low-temperature drying to preserve allicin and sulfur compounds, then are milled into a fine powder for encapsulation.',
+  },
+  'cinnamon-capsules': {
+    name: 'Organic Cinnamon', scientific: 'Cinnamomum verum', origin: 'Kerala, India',
+    activeCompound: 'Cinnamaldehyde', color: '#C4834C', icon: 'sun',
+    process: 'Ceylon cinnamon bark is harvested from traditional spice gardens, the inner bark carefully peeled, and dried naturally. The bark is then ground into a fine powder, preserving cinnamaldehyde content and authentic flavor.',
+  },
+  'licorice-capsules': {
+    name: 'Organic Licorice', scientific: 'Glycyrrhiza glabra', origin: 'Gujarat, India',
+    activeCompound: 'Glycyrrhizin', color: '#C9A227', icon: 'droplets',
+    process: 'Licorice roots are carefully harvested, washed, and sun-dried. The roots are then ground and standardized for glycyrrhizin content before encapsulation.',
+  },
+  'giloy-capsules': {
+    name: 'Organic Giloy', scientific: 'Tinospora cordifolia', origin: 'Maharashtra, India',
+    activeCompound: 'Tinosporin', color: '#6B8F5E', icon: 'wind',
+    process: 'Giloy stems are sustainably harvested from managed forest areas, cleaned, and dried using shade drying methods. The stems are identity-verified through botanical authentication before milling.',
+  },
+  'fennel-capsules': {
+    name: 'Organic Fennel', scientific: 'Foeniculum vulgare', origin: 'Gujarat, India',
+    activeCompound: 'Volatile Oils', color: '#B8D4A3', icon: 'droplets',
+    process: 'Fennel seeds are harvested at maturity, cleaned, and dried to preserve volatile oil content. The seeds are then gently milled into a fine powder for encapsulation.',
+  },
+  'fenugreek-capsules': {
+    name: 'Organic Fenugreek', scientific: 'Trigonella foenum-graecum', origin: 'Rajasthan, India',
+    activeCompound: 'Saponins', color: '#D4B896', icon: 'sparkles',
+    process: 'Fenugreek seeds are sourced from organic farms in Rajasthan, cleaned, and dried. Saponin content is verified per batch before the seeds are milled and encapsulated.',
+  },
 };
 
-function IngredientProcess({ currentProductId }) {
-  const [activeIngredient, setActiveIngredient] = useState(0);
-  const allProducts = productsData.products;
-  const currentProduct = allProducts.find(p => p.id === currentProductId) || allProducts[0];
-  const ingredientDetail = INGREDIENT_DETAILS[currentProduct.id] || INGREDIENT_DETAILS['ginger-capsules'];
-
-  // Get ingredients for the current product (for single-ingredient products, just show the main one)
-  const ingredients = currentProduct.ingredients_full || [];
-
-  // Get recommended products (exclude current product, pick 2)
-  const recommended = allProducts
-    .filter(p => p.id !== currentProduct.id)
-    .slice(0, 2);
-
-  const iconMap = {
-    sun: <Sun size={20} />,
-    wind: <Wind size={20} />,
-    droplets: <Droplets size={20} />,
-    sparkles: <Sparkles size={20} />,
-  };
-
+function IngredientProcess() {
   return (
-    <section className="bg-[#1E2A3A] py-20">
-      <div className="container mx-auto px-4 md:px-8">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">The Process Behind Each Ingredient</p>
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
-            From Source to Capsule
-          </h2>
-          <p className="text-sm text-gray-400 max-w-xl mx-auto">
-            Every ingredient follows a careful journey — sourced at origin, processed with care, and encapsulated for maximum potency.
-          </p>
-        </div>
-
-        {/* Ingredient Detail Card */}
-        <div className="max-w-5xl mx-auto">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden">
-            {/* Ingredient Header */}
-            <div className="p-8 md:p-10 border-b border-white/10">
-              <div className="flex flex-col md:flex-row md:items-start gap-6">
-                {/* Icon & Name */}
-                <div className="flex items-center gap-4 flex-1">
-                  <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: `${ingredientDetail.color}20` }}
-                  >
-                    <span style={{ color: ingredientDetail.color }}>
-                      {iconMap[ingredientDetail.icon]}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-light text-white">{ingredientDetail.name}</h3>
-                    <p className="text-sm text-gray-400 italic">{ingredientDetail.scientific}</p>
-                  </div>
-                </div>
-
-                {/* Quick Facts */}
-                <div className="flex flex-wrap gap-4">
-                  <div className="bg-white/5 rounded-lg px-4 py-2.5">
-                    <p className="text-[9px] uppercase tracking-wider text-gray-500 mb-0.5">Origin</p>
-                    <p className="text-sm text-white font-medium flex items-center gap-1.5">
-                      <MapPin size={12} className="text-[#E8A598]" />
-                      {ingredientDetail.origin}
-                    </p>
-                  </div>
-                  <div className="bg-white/5 rounded-lg px-4 py-2.5">
-                    <p className="text-[9px] uppercase tracking-wider text-gray-500 mb-0.5">Active Compound</p>
-                    <p className="text-sm text-white font-medium">{ingredientDetail.activeCompound}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Process Description */}
-            <div className="p-8 md:p-10 border-b border-white/10">
-              <h4 className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-4">Our Process</h4>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                {ingredientDetail.process}
-              </p>
-
-              {/* Process Steps Visual */}
-              <div className="mt-8 flex items-center gap-0 overflow-x-auto no-scrollbar">
-                {['Harvest', 'Clean & Prepare', 'Gentle Drying', 'Mill to Powder', 'Encapsulate'].map((step, i) => (
-                  <React.Fragment key={step}>
-                    <div className="flex flex-col items-center min-w-[100px]">
-                      <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-xs font-bold text-white bg-white/5">
-                        {i + 1}
-                      </div>
-                      <p className="text-[10px] text-gray-400 mt-2 text-center whitespace-nowrap">{step}</p>
-                    </div>
-                    {i < 4 && (
-                      <div className="flex-1 min-w-[20px] h-px bg-white/10 mx-1" />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-
-            {/* Video */}
-            <div className="p-8 md:p-10 border-b border-white/10">
-              <div className="aspect-video bg-black/30 rounded-xl overflow-hidden">
-                <video
-                  src="/videos/capsule-firefly.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Recommended Products */}
-            <div className="p-8 md:p-10">
-              <h4 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-6">
-                Pairs Well With
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {recommended.map((rec) => {
-                  const recDetail = INGREDIENT_DETAILS[rec.id] || {};
-                  return (
-                    <Link
-                      key={rec.id}
-                      to={`/Product?id=${rec.id}`}
-                      className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-5 transition-all"
-                    >
-                      <div className="flex items-start gap-4">
-                        {/* Product Image */}
-                        <div className="w-16 h-16 rounded-lg bg-white/5 flex-shrink-0 overflow-hidden flex items-center justify-center">
-                          <Leaf size={24} className="text-gray-500" />
-                        </div>
-
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[9px] uppercase tracking-wider text-[#E8A598] mb-1">{rec.category.replace(/-/g, ' ')}</p>
-                          <h5 className="text-sm font-medium text-white group-hover:text-[#E8A598] transition-colors truncate">
-                            {rec.name}
-                          </h5>
-                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{rec.shortDescription}</p>
-                          <div className="flex items-center justify-between mt-3">
-                            <span className="text-sm text-white font-light">${rec.price.toFixed(2)}</span>
-                            <span className="text-[10px] uppercase tracking-wider text-[#E8A598] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                              View <ArrowRight size={10} />
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
+    <section className="bg-black">
+      <div className="w-full aspect-video max-h-[70vh] overflow-hidden">
+        <video
+          src="/videos/farm-documentary.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        />
       </div>
     </section>
   );
@@ -255,83 +251,91 @@ function IngredientProcess({ currentProductId }) {
 
 function RecommendedProducts({ currentProductId }) {
   const allProducts = productsData.products;
-  const recommended = allProducts.filter(p => p.id !== currentProductId).slice(0, 2);
+  const recommended = allProducts.filter(p => p.id !== currentProductId);
+  const scrollRef = useRef(null);
+  const navigate = useNavigate();
+
+  const scroll = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('.rec-card');
+    el.scrollBy({ left: dir * ((card?.offsetWidth || 300) + 20), behavior: 'smooth' });
+  };
+
+  const goToProduct = (productId) => {
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    navigate(`/Product?id=${productId}`);
+  };
 
   return (
-    <section className="bg-[#FAF8F5] py-16 border-t border-gray-100">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="text-center mb-10">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">Complete Your Routine</p>
-          <h2 className="text-2xl md:text-3xl font-light text-[#1E2A3A]">
-            Recommended For You
-          </h2>
+    <section className="bg-[#FAF8F5] py-14">
+      <div className="flex items-center justify-between mb-10 px-6 lg:px-8">
+        <div className="flex-1" />
+        <h2 className="text-2xl md:text-3xl lg:text-4xl text-[#1E2A3A] leading-tight text-center">
+          <span className="font-light">You may also </span>
+          <span className="font-serif italic">like</span>
+        </h2>
+        <div className="flex-1 flex items-center justify-end gap-2">
+          <button onClick={() => scroll(-1)} className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#1E2A3A] hover:text-white hover:border-[#1E2A3A] transition-all">
+            <ArrowLeft size={16} />
+          </button>
+          <button onClick={() => scroll(1)} className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-[#1E2A3A] hover:text-white hover:border-[#1E2A3A] transition-all">
+            <ArrowRight size={16} />
+          </button>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {recommended.map((product) => {
-            const detail = INGREDIENT_DETAILS[product.id] || {};
-            return (
-              <Link
-                key={product.id}
-                to={`/Product?id=${product.id}`}
-                className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all"
-              >
-                {/* Image */}
-                <div className="aspect-[16/10] bg-[#F5F3EF] flex items-center justify-center p-8 relative">
+      <div ref={scrollRef} className="overflow-x-auto w-full px-6 lg:px-8 no-scrollbar scroll-smooth">
+        <div className="flex gap-5 w-max">
+          {recommended.map((product, i) => (
+            <div
+              key={`${product.id}-${i}`}
+              onClick={() => goToProduct(product.id)}
+              className="rec-card group block flex-shrink-0 w-[80vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] cursor-pointer"
+            >
+              <div className="relative bg-white rounded-xl border border-gray-100 hover:border-gray-200 transition-all duration-500 hover:shadow-lg h-full flex flex-col overflow-hidden">
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#F5F3EF]">
                   <img
-                    src={product.image}
+                    src="/images/ilona-isha.jpg"
                     alt={product.name}
-                    className="h-full object-contain mix-blend-multiply"
+                    className="w-full h-full object-cover mix-blend-multiply opacity-85 group-hover:scale-110 transition-transform duration-700"
                   />
-                  <span
-                    className="absolute top-4 left-4 text-[9px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-full"
-                    style={{ backgroundColor: `${detail.color || '#E8A598'}20`, color: detail.color || '#E8A598' }}
-                  >
-                    {product.category.replace(/-/g, ' ')}
-                  </span>
                 </div>
-
-                {/* Info */}
-                <div className="p-6">
-                  <h3 className="text-lg font-medium text-[#1E2A3A] group-hover:text-[#E8A598] transition-colors mb-1">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 italic mb-3">{product.tagline}</p>
-                  <p className="text-xs text-gray-500 leading-relaxed mb-4">{product.shortDescription}</p>
-
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {product.benefits.slice(0, 3).map((b, i) => (
-                      <span key={i} className="text-[9px] uppercase tracking-wider bg-[#FAF8F5] border border-gray-100 px-2 py-1 text-gray-500">{b}</span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="p-5 flex flex-col flex-grow">
+                  <h3 className="text-lg font-semibold text-[#1E2A3A] mb-1 leading-tight">{product.name}</h3>
+                  <p className="text-sm text-gray-400 italic mb-2">{product.tagline}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed mb-4 flex-grow line-clamp-2">{product.shortDescription}</p>
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                     <span className="text-lg font-light text-[#1E2A3A]">${product.price.toFixed(2)}</span>
-                    <span className="text-[10px] uppercase tracking-wider text-[#E8A598] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                      View Product <ArrowRight size={12} />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#1E2A3A] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                      View <ArrowRight size={11} className="transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </div>
                 </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="text-center mt-10">
-          <Button asChild variant="outline" className="rounded-none px-8 py-5 text-[11px] uppercase tracking-[0.2em] border-gray-300 text-gray-500 hover:text-[#1E2A3A] hover:border-[#1E2A3A]">
-            <Link to="/Collection">
-              View All Products <ArrowRight size={14} className="ml-2" />
-            </Link>
-          </Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-export default function ProductPage() {
+export default function ProductPageWrapper() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id');
+  const id = searchParams.get('id') || 'ginger-capsules';
+  return <ProductPage key={id} productId={id} />;
+}
+
+function ProductPage({ productId }) {
+  const id = productId;
+  const currentProductData = PRODUCT_DATA[id] || PRODUCT_DATA['ginger-capsules'];
+  const ingredientName = currentProductData.name.replace('Organic ', '');
+  const ingredientDetail = INGREDIENT_DETAILS[id] || INGREDIENT_DETAILS['ginger-capsules'];
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [activeTab, setActiveTab] = useState('benefits');
   const [activeView, setActiveView] = useState('product');
@@ -356,23 +360,10 @@ export default function ProductPage() {
     }
   }, [isImageHovered]);
 
-  const { data: product, isLoading, error } = useQuery({
-    queryKey: ['product', id],
-    queryFn: async () => {
-      const products = await base44.entities.Product.list();
-      return products.find(p => p.id === id) || products[0];
-    }
-  });
+  // Look up product from local JSON data
+  const product = productsData.products.find(p => p.id === id) || productsData.products[0];
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#E8A598] border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (error || !product) {
+  if (!product) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4 text-center">
         <h1 className="text-2xl font-light text-[#1E2A3A] mb-4">Product Not Found</h1>
@@ -389,7 +380,7 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="bg-[#FFFBF5] min-h-screen font-sans text-[#1E2A3A]">
+    <div key={id} className="bg-[#FFFBF5] min-h-screen font-sans text-[#1E2A3A]">
 
       {/* ═══════════════════════════════════════════════════════════════════════
           SECTION 1 — HERO
@@ -410,8 +401,8 @@ export default function ProductPage() {
                     onMouseLeave={() => setIsImageHovered(false)}
                   >
                     <img
-                      src={product.image_url}
-                      alt={GINGER_DATA.name}
+                      src={product.image_url || product.image}
+                      alt={currentProductData.name}
                       className="w-full h-full object-contain mix-blend-multiply"
                     />
                     <video
@@ -452,12 +443,12 @@ export default function ProductPage() {
                   <div className="w-full h-full flex flex-col items-center justify-center p-10 gap-4">
                     <div className="w-40 h-40 rounded-full bg-[#E8C97E]/30 border-2 border-dashed border-[#E8C97E]/50 flex items-center justify-center">
                       <div className="w-28 h-28 rounded-full bg-[#E8C97E]/50 flex items-center justify-center">
-                        <span className="text-sm font-medium text-[#8B6914]">Ginger Powder</span>
+                        <span className="text-sm font-medium text-[#8B6914]">{currentProductData.name}</span>
                       </div>
                     </div>
                     <div className="text-center mt-4">
-                      <p className="text-sm font-medium text-[#1E2A3A]">100% Organic Ginger Rhizome</p>
-                      <p className="text-xs text-gray-500 mt-1">Vacuum-dried at low temperature to preserve gingerols & shogaols</p>
+                      <p className="text-sm font-medium text-[#1E2A3A]">100% {currentProductData.name}</p>
+                      <p className="text-xs text-gray-500 mt-1">Gently processed to preserve bioactive compounds</p>
                       <p className="text-[10px] text-[#E8A598] font-medium mt-2 uppercase tracking-wider">No fillers · No binders · No additives</p>
                     </div>
                   </div>
@@ -496,7 +487,7 @@ export default function ProductPage() {
                       </div>
                       <div className="aspect-square rounded-xl bg-[#E8E4DC] flex items-center justify-center row-span-2 col-span-2">
                         <div className="text-center">
-                          <img src={product.image_url} alt={GINGER_DATA.name} className="w-20 h-20 object-contain mx-auto mix-blend-multiply" />
+                          <img src={product.image_url || product.image} alt={currentProductData.name} className="w-20 h-20 object-contain mx-auto mix-blend-multiply" />
                         </div>
                       </div>
                       <div className="aspect-square rounded-xl bg-[#F4E8DC] flex items-center justify-center">
@@ -538,30 +529,30 @@ export default function ProductPage() {
               <p className="text-[10px] uppercase tracking-[0.2em] text-[#E8A598] font-semibold mb-3">Single Ingredient</p>
 
               <h1 className="text-3xl md:text-4xl text-[#1E2A3A] mb-2 font-light">
-                {GINGER_DATA.headline}
+                {currentProductData.headline}
               </h1>
 
               <p className="text-base text-gray-500 font-light italic mb-5">
-                {GINGER_DATA.tagline}
+                {currentProductData.tagline}
               </p>
 
               {/* Associated Benefits */}
               <div className="flex flex-wrap gap-2 mb-6">
-                {GINGER_DATA.benefits.map((b) => (
+                {currentProductData.benefits.map((b) => (
                   <span key={b} className="text-[10px] uppercase tracking-wider bg-[#FAF8F5] border border-gray-100 px-3 py-1.5 text-gray-600">{b}</span>
                 ))}
               </div>
 
               {/* Description */}
               <p className="text-sm text-gray-600 leading-relaxed mb-8">
-                {GINGER_DATA.description}
+                {currentProductData.description}
               </p>
 
               {/* Variant Selector */}
               <div className="mb-6">
                 <p className="text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold mb-3">Select Size</p>
                 <div className="grid grid-cols-2 gap-3">
-                  {GINGER_DATA.variants.map((v, i) => (
+                  {currentProductData.variants.map((v, i) => (
                     <button
                       key={i}
                       onClick={() => setSelectedVariant(i)}
@@ -660,7 +651,7 @@ export default function ProductPage() {
             {activeTab === 'benefits' && (
               <div className="animate-in fade-in duration-300">
                 <h3 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10">
-                  How Ginger Can Support Your Life Stage
+                  How {currentProductData.name.replace('Organic ', '')} Can Support Your Life Stage
                 </h3>
 
                 <div className="space-y-6">
@@ -737,7 +728,7 @@ export default function ProductPage() {
                       <h4 className="text-lg font-medium text-[#1E2A3A]">Suitable for Seniors (60+)?</h4>
                     </div>
                     <p className="text-sm text-gray-600 ml-11">
-                      Ginger is generally safe for adults aged 60+ when taken as directed. Seniors taking blood-thinning or blood sugar–lowering medications should consult a healthcare professional before use. Do not exceed the recommended serving size.
+                      {ingredientName} is generally safe for adults aged 60+ when taken as directed. Seniors taking blood-thinning or blood sugar–lowering medications should consult a healthcare professional before use. Do not exceed the recommended serving size.
                     </p>
                   </div>
                 </div>
@@ -751,7 +742,7 @@ export default function ProductPage() {
                 <div className="mt-10 bg-[#FAF8F5] rounded-xl p-8 border border-gray-100">
                   <h4 className="text-lg font-medium text-[#1E2A3A] mb-4">Why It Matters</h4>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                    Ginger's naturally occurring gingerols and shogaols play a role in digestive function, comfort, and antioxidant protection.* Valued across cultures for centuries, this whole-food rhizome powder aids in maintaining digestive health, menstrual comfort, and gentle nausea relief throughout women's life stages.*
+                    {ingredientName}'s naturally occurring bioactive compounds play a role in overall wellness and comfort.* Valued across cultures for centuries, this whole-food powder supports health and vitality throughout women's life stages.*
                   </p>
                   <p className="text-[10px] text-gray-400 italic">
                     *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
@@ -780,7 +771,7 @@ export default function ProductPage() {
                     </thead>
                     <tbody>
                       <tr className="border-t border-gray-100">
-                        <td className="px-6 py-5 text-sm font-medium text-[#1E2A3A]">Organic Ginger Rhizome Powder</td>
+                        <td className="px-6 py-5 text-sm font-medium text-[#1E2A3A]">{currentProductData.name} Powder</td>
                         <td className="px-6 py-5 text-sm text-gray-600">Whole rhizome powder</td>
                         <td className="px-6 py-5 text-sm text-gray-600">Provides naturally occurring gingerols, shogaols, and polyphenols in their complete profile</td>
                       </tr>
@@ -800,11 +791,11 @@ export default function ProductPage() {
                   <h3 className="text-lg font-medium text-[#1E2A3A] mb-5">Ingredient Sourcing & Quality</h3>
                   <ul className="space-y-3">
                     {[
-                      { bold: '100% Organic:', text: 'USDA Certified Organic Ginger from sustainably cultivated plants in India' },
+                      { bold: '100% Organic:', text: `USDA Certified ${currentProductData.name} from sustainably cultivated plants in India` },
                       { bold: 'Whole Rhizome Powder:', text: 'Complete nutritional profile with naturally occurring bioactive compounds' },
                       { bold: 'Gentle Processing:', text: 'Vacuum tray drying at low temperature under reduced pressure to preserve heat-sensitive gingerols and shogaols' },
                       { bold: 'Peak Harvest:', text: 'Rhizomes harvested at peak maturity for maximum potency and bioactive content' },
-                      { bold: 'Traditional Source:', text: 'Sourced from India where Ginger has been cultivated for centuries in wellness practices' },
+                      { bold: 'Traditional Source:', text: `Sourced from India where ${ingredientName} has been cultivated for centuries in wellness practices` },
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm">
                         <Check size={14} className="text-[#6B8E23] flex-shrink-0 mt-0.5" />
@@ -818,10 +809,10 @@ export default function ProductPage() {
                 <div className="border border-gray-100 rounded-xl p-8 mb-8">
                   <h3 className="text-lg font-medium text-[#1E2A3A] mb-4">Why This Formula Works</h3>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                    We chose whole Ginger rhizome powder instead of extracts or isolates to preserve the root's naturally occurring gingerols, shogaols, and polyphenols in their original ratios. This whole-food form reflects traditional use, supports natural nutrient synergy, and avoids over-processing that can alter or concentrate individual compounds.*
+                    We chose whole {ingredientName} powder instead of extracts or isolates to preserve the naturally occurring bioactive compounds in their original ratios. This whole-food form reflects traditional use, supports natural nutrient synergy, and avoids over-processing that can alter or concentrate individual compounds.*
                   </p>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Fresh ginger rhizomes are cleaned, sliced, and dried using a vacuum tray dryer at low temperature under reduced pressure. This gentle method protects heat-sensitive bioactive compounds such as gingerols and shogaols, minimizes thermal degradation, supports nutrient retention, and maintains the integrity of the root's natural compounds. The dried root is then finely milled into a uniform powder suitable for encapsulation, ensuring consistent quality, potency, and efficacy in each capsule.
+                    {ingredientDetail.process}
                   </p>
                 </div>
 
@@ -836,7 +827,7 @@ export default function ProductPage() {
               <div className="animate-in fade-in duration-300">
                 <h2 className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2">Scientific Support</h2>
                 <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mb-10">
-                  The compounds below reflect what is naturally present in whole Ginger and what traditional use and emerging research suggest about their role in overall wellness. This information is provided for transparency — it does not represent established therapeutic mechanisms, and this product is not intended to replace medical treatment or advice.
+                  The compounds below reflect what is naturally present in whole {ingredientName} and what traditional use and emerging research suggest about their role in overall wellness. This information is provided for transparency — it does not represent established therapeutic mechanisms, and this product is not intended to replace medical treatment or advice.
                 </p>
 
                 {/* Compounds Table */}
@@ -852,7 +843,7 @@ export default function ProductPage() {
                     </thead>
                     <tbody>
                       <tr className="border-t border-gray-100">
-                        <td className="px-6 py-5 text-sm font-medium text-[#1E2A3A]">Gingerols & Shogaols</td>
+                        <td className="px-6 py-5 text-sm font-medium text-[#1E2A3A]">{ingredientDetail.activeCompound}</td>
                         <td className="px-6 py-5 text-sm text-gray-600">Support digestive comfort, help ease occasional nausea, and calm stomach upset*</td>
                         <td className="px-6 py-5 text-sm text-gray-600">Research demonstrates benefits for digestive wellness and nausea support</td>
                       </tr>
@@ -874,7 +865,7 @@ export default function ProductPage() {
                 <h3 className="text-lg font-medium text-[#1E2A3A] mb-5">What the Research Shows</h3>
                 <div className="space-y-3 mb-8">
                   {[
-                    'Studies support Ginger\'s role in helping ease occasional nausea and digestive discomfort',
+                    `Studies support ${ingredientName}'s role in supporting overall wellness`,
                     'Research indicates potential benefits for menstrual comfort and overall wellbeing',
                     'Evidence suggests support for digestive function and occasional pregnancy-related nausea',
                     'Traditional culinary and wellness use across cultures for thousands of years',
@@ -980,7 +971,7 @@ export default function ProductPage() {
                   <h3 className="text-lg font-medium text-[#1E2A3A] mb-4">Tips for Best Results</h3>
                   <ul className="space-y-3">
                     {[
-                      'Take Ginger with meals to support digestion and reduce the chance of stomach upset',
+                      `Take ${ingredientName} with meals to support digestion and reduce the chance of stomach upset`,
                       'Use consistently for the recommended duration to evaluate your response',
                       'Pair with a balanced diet and active lifestyle for optimal digestive and overall wellness support',
                       'Stay well-hydrated throughout the day',
@@ -1079,7 +1070,7 @@ export default function ProductPage() {
                         'Those taking blood thinners without medical supervision',
                         'Those taking blood pressure medications without medical guidance',
                         'Pregnant women without medical supervision',
-                        'Individuals with known allergies to Ginger',
+                        `Individuals with known allergies to ${ingredientName}`,
                         'Anyone with a medical condition without healthcare provider consultation',
                       ].map((item, i) => (
                         <li key={i} className="flex items-start gap-2">
@@ -1096,7 +1087,7 @@ export default function ProductPage() {
                   <div className="flex items-start gap-3">
                     <AlertTriangle size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-amber-800">
-                      <strong>Critical:</strong> Ginger may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications. Pregnant women should use only under medical supervision. If you have a medical condition or take medications, consult your healthcare provider before use.
+                      <strong>Critical:</strong> {ingredientName} may interact with certain medications. Pregnant women should use only under medical supervision. If you have a medical condition or take medications, consult your healthcare provider before use.
                     </p>
                   </div>
                 </div>
@@ -1124,7 +1115,7 @@ export default function ProductPage() {
                     <ul className="space-y-2 text-sm text-gray-600">
                       <li>• Mild digestive discomfort</li>
                       <li>• Heartburn</li>
-                      <li>• Mild nausea (rare, as Ginger typically helps with nausea)</li>
+                      <li>• Mild nausea (uncommon)</li>
                     </ul>
                     <p className="text-xs text-gray-500 mt-3 italic">If side effects persist or worsen, discontinue use and consult a healthcare professional.</p>
                   </div>
@@ -1145,7 +1136,7 @@ export default function ProductPage() {
                     <AlertTriangle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <h4 className="text-base font-bold text-red-900 mb-1">CRITICAL</h4>
-                      <p className="text-sm text-red-800">Ginger may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications.</p>
+                      <p className="text-sm text-red-800">{ingredientName} may interact with certain medications including anticoagulants. Consult your healthcare provider before use.</p>
                     </div>
                   </div>
                   <p className="text-sm text-red-800 mb-3 font-medium">Consult your healthcare provider before use if:</p>
@@ -1174,9 +1165,9 @@ export default function ProductPage() {
                   <h4 className="text-lg font-medium text-[#1E2A3A] mb-4">Special Warnings</h4>
                   <div className="space-y-3 text-sm text-gray-600">
                     {[
-                      { bold: 'Bleeding Risk:', text: 'Ginger may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications. Individuals with bleeding disorders should not use without medical supervision.' },
+                      { bold: 'Bleeding Risk:', text: `${ingredientName} may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications. Individuals with bleeding disorders should not use without medical supervision.` },
                       { bold: 'Gallstones:', text: 'Those with gallstones should consult a healthcare professional before use.' },
-                      { bold: 'Blood Sugar:', text: 'Ginger may affect blood sugar levels. Those on diabetes medications should monitor levels carefully and consult a healthcare provider.' },
+                      { bold: 'Blood Sugar:', text: `${ingredientName} may affect blood sugar levels. Those on diabetes medications should monitor levels carefully and consult a healthcare provider.` },
                       { bold: 'Blood Pressure:', text: 'May affect blood pressure. Those taking antihypertensive medications should consult a healthcare provider before use.' },
                       { bold: 'Surgery:', text: 'May need to discontinue use before planned surgery. Consult your healthcare provider regarding timing.' },
                       { bold: 'Pregnancy:', text: 'Pregnant women should use only under medical supervision. Intended for short-term use during pregnancy.' },
@@ -1211,7 +1202,7 @@ export default function ProductPage() {
                 {/* Important Notice */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">
                   <p className="text-sm text-amber-800">
-                    <strong>Important:</strong> Do not exceed recommended dosage. Ginger may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications. Individual responses vary. If you have bleeding disorders, gallstones, diabetes, or take blood-thinning, blood pressure, or diabetes medications, medical supervision is strongly recommended.
+                    <strong>Important:</strong> Do not exceed recommended dosage. {ingredientName} may interact with certain medications. Individual responses vary. If you have bleeding disorders, gallstones, diabetes, or take blood-thinning, blood pressure, or diabetes medications, medical supervision is strongly recommended.
                   </p>
                 </div>
 
@@ -1260,7 +1251,7 @@ export default function ProductPage() {
       {/* ═══════════════════════════════════════════════════════════════════════
           SECTION 3 — INGREDIENT PROCESS + RECOMMENDED PRODUCTS
           ═══════════════════════════════════════════════════════════════════════ */}
-      <IngredientProcess currentProductId={id} />
+      <IngredientProcess />
 
       {/* ═══════════════════════════════════════════════════════════════════════
           RECOMMENDED PRODUCTS
@@ -1268,91 +1259,152 @@ export default function ProductPage() {
       <RecommendedProducts currentProductId={id} />
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          SECTION 4 — FAQ
+          SECTION 4 — FAQ (split panel)
           ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-white py-16">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-3 text-center">FAQ</p>
-            <h2 className="text-2xl md:text-3xl font-light text-[#1E2A3A] mb-10 text-center">
-              Frequently Asked Questions
-            </h2>
-
-            <Accordion type="single" collapsible className="w-full space-y-3">
-              {[
-                { q: 'Is this the same product for all life stages?', a: 'Yes. This product contains a single ingredient — organic Ginger rhizome powder. The formula does not change. What may differ is how individuals experience its benefits at different life stages.' },
-                { q: 'Is this product safe during pregnancy?', a: 'Ginger has a long history of traditional use during pregnancy for occasional nausea. However, pregnant women should use only under medical supervision. This product is intended for short-term use during pregnancy.' },
-                { q: 'Why do the benefits change by life stage?', a: 'The ingredient remains the same. Different life stages come with different physiological needs, which may influence how Ginger is experienced — from menstrual comfort to digestive wellness during menopause.' },
-                { q: 'Does this product treat or prevent any condition?', a: 'No. This product is intended to support general wellness and is not intended to diagnose, treat, cure, or prevent any disease.' },
-                { q: 'Can I take this long-term?', a: 'Ginger is commonly used as part of a daily wellness routine. For long-term use, consult a healthcare professional, especially if you take medications or have a medical condition.' },
-                { q: 'What if I take blood-thinning medications?', a: 'Ginger may increase the risk of bleeding when taken with anticoagulant or antiplatelet medications. You should consult your healthcare provider before using this product.' },
-                { q: 'How is the Ginger processed?', a: 'Fresh ginger rhizomes are cleaned, sliced, and dried using a vacuum tray dryer at low temperature under reduced pressure. This gentle method preserves heat-sensitive bioactive compounds. The dried root is then finely milled into a uniform powder for encapsulation.' },
-                { q: 'Is this product tested for purity?', a: 'Yes. Each batch is third-party tested for purity, heavy metals, and contaminants. Certificates of Analysis are available upon request with your lot number.' },
-              ].map((item, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="border border-gray-100 rounded-xl px-6 data-[state=open]:bg-[#FAF8F5]">
-                  <AccordionTrigger className="hover:no-underline text-left font-medium text-[#1E2A3A] py-5 text-sm">
-                    {item.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm text-gray-600 pb-5 leading-relaxed">
-                    {item.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </div>
-      </section>
+      <ProductFAQ />
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          SECTION 5 — BLOG / RELATED CONTENT
+          REVIEWS — Real People, Real Results
           ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#FAF8F5] py-16 border-t border-gray-100">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-10">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-3">From the Blog</p>
-            <h2 className="text-2xl md:text-3xl font-light text-[#1E2A3A]">
-              Learn More About Ginger
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              { title: 'The Science Behind Gingerols & Shogaols', category: 'Research', excerpt: 'Understanding the bioactive compounds that make Ginger a centuries-old wellness staple.' },
-              { title: 'Ginger Through Every Life Stage', category: 'Wellness', excerpt: 'How this versatile rhizome supports women from reproductive years through menopause.' },
-              { title: 'Why We Choose Whole Root Over Extracts', category: 'Process', excerpt: 'The science and philosophy behind our whole-food approach to Ginger supplementation.' },
-            ].map((post, i) => (
-              <Link key={i} to="/Blog" className="group">
-                <div className="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
-                  <div className="aspect-[16/10] bg-[#EBEAE6]" />
-                  <div className="p-5">
-                    <span className="text-[9px] uppercase tracking-wider text-[#E8A598] font-semibold">{post.category}</span>
-                    <h3 className="text-sm font-medium text-[#1E2A3A] mt-1 mb-2 group-hover:text-[#E8A598] transition-colors">{post.title}</h3>
-                    <p className="text-xs text-gray-500 leading-relaxed">{post.excerpt}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Button asChild variant="outline" className="rounded-none px-8 py-5 text-[11px] uppercase tracking-[0.2em] border-gray-300 text-gray-500 hover:text-[#1E2A3A] hover:border-[#1E2A3A]">
-              <Link to="/Blog">
-                View All Articles <ArrowRight size={14} className="ml-2" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Global Disclaimer */}
-      <section className="py-8 bg-[#1E2A3A]">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-[10px] text-gray-400 leading-relaxed max-w-3xl mx-auto">
-            *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.
-          </p>
-        </div>
-      </section>
+      <ProductReviews />
 
     </div>
+  );
+}
+
+/* ─── FAQ COMPONENT (split panel design) ─────────────────────────────────── */
+function ProductFAQ() {
+  const [activeCategory, setActiveCategory] = useState('Ingredient');
+  const [openItem, setOpenItem] = useState(null);
+
+  const categories = ['Ingredient', 'Safety', 'Health'];
+
+  const faqData = {
+    Ingredient: [
+      { q: 'Is this the same product for all life stages?', a: 'Yes. This product contains a single ingredient. The formula does not change. What may differ is how individuals experience its benefits at different life stages.' },
+      { q: 'How is the ingredient processed?', a: 'Fresh ingredients are cleaned, sliced, and dried using a vacuum tray dryer at low temperature under reduced pressure. This gentle method preserves heat-sensitive bioactive compounds.' },
+      { q: 'Why do the benefits change by life stage?', a: 'The ingredient remains the same. Different life stages come with different physiological needs, which may influence how it is experienced.' },
+      { q: 'Is this product tested for purity?', a: 'Yes. Each batch is third-party tested for purity, heavy metals, and contaminants. Certificates of Analysis are available upon request.' },
+      { q: 'Why single-ingredient formulas?', a: 'Single-ingredient formulas allow for full transparency, precise dosing, and the ability to customize your supplement routine based on your individual needs.' },
+    ],
+    Safety: [
+      { q: 'Is this product safe during pregnancy?', a: 'Pregnant women should consult their healthcare provider before use. Some ingredients have a long history of traditional use during pregnancy, but medical supervision is recommended.' },
+      { q: 'What if I take blood-thinning medications?', a: 'Some ingredients may interact with anticoagulant or antiplatelet medications. Consult your healthcare provider before using this product.' },
+      { q: 'Are there any side effects?', a: 'Our products are generally well-tolerated. As with any supplement, individual responses may vary. Discontinue use and consult a doctor if you experience adverse effects.' },
+    ],
+    Health: [
+      { q: 'Does this product treat or prevent any condition?', a: 'No. This product is intended to support general wellness and is not intended to diagnose, treat, cure, or prevent any disease.' },
+      { q: 'Can I take this long-term?', a: 'Many of our ingredients are commonly used as part of a daily wellness routine. For long-term use, consult a healthcare professional.' },
+      { q: 'Can I combine multiple Vitabae products?', a: 'Yes. Our single-ingredient approach is designed for stacking. However, consult your healthcare provider for personalized guidance.' },
+    ],
+  };
+
+  const items = faqData[activeCategory] || [];
+
+  return (
+    <section className="bg-white py-0">
+      <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] min-h-[500px]">
+        {/* Left */}
+        <div className="bg-white px-8 lg:px-12 py-14 flex flex-col justify-center border-r border-gray-100">
+          <h2 className="text-6xl lg:text-7xl font-bold text-[#1E2A3A] mb-12 leading-none">FAQ</h2>
+          <nav className="flex flex-row md:flex-col gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => { setActiveCategory(cat); setOpenItem(null); }}
+                className={`text-base text-left py-2 px-3 rounded-lg transition-all ${
+                  activeCategory === cat
+                    ? 'text-[#E8A598] font-medium bg-[#E8A598]/5'
+                    : 'text-[#2c2622] hover:text-[#E8A598] hover:bg-gray-50'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        {/* Right */}
+        <div className="bg-[#f5f2ee] px-8 lg:px-14 py-14 flex flex-col justify-center">
+          {items.map((item, i) => (
+            <div key={i} className={`border-b border-[#e0dbd4] ${i === 0 ? 'border-t' : ''}`}>
+              <button
+                onClick={() => setOpenItem(openItem === i ? null : i)}
+                className="w-full flex items-center justify-between py-6 gap-6 text-left"
+              >
+                <span className="text-[15px] text-[#3a3530] leading-[1.4]">{item.q}</span>
+                <Plus
+                  size={22}
+                  className={`text-[#3a3530] shrink-0 transition-transform duration-300 ${
+                    openItem === i ? 'rotate-45 text-[#E8A598]' : ''
+                  }`}
+                />
+              </button>
+              <div className={`overflow-hidden transition-all duration-300 ${
+                openItem === i ? 'max-h-[250px] pb-6' : 'max-h-0'
+              }`}>
+                <p className="text-[14px] font-light text-[#6a6460] leading-[1.75]">{item.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── REVIEWS COMPONENT ──────────────────────────────────────────────────── */
+function ProductReviews() {
+  const reviews = [
+    { name: 'Priya M.', text: 'I finally found supplements I can trust. The single-ingredient approach gives me confidence in exactly what I\'m taking.', img: 'https://i.pravatar.cc/400?img=32', product: 'Organic Shatavari', productId: 'shatavari-capsules' },
+    { name: 'Sarah K.', text: 'The Ashwagandha has been a game-changer for my stress levels. I feel more balanced than I have in years.', img: 'https://i.pravatar.cc/400?img=25', product: 'Organic Ashwagandha', productId: 'ashwagandha-capsules' },
+    { name: 'Anita R.', text: 'Love the transparency — knowing exactly where each ingredient comes from and that it\'s been batch tested.', img: 'https://i.pravatar.cc/400?img=44', product: 'Organic Amla', productId: 'amla-capsules' },
+    { name: 'Maya L.', text: 'Clean, simple, and effective. No fillers, no guessing. Just pure ingredients that actually work.', img: 'https://i.pravatar.cc/400?img=47', product: 'Organic Moringa', productId: 'moringa-leaf-capsules' },
+    { name: 'Kavitha N.', text: 'The Moringa has been incredible for my energy levels postpartum. I recommend it to all new moms.', img: 'https://i.pravatar.cc/400?img=9', product: 'Organic Moringa', productId: 'moringa-leaf-capsules' },
+    { name: 'Rhea T.', text: 'The Shatavari has helped me so much through menopause. I love that it\'s sourced from the Himalayas.', img: 'https://i.pravatar.cc/400?img=23', product: 'Organic Shatavari', productId: 'shatavari-capsules' },
+    { name: 'Neha P.', text: 'I\'ve tried so many brands. Vitabae is the first one where I actually feel a difference — and I trust the sourcing.', img: 'https://i.pravatar.cc/400?img=19', product: 'Organic Ashwagandha', productId: 'ashwagandha-capsules' },
+    { name: 'Deepa S.', text: 'My doctor was impressed by the quality and traceability. These are the supplements I\'ll stick with.', img: 'https://i.pravatar.cc/400?img=45', product: 'Organic Ginger', productId: 'ginger-capsules' },
+  ];
+
+  return (
+    <section className="py-14 md:py-20 bg-[#FFF5ED] overflow-hidden">
+      <style>{`
+        @keyframes productReviewsScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+
+      <div className="px-6 lg:px-8 mb-10">
+        <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#1E2A3A] leading-tight">
+          <span className="font-light">Real people, </span>
+          <span className="font-serif italic">real results.</span>
+        </h2>
+      </div>
+
+      <div>
+        <div className="flex w-max hover:[animation-play-state:paused]" style={{ animation: 'productReviewsScroll 60s linear infinite' }}>
+          {[...reviews, ...reviews].map((review, i) => (
+            <div key={i} className="flex-shrink-0 w-[520px] h-[280px] mx-3 bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-row">
+              <div className="flex-1 p-7 flex flex-col">
+                <p className="text-[#1E2A3A] font-semibold text-lg mb-2">{review.name}</p>
+                <p className="text-gray-500 text-[14px] leading-relaxed flex-1">"{review.text}"</p>
+                <Link to={`/Product?id=${review.productId}`} className="mt-4 flex items-center gap-3 group">
+                  <img src="/images/ilona-isha.jpg" alt={review.product} className="w-11 h-11 rounded-lg object-cover" />
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-gray-400">Product used</p>
+                    <p className="text-[#1E2A3A] font-medium text-sm group-hover:text-[#E8A598] transition-colors">{review.product}</p>
+                  </div>
+                  <ArrowRight size={12} className="ml-auto text-gray-300 group-hover:text-[#E8A598] group-hover:translate-x-1 transition-all" />
+                </Link>
+              </div>
+              <div className="w-[200px] shrink-0">
+                <img src={review.img} alt={review.name} className="w-full h-full object-cover" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Leaf, Shield, MapPin, CheckCircle2, ChevronDown, Play, X } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Leaf, Shield, MapPin, CheckCircle2, ChevronDown, Play } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import TiltBottle from '@/components/TiltBottle';
 import IndiaMap from '@/components/IndiaMap';
@@ -146,7 +146,7 @@ export default function Home() {
 
   const [activeIngredient, setActiveIngredient] = useState(null);  // clicked — full detail
   const [hoveredPin, setHoveredPin] = useState(null);             // hovered — tooltip only
-  const [showVideo, setShowVideo] = useState(false);
+
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({});
   const [hoveredStage, setHoveredStage] = useState(null);
@@ -257,8 +257,8 @@ export default function Home() {
         );
 
       // Hero parallax
-      gsap.to('.hero-image', {
-        yPercent: -12,
+      gsap.to('.hero-image img', {
+        yPercent: -8,
         ease: 'none',
         scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: 1.5 }
       });
@@ -276,14 +276,25 @@ export default function Home() {
         }
       );
 
-      /* LIFE STAGES */
-      gsap.fromTo('.stages-header',
-        { y: 80, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: stagesRef.current, start: 'top 80%' }
-        }
-      );
+      /* LIFE STAGES — staggered left/right pop-up */
+      const stagesTl = gsap.timeline({
+        scrollTrigger: { trigger: stagesRef.current, start: 'top 75%' }
+      });
+      stagesTl
+        .fromTo('.stages-left',
+          { x: -80, opacity: 0, scale: 0.95 },
+          { x: 0, opacity: 1, scale: 1, duration: 1.2, ease: 'power3.out' }
+        )
+        .fromTo('.stages-divider',
+          { scaleY: 0, opacity: 0, transformOrigin: 'top center' },
+          { scaleY: 1, opacity: 1, duration: 0.8, ease: 'power3.inOut' },
+          '-=0.7'
+        )
+        .fromTo('.stages-right',
+          { x: 80, opacity: 0, y: 20 },
+          { x: 0, opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' },
+          '-=0.5'
+        );
       gsap.fromTo('.stage-card',
         { y: 80, opacity: 0, rotateX: 10 },
         {
@@ -310,14 +321,20 @@ export default function Home() {
         .fromTo('.map-container', { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.4')
         .fromTo('.map-pin', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, stagger: 0.04, ease: 'back.out(2)' }, '-=0.5');
 
-      /* INNER CIRCLE */
-      gsap.fromTo('.circle-inner > *',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: innerCircleRef.current, start: 'top 80%' }
-        }
-      );
+      /* INSTAGRAM */
+      const igTl = gsap.timeline({
+        scrollTrigger: { trigger: '.ig-text', start: 'top 85%' }
+      });
+      igTl
+        .fromTo('.ig-text',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
+        )
+        .fromTo('.ig-img',
+          { scale: 0.9, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power3.out' },
+          '-=0.4'
+        );
 
     });
     return () => ctx.revert();
@@ -345,51 +362,84 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════
           SECTION 1 — HERO  (Is this for me?)
       ══════════════════════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative min-h-[85vh] flex items-center bg-gradient-to-b from-[#FFFBF5] to-[#FAF5EE] overflow-x-hidden">
-        <div className="container mx-auto px-6 lg:px-16 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section ref={heroRef} className="relative min-h-[100vh] flex items-stretch bg-[#F5F1EC] overflow-hidden">
+        <style>{`
+          @keyframes heroMarble {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+          }
+        `}</style>
 
-            {/* Left — Copy */}
-            <div className="hero-content relative z-10 max-w-xl">
-              <div>
-                <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] text-[#1E2A3A] leading-[1.2] tracking-tight pb-1">
-                  <span className="hero-title-line block font-light">Dietary supplements</span>
-                  <span className="hero-title-line block font-light">designed around</span>
-                  <span className="hero-title-line block font-serif italic pb-2">your life stages.</span>
-                </h1>
-              </div>
+        {/* Left — Product image (50%), image fills the entire half */}
+        <div className="hero-image hidden lg:block w-1/2 relative bg-[#F5F1EC]">
+          <img
+            src="/images/ilona-isha.jpg"
+            alt="Vitabae bottle"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        </div>
 
-              <p className="hero-subtitle text-gray-500 text-[15px] md:text-base max-w-md mt-7 leading-relaxed">
-                Vitabae offers organic dietary supplements organized by life stage.
-                Our approach is built on transparency, traceability, and responsible formulation, so you can make informed choices with confidence.
-              </p>
-
-              <div className="hero-cta mt-10">
-                <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none px-10 py-7 text-[11px] uppercase tracking-[0.2em] font-medium inline-flex items-center gap-3 group">
-                  <Link to="/Collection">
-                    Explore Formulas by Life Stage
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-
-            {/* Right — Product Bottle 360° spin video */}
-            <TiltBottle className="hero-image relative" maxTilt={6} scale={1.02}>
-              <div className="relative max-w-[520px] mx-auto">
-                <video
-                  src="/videos/bottle-spin.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full rounded-2xl"
-                  poster="/images/ilona-isha.jpg"
-                />
-              </div>
-            </TiltBottle>
+        {/* Right — Marble texture (50%) */}
+        <div className="hidden lg:block w-1/2 relative overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                radial-gradient(ellipse at 20% 50%, rgba(180,170,200,0.6) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(200,195,210,0.5) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 80%, rgba(160,155,185,0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 30%, rgba(220,215,230,0.7) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 60%, rgba(175,168,195,0.5) 0%, transparent 45%),
+                radial-gradient(ellipse at 10% 80%, rgba(195,188,210,0.4) 0%, transparent 50%),
+                linear-gradient(135deg, #C5BED0 0%, #B8B0C5 25%, #D0C8DC 50%, #AEA5BE 75%, #C2BAD0 100%)
+              `,
+              backgroundSize: '200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%',
+              animation: 'heroMarble 20s ease-in-out infinite',
+            }}
+          >
+            <div className="absolute inset-0 opacity-30" style={{
+              backgroundImage: `
+                linear-gradient(125deg, transparent 30%, rgba(255,255,255,0.4) 32%, transparent 34%),
+                linear-gradient(200deg, transparent 55%, rgba(255,255,255,0.3) 57%, transparent 59%),
+                linear-gradient(340deg, transparent 40%, rgba(255,255,255,0.25) 42%, transparent 44%),
+                linear-gradient(160deg, transparent 65%, rgba(200,195,220,0.3) 67%, transparent 69%),
+                linear-gradient(80deg, transparent 20%, rgba(255,255,255,0.2) 22%, transparent 24%)
+              `,
+            }} />
+            <div className="absolute inset-0 opacity-20" style={{
+              backgroundImage: `
+                radial-gradient(circle at 30% 40%, rgba(255,255,255,0.5) 0%, transparent 25%),
+                radial-gradient(circle at 70% 60%, rgba(180,175,200,0.4) 0%, transparent 30%),
+                radial-gradient(circle at 50% 20%, rgba(255,255,255,0.3) 0%, transparent 20%)
+              `,
+            }} />
           </div>
+        </div>
 
+        {/* Mobile product image */}
+        <div className="hero-image lg:hidden absolute top-0 left-0 w-full h-full">
+          <img
+            src="/images/ilona-isha.jpg"
+            alt="Vitabae bottle"
+            className="w-full h-full object-cover object-center opacity-30"
+          />
+        </div>
+
+        {/* Text — dead center of the entire hero, on top of everything */}
+        <div className="hero-content absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-8">
+          <h1 className="text-white leading-[1.15] tracking-tight drop-shadow-md">
+            <span className="hero-title-line block font-light text-3xl md:text-4xl lg:text-5xl xl:text-6xl whitespace-nowrap">Dietary supplements designed around</span>
+            <span className="hero-title-line block font-serif italic mt-2 text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-wide">your life stages.</span>
+          </h1>
+
+          <div className="hero-cta mt-10">
+            <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-none px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium inline-flex items-center gap-3 group">
+              <Link to="/Collection">
+                Explore our formula
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -417,46 +467,30 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-          CINEMATIC DIVIDER — Capsule Close-up
+          LIFE-STAGE INTRO + ROLLING PRODUCTS
       ══════════════════════════════════════════════════════════ */}
-      <section className="relative h-[60vh] md:h-[70vh] overflow-hidden bg-black">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-80"
-          src="/videos/capsule-firefly.mp4"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/40" />
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-white/60 mb-4 font-medium">What's Inside Matters</p>
-          <h2 className="text-3xl md:text-5xl text-white leading-tight max-w-2xl">
-            <span className="font-light">Pure ingredient.</span>
-            <br />
-            <span className="font-serif italic">Nothing else.</span>
-          </h2>
-          <p className="text-white/50 text-sm mt-5 max-w-md leading-relaxed">
-            Single-ingredient formulas in plant-based capsules. No fillers, no blends, no compromises.
-          </p>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════
-          SECTION 3 — LIFE-STAGE APPROACH  (Where do I fit?)
-      ══════════════════════════════════════════════════════════ */}
-      <section ref={stagesRef} className="py-20 md:py-28 bg-white">
+      <section ref={stagesRef} className="py-10 md:py-14 bg-white">
         <div className="w-full px-0">
-          <div className="stages-header text-center mb-12 max-w-2xl mx-auto px-6">
-            <h2 className="text-3xl md:text-[2.75rem] text-[#1E2A3A] leading-tight mb-5">
-              <span className="font-light">Because life doesn't stay the same</span>
-              <br />
-              <span className="font-serif italic">and neither do your needs.</span>
-            </h2>
-            <p className="text-gray-500 text-[15px] leading-relaxed">
-              Nutritional needs may vary across different stages of life.
-              That's why Vitabae offers distinct formulas organized by life stage, designed to make exploration simpler and easier to understand.
-            </p>
+          <div className="stages-header flex flex-col md:flex-row items-start gap-6 md:gap-0 mb-10 px-6 lg:px-8">
+            {/* Left — heading */}
+            <div className="stages-left md:w-1/2 md:pr-10">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#1E2A3A] leading-[1.1] text-left">
+                <span className="font-light">Because life doesn't stay the same</span>
+                <br />
+                <span className="font-serif italic">and neither do your needs.</span>
+              </h2>
+            </div>
+
+            {/* Divider */}
+            <div className="stages-divider hidden md:block w-px h-24 bg-gradient-to-b from-transparent via-[#1E2A3A]/15 to-transparent origin-top" />
+
+            {/* Right — description */}
+            <div className="stages-right md:w-1/2 md:pl-10 flex items-center">
+              <p className="text-gray-500 text-lg md:text-xl leading-[1.8]">
+                Nutritional needs may vary across different stages of life.
+                That's why Vitabae offers distinct formulas organized by life stage, designed to make exploration simpler and easier to understand.
+              </p>
+            </div>
           </div>
 
           {/* Navigation arrows */}
@@ -503,7 +537,7 @@ export default function Home() {
                           muted
                           loop
                           playsInline
-                          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${hoveredStage === realIndex ? 'opacity-100' : 'opacity-0'}`}
+                          className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 ${hoveredStage === realIndex ? 'opacity-100' : 'opacity-0'}`}
                         />
                       </div>
                       {/* Text content */}
@@ -575,12 +609,21 @@ export default function Home() {
                     })}
                   </div>
 
-                  {/* Center circle with "7" */}
+                  {/* Center circle — segmented life stage colors */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px] rounded-full bg-[#1E2A3A] flex flex-col items-center justify-center shadow-2xl">
-                      <span className="text-5xl md:text-6xl font-serif text-white leading-none">7</span>
-                      <span className="text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-white/70 font-medium mt-1">Life Stages</span>
-                    </div>
+                    <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px] rounded-full shadow-2xl overflow-hidden"
+                      style={{
+                        background: `conic-gradient(
+                          ${lifeStages[0].color} 0deg ${360/7}deg,
+                          ${lifeStages[1].color} ${360/7}deg ${2*360/7}deg,
+                          ${lifeStages[2].color} ${2*360/7}deg ${3*360/7}deg,
+                          ${lifeStages[3].color} ${3*360/7}deg ${4*360/7}deg,
+                          ${lifeStages[4].color} ${4*360/7}deg ${5*360/7}deg,
+                          ${lifeStages[5].color} ${5*360/7}deg ${6*360/7}deg,
+                          ${lifeStages[6].color} ${6*360/7}deg 360deg
+                        )`,
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -860,61 +903,66 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 bg-[#F5F1EC]">
                   {/* Left — Farm Video */}
-                  <div className="relative bg-[#1E2A3A] h-[300px] sm:h-[380px] lg:h-full min-h-[400px] overflow-hidden">
+                  <div className="relative h-[300px] sm:h-[380px] lg:h-full min-h-[450px] overflow-hidden">
                     <video
                       src="/videos/farm-documentary.mp4"
                       autoPlay
                       muted
                       loop
                       playsInline
-                      className="absolute inset-0 w-full h-full object-cover opacity-90"
+                      className="absolute inset-0 w-full h-full object-cover opacity-70"
                     />
-                    {/* Overlay info */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-6 md:p-8">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent p-6 md:p-8">
                       <p className="text-[9px] uppercase tracking-[0.25em] text-[#E8A598] font-semibold mb-1">Farm to Formula</p>
                       <p className="text-white text-lg md:text-xl font-light">{selected.region}</p>
                     </div>
                   </div>
 
-                  {/* Right — Ingredient Detail */}
-                  <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
-                    {/* Header: ingredient has a source */}
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#E8A598] mb-6">
-                      Every ingredient has a source
-                    </p>
+                  {/* Right — Ingredient Detail Card */}
+                  <div className="bg-[#f0ece3] flex items-center justify-center py-10 px-6 lg:px-10">
+                    <div className="w-full max-w-[520px] border border-[#d8d0c0] px-8 py-8 md:px-10 md:py-10 bg-[#f0ece3]">
 
-                    {/* Ingredient name */}
-                    <h3 className="text-3xl md:text-4xl text-[#1E2A3A] font-light mb-1">{selected.name}</h3>
-                    <p className="text-sm text-gray-400 font-serif italic mb-8">{selected.scientific}</p>
+                      {/* Eyebrow with line */}
+                      <div className="flex items-center gap-4 mb-5">
+                        <span className="text-[0.6rem] uppercase tracking-[0.22em] text-[#8a7e6a] whitespace-nowrap font-medium">Every ingredient has a source.</span>
+                        <span className="flex-1 h-px bg-[#b5a88a]" />
+                      </div>
 
-                    {/* Detail table */}
-                    <div className="border border-gray-200 rounded-xl overflow-hidden mb-8">
-                      {[
-                        { label: 'Source', value: selected.region },
-                        { label: 'Partnership', value: selected.partnership },
-                        { label: 'Part Used', value: selected.plantPart },
-                        { label: 'Traceability', value: selected.traceability },
-                      ].map((item, i) => (
-                        <div key={i} className={`flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-6 px-5 py-3.5 ${
-                          i < 3 ? 'border-b border-gray-100' : ''
-                        }`}>
-                          <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-400 sm:w-28 flex-shrink-0 sm:pt-0.5">
-                            {item.label}
-                          </span>
-                          <span className="text-[13px] text-[#1E2A3A] leading-relaxed">{item.value}</span>
-                        </div>
-                      ))}
-                    </div>
+                      {/* Title */}
+                      <div className="mb-7">
+                        <h3 className="text-[3.2rem] leading-[1.05] text-[#2a2418] font-normal font-serif tracking-tight mb-1">{selected.name}</h3>
+                        <p className="text-[1.05rem] text-[#5a5040] font-serif italic font-light tracking-wide">{selected.scientific}</p>
+                      </div>
 
-                    {/* CTA */}
-                    <Button asChild className="w-full bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full py-6 text-[11px] uppercase tracking-[0.2em] font-medium group transition-colors justify-center">
-                      <Link to="/Collection">
-                        View products containing {selected.name}
-                        <ArrowRight size={13} className="ml-2 transition-transform group-hover:translate-x-1" />
+                      {/* Info table */}
+                      <div className="border border-[#d8d0c0] mb-7">
+                        {[
+                          { label: 'Source', value: selected.region },
+                          { label: 'Partnership', value: selected.partnership },
+                          { label: 'Part Used', value: selected.plantPart },
+                          { label: 'Traceability', value: selected.traceability },
+                        ].map((item, i, arr) => (
+                          <div key={i} className={`grid grid-cols-[130px_1fr] ${i < arr.length - 1 ? 'border-b border-[#d8d0c0]' : ''}`}>
+                            <span className="text-[0.6rem] uppercase tracking-[0.2em] text-[#8a7e6a] px-4 py-4 border-r border-[#d8d0c0] flex items-start pt-[1.1rem]">
+                              {item.label}
+                            </span>
+                            <span className="text-[0.95rem] leading-[1.6] text-[#2a2418] px-4 py-4 font-serif">
+                              {item.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* CTA */}
+                      <Link
+                        to="/Collection"
+                        className="block w-full bg-[#2e4030] hover:bg-[#3d5441] text-[#f0ece3] text-center py-4 text-[0.65rem] uppercase tracking-[0.22em] font-medium transition-colors"
+                      >
+                        View products containing this ingredient
                       </Link>
-                    </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -925,40 +973,168 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-          INNER CIRCLE — Private Facebook Group
+          REVIEWS — Real People, Real Results
       ══════════════════════════════════════════════════════════ */}
-      <section ref={innerCircleRef} className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="circle-inner max-w-4xl mx-auto">
-            <div className="bg-[#FAFAF8] rounded-2xl border border-gray-100 p-10 md:p-14 text-center">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#E8A598] font-semibold mb-4">Join The Inner Circle</p>
-              <h2 className="text-2xl md:text-4xl text-[#1E2A3A] leading-tight mb-4 max-w-2xl mx-auto">
-                <span className="font-light">Get expert wellness tips, early access to new formulas, </span>
-                <span className="font-serif italic">and exclusive community benefits.</span>
-              </h2>
+      <section className="py-14 md:py-20 bg-[#FFF5ED] overflow-hidden">
+        <style>{`
+          @keyframes reviewsScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+        `}</style>
 
-              {/* Perks as cards */}
-              <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mt-8 mb-10">
-                {[
-                  { label: 'Exclusive Perks', icon: <Shield size={20} /> },
-                  { label: 'Expert Content', icon: <Leaf size={20} /> },
-                  { label: 'Member Events', icon: <CheckCircle2 size={20} /> },
-                ].map((perk, i) => (
-                  <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col items-center gap-2">
-                    <div className="text-[#E8A598]">{perk.icon}</div>
-                    <span className="text-[11px] text-[#1E2A3A] font-semibold">{perk.label}</span>
+        {/* Heading left-aligned */}
+        <div className="px-6 lg:px-8 mb-10">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#1E2A3A] leading-tight">
+            <span className="font-light">Real people, </span>
+            <span className="font-serif italic">real results.</span>
+          </h2>
+        </div>
+
+        {/* Single scrolling row */}
+        <div>
+          <div className="flex w-max hover:[animation-play-state:paused]" style={{ animation: 'reviewsScroll 60s linear infinite' }}>
+            {(() => {
+              const reviews = [
+                { name: 'Priya M.', text: 'I finally found supplements I can trust during pregnancy. The single-ingredient approach gives me confidence in exactly what I\'m taking.', img: 'https://i.pravatar.cc/400?img=32', product: 'Organic Shatavari', productId: 'shatavari-capsules' },
+                { name: 'Sarah K.', text: 'The Ashwagandha has been a game-changer for my stress levels. I feel more balanced than I have in years.', img: 'https://i.pravatar.cc/400?img=25', product: 'Organic Ashwagandha', productId: 'ashwagandha-capsules' },
+                { name: 'Anita R.', text: 'Love the transparency — knowing exactly where each ingredient comes from and that it\'s been batch tested.', img: 'https://i.pravatar.cc/400?img=44', product: 'Organic Amla', productId: 'amla-capsules' },
+                { name: 'Maya L.', text: 'Clean, simple, and effective. No fillers, no guessing. Just pure ingredients that actually work.', img: 'https://i.pravatar.cc/400?img=47', product: 'Organic Moringa', productId: 'moringa-leaf-capsules' },
+                { name: 'Deepa S.', text: 'My doctor was impressed by the quality and traceability. These are the supplements I\'ll stick with.', img: 'https://i.pravatar.cc/400?img=45', product: 'Organic Ginger', productId: 'ginger-capsules' },
+                { name: 'Kavitha N.', text: 'The Moringa has been incredible for my energy levels postpartum. I recommend it to all new moms.', img: 'https://i.pravatar.cc/400?img=9', product: 'Organic Moringa', productId: 'moringa-leaf-capsules' },
+                { name: 'Rhea T.', text: 'The Shatavari has helped me so much through menopause. I love that it\'s sourced from the Himalayas.', img: 'https://i.pravatar.cc/400?img=23', product: 'Organic Shatavari', productId: 'shatavari-capsules' },
+                { name: 'Neha P.', text: 'I\'ve tried so many brands. Vitabae is the first one where I actually feel a difference — and I trust the sourcing.', img: 'https://i.pravatar.cc/400?img=19', product: 'Organic Ashwagandha', productId: 'ashwagandha-capsules' },
+              ];
+              return [...reviews, ...reviews].map((review, i) => (
+                <div key={i} className="flex-shrink-0 w-[520px] h-[280px] mx-3 bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-row">
+                  {/* Left — Name + Review + Product */}
+                  <div className="flex-1 p-7 flex flex-col">
+                    <p className="text-[#1E2A3A] font-semibold text-lg mb-2">{review.name}</p>
+                    <p className="text-gray-500 text-[14px] leading-relaxed flex-1">"{review.text}"</p>
+                    <Link to={`/Product?id=${review.productId}`} className="mt-4 flex items-center gap-3 group">
+                      <img src="/images/ilona-isha.jpg" alt={review.product} className="w-11 h-11 rounded-lg object-cover" />
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-gray-400">Product used</p>
+                        <p className="text-[#1E2A3A] font-medium text-sm group-hover:text-[#E8A598] transition-colors">{review.product}</p>
+                      </div>
+                      <ArrowRight size={12} className="ml-auto text-gray-300 group-hover:text-[#E8A598] group-hover:translate-x-1 transition-all" />
+                    </Link>
                   </div>
-                ))}
-              </div>
 
-              {/* CTA */}
-              <Button asChild className="bg-[#1E2A3A] hover:bg-[#2d3d4d] text-white rounded-full px-10 py-6 text-[11px] uppercase tracking-[0.2em] font-medium group">
-                <a href="https://www.facebook.com/groups/235593375864742" target="_blank" rel="noopener noreferrer">
-                  Join Our Private Community
-                  <ArrowRight size={14} className="ml-2 transition-transform group-hover:translate-x-1" />
-                </a>
-              </Button>
-            </div>
+                  {/* Right — Person image */}
+                  <div className="w-[200px] shrink-0">
+                    <img src={review.img} alt={review.name} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              ));
+            })()}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════
+          NEWSLETTER
+      ══════════════════════════════════════════════════════════ */}
+      <section ref={innerCircleRef} className="py-12 md:py-16 bg-[#FAF8F5]">
+        <div className="max-w-3xl mx-auto text-center px-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl text-[#1E2A3A] leading-[1.1] mb-3">
+            <span className="font-light">Join the </span>
+            <span className="font-serif italic">Vitabae Club</span>
+          </h2>
+          <p className="text-gray-400 text-sm mb-8">Subscribe for updates and discounts.</p>
+          <div className="relative w-full max-w-lg mx-auto mb-3">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full bg-white border border-gray-200 text-[#1E2A3A] placeholder-gray-400 px-5 py-3.5 pr-12 text-sm focus:outline-none focus:border-[#1E2A3A] rounded-full transition-colors"
+            />
+            <button className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#1E2A3A] flex items-center justify-center hover:bg-[#2d3d4d] transition-colors">
+              <ArrowRight size={14} className="text-white" />
+            </button>
+          </div>
+          <p className="text-gray-400 text-[11px]">
+            By subscribing you agree to our <Link to="/Terms" className="underline hover:text-[#1E2A3A] transition-colors">Terms of Service</Link> and <Link to="/Privacy" className="underline hover:text-[#1E2A3A] transition-colors">Privacy Policy</Link>.
+          </p>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════
+          INSTAGRAM
+      ══════════════════════════════════════════════════════════ */}
+      <section className="bg-[#f5f0eb]">
+        <div
+          className="w-full overflow-hidden hidden lg:grid"
+          style={{
+            gridTemplateColumns: '1fr 1fr 1.4fr 1fr 1fr',
+            gridTemplateRows: '1fr 1fr',
+            height: '400px',
+          }}
+        >
+          {/* Row 1 left */}
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 1, gridRow: 1 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 2, gridRow: 1 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover brightness-95 hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+
+          {/* CTA center — spans both rows */}
+          <div className="ig-text bg-[#e8e0d5] flex flex-col items-center justify-center px-8 py-9 text-center" style={{ gridColumn: 3, gridRow: '1 / 3' }}>
+            <span className="text-[10px] font-medium tracking-[0.22em] uppercase text-[#5a5248] mb-3">Follow Us</span>
+            <h2 className="font-serif text-[38px] font-normal text-[#2c2622] leading-[1.15] mb-4">On Instagram</h2>
+            <p className="text-[13px] font-light text-[#5a5248] leading-[1.65] mb-7 max-w-[220px]">
+              Tag <strong className="font-medium text-[#2c2622]">@thevitabae</strong> in your Instagram photos for a chance to be featured here.
+            </p>
+            <a
+              href="https://www.instagram.com/thevitabae/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#1e1b18] hover:bg-[#3d3530] text-[#f0ebe4] text-[10.5px] font-semibold tracking-[0.22em] uppercase px-8 py-3.5 rounded-full transition-all hover:-translate-y-px"
+            >
+              Follow Us
+            </a>
+          </div>
+
+          {/* Row 1 right */}
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 4, gridRow: 1 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover saturate-[0.9] hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 5, gridRow: 1 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover brightness-105 hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+
+          {/* Row 2 left */}
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 1, gridRow: 2 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover brightness-105 hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 2, gridRow: 2 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover saturate-[0.85] hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+
+          {/* Row 2 right */}
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 4, gridRow: 2 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+          <div className="ig-img overflow-hidden" style={{ gridColumn: 5, gridRow: 2 }}>
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full h-full object-cover brightness-95 hover:scale-[1.06] transition-transform duration-500" />
+          </div>
+        </div>
+
+        {/* Mobile fallback */}
+        <div className="lg:hidden px-4">
+          <div className="text-center mb-6">
+            <span className="text-[10px] font-medium tracking-[0.22em] uppercase text-[#5a5248] block mb-2">Follow Us</span>
+            <h2 className="font-serif text-3xl text-[#2c2622] mb-3">On Instagram</h2>
+            <p className="text-[12px] text-[#5a5248] leading-relaxed mb-5 max-w-[240px] mx-auto">
+              Tag <strong className="font-medium text-[#2c2622]">@thevitabae</strong> in your Instagram photos for a chance to be featured here.
+            </p>
+            <a href="https://www.instagram.com/thevitabae/" target="_blank" rel="noopener noreferrer" className="bg-[#1e1b18] text-[#f0ebe4] text-[10px] font-semibold tracking-[0.22em] uppercase px-7 py-3 rounded-full inline-block">Follow Us</a>
+          </div>
+          <div className="grid grid-cols-4 gap-1">
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full aspect-square object-cover" />
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full aspect-square object-cover brightness-95" />
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full aspect-square object-cover brightness-105" />
+            <img src="/images/ilona-isha.jpg" alt="Vitabae" className="w-full aspect-square object-cover saturate-[0.9]" />
           </div>
         </div>
       </section>
